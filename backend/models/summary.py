@@ -20,7 +20,7 @@ class BudgetBlock(BaseModel):
     days_to_next_salary: int
     daily_rate: float
     daily_allowed: float
-    projected_at_payday: float
+    projected_at_payday: float | None
 
 
 class SeriesPoint(BaseModel):

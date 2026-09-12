@@ -207,7 +207,7 @@ export interface SummaryBudget {
   days_to_next_salary: number;
   daily_rate: number;
   daily_allowed: number;
-  projected_at_payday: number;
+  projected_at_payday: number | null;
 }
 
 export interface SummarySeriesPoint {

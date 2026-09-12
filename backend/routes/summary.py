@@ -28,6 +28,7 @@ OPENING_BALANCE_KEY = "opening_balance"
 HORIZON = 5
 MIN_HISTORY_DAYS = 14
 MIN_NONZERO_DAYS = 8
+MIN_DAYS_FOR_PROJECTION = 5
 
 
 def _num(v) -> float:
@@ -168,7 +169,11 @@ def get_summary():
         days_to_next_salary = max((_add_month(received_on) - today).days, 0)
         daily_rate = spent_since_salary / days_elapsed
         daily_allowed = personal_allocation / 30
-        projected_at_payday = remaining - daily_rate * days_to_next_salary
+        projected_at_payday = (
+            _r(remaining - daily_rate * days_to_next_salary)
+            if days_elapsed >= MIN_DAYS_FOR_PROJECTION
+            else None
+        )
         budget = BudgetBlock(
             personal_allocation=_r(personal_allocation),
             spent_since_salary=_r(spent_since_salary),
@@ -177,7 +182,7 @@ def get_summary():
             days_to_next_salary=days_to_next_salary,
             daily_rate=_r(daily_rate),
             daily_allowed=_r(daily_allowed),
-            projected_at_payday=_r(projected_at_payday),
+            projected_at_payday=projected_at_payday,
         )
 
     forecast = None

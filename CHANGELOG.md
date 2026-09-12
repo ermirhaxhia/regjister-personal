@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2026-09-12
+[MODUL: kryesore] [LLOJI: FIX] projected_at_payday (backend/routes/summary.py, backend/models/summary.py, backend/core/flags.py) — projeksioni "deri te paga tjetër" tani kthehet null kur days_elapsed < 5 (prag i ri MIN_DAYS_FOR_PROJECTION), në vend që të llogaritet me daily_rate të shtrembëruar nga backfill — evitohet projeksion absurdisht negativ me pak ditë histori; flamujt payday_negative/on_track trajtojnë vlerën None
+[MODUL: kryesore] [LLOJI: NDRYSHIM] PaydayCard (frontend/components/home/PaydayCard.tsx, frontend/lib/api.ts) — trajton projected_at_payday si opsional (null) me mesazh neutral në vend të parashikimit — përputhet me backend-in që fsheh parashikimin kur ka <5 ditë të dhëna nga paga e fundit
 [MODUL: db] [LLOJI: SHTIM] income_sources (db/migrations/007-income-sources.sql, schema.sql) — tabelë burimesh të ardhurash (emër unik + sort_order), mirror i expense_categories, pa FK me income — listë e menaxhuar nga Cilësimet, njësoj si kategoritë e shpenzimeve
 [MODUL: db] [LLOJI: SHTIM] app_settings (db/migrations/008-app-settings.sql, schema.sql) — tabelë çelës/vlerë jsonb për cilësime globale, fillon me sleep_goal_minutes=480 — mbështet sinjale globale (fillimisht synimi i gjumit) pa krijuar tabelë të re për çdo cilësim
 [MODUL: te-ardhura] [LLOJI: SHTIM] CRUD /income-sources (backend/routes/income_sources.py, backend/models/income.py, backend/main.py) — mirror i expense_categories: GET/POST/PATCH/DELETE, income_count, riemërtim me kaskadë te income.source, pa FK — menaxhim i burimeve nga Cilësimet njësoj si kategoritë e shpenzimeve

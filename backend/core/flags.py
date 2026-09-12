@@ -37,7 +37,7 @@ def _spend_pace(budget: "BudgetBlock") -> dict | None:
 
 
 def _payday_negative(budget: "BudgetBlock") -> dict | None:
-    if budget.projected_at_payday >= 0:
+    if budget.projected_at_payday is None or budget.projected_at_payday >= 0:
         return None
     return {
         "id": "payday_negative",
@@ -129,7 +129,7 @@ def _habit_silent(
 def _on_track(budget: "BudgetBlock", has_warn: bool) -> dict | None:
     if has_warn or budget.daily_allowed <= 0:
         return None
-    if budget.projected_at_payday < budget.daily_allowed * 3:
+    if budget.projected_at_payday is None or budget.projected_at_payday < budget.daily_allowed * 3:
         return None
     return {
         "id": "on_track",

@@ -39,7 +39,8 @@ export default function PaydayCard({ budget }: { budget: SummaryBudget | null })
   const r = 30;
   const circ = 2 * Math.PI * r;
   const dash = circ * frac;
-  const projNonNeg = projected_at_payday >= 0;
+  const hasProjection = projected_at_payday !== null;
+  const projNonNeg = hasProjection && projected_at_payday >= 0;
 
   return (
     <div className="rp-card flex items-center gap-4 rounded-[18px] border border-border bg-surface px-4 py-4 sm:gap-[18px] sm:px-[22px] sm:py-[18px]">
@@ -81,18 +82,24 @@ export default function PaydayCard({ budget }: { budget: SummaryBudget | null })
           </span>{" "}
           nga {formatALL(personal_allocation)} personale
         </p>
-        <p className="mt-1.5 text-[11.5px] leading-relaxed text-text-mid">
-          Parashikim te paga:{" "}
-          <span
-            className={cn(
-              "font-display text-[13px] font-semibold",
-              projNonNeg ? "text-success" : "text-danger",
-            )}
-          >
-            {formatSigned(projected_at_payday)}
-          </span>
-          {!projNonNeg && " · do të dalësh minus"}
-        </p>
+        {hasProjection ? (
+          <p className="mt-1.5 text-[11.5px] leading-relaxed text-text-mid">
+            Parashikim te paga:{" "}
+            <span
+              className={cn(
+                "font-display text-[13px] font-semibold",
+                projNonNeg ? "text-success" : "text-danger",
+              )}
+            >
+              {formatSigned(projected_at_payday)}
+            </span>
+            {!projNonNeg && " · do të dalësh minus"}
+          </p>
+        ) : (
+          <p className="mt-1.5 text-[11.5px] text-text-lo">
+            Parashikimi del pas disa ditësh të para nga paga.
+          </p>
+        )}
       </div>
     </div>
   );
