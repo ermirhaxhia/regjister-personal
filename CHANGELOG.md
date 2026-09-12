@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-12
+[MODUL: kryesore] [LLOJI: SHTIM] Tooltip me hover (frontend/components/home/Sparkline.tsx) — shtoi pikë, vijë udhëzuese dhe tooltip me datë/shumë (dallon vlerat e parashikimit) kur miu/prekja lëviz mbi grafikun e balancës — përmirëson leximin e saktë të vlerave pa mbingarkuar pamjen kur s'ka hover
 [MODUL: kryesore] [LLOJI: FIX] projected_at_payday (backend/routes/summary.py, backend/models/summary.py, backend/core/flags.py) — projeksioni "deri te paga tjetër" tani kthehet null kur days_elapsed < 5 (prag i ri MIN_DAYS_FOR_PROJECTION), në vend që të llogaritet me daily_rate të shtrembëruar nga backfill — evitohet projeksion absurdisht negativ me pak ditë histori; flamujt payday_negative/on_track trajtojnë vlerën None
 [MODUL: kryesore] [LLOJI: NDRYSHIM] PaydayCard (frontend/components/home/PaydayCard.tsx, frontend/lib/api.ts) — trajton projected_at_payday si opsional (null) me mesazh neutral në vend të parashikimit — përputhet me backend-in që fsheh parashikimin kur ka <5 ditë të dhëna nga paga e fundit
 [MODUL: kryesore] [LLOJI: NDRYSHIM] Faqja kryesore (frontend/app/panel/page.tsx) — hequr butoni "+ Shto shpenzim" nga header-i i desktopit — ishte i tepërt te ballina, "+" i menusë mobile mbetet funksional
