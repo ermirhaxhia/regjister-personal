@@ -1,0 +1,23 @@
+name: Keep Render Awake
+
+# Render (plani falas) e fut backend-in në "gjumë" pas ~15 min pa trafik;
+# zgjimi i parë zgjat ~30-60s. Ky workflow e "godet" çdo 10 min që të mos flerë.
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health endpoint
+        run: |
+          if [ -z "${{ vars.RENDER_HEALTH_URL }}" ]; then
+            echo "RENDER_HEALTH_URL s'është vendosur ende — shiko README-në për hapin e mbetur."
+            exit 0
+          fi
+          curl -fsS --max-time 20 "${{ vars.RENDER_HEALTH_URL }}" \
+            && echo "OK — backend-i është zgjuar." \
+            || echo "Ping dështoi (jo fatale, riprovohet në xhirimin tjetër)."
