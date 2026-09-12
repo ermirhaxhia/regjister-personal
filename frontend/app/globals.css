@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #121316;
+  --color-surface: #1c1d23;
+  --color-surface-2: #262730;
+  --color-border: rgba(255, 255, 255, 0.13);
+  --color-text-hi: #f7f7f8;
+  --color-text-mid: #b4b4be;
+  --color-text-lo: #8a8a95;
+  --color-accent: #ff7a3c;
+  --color-accent-2: #8b7bff;
+  --color-danger: #ff5b5b;
+  --color-success: #34dd93;
+  --color-info: #5aa2ff;
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-ibm-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) #17181c;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #17181c;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  border: 2px solid #17181c;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.rp-glass-scrim {
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.rp-glass-drawer {
+  background: rgba(23, 24, 29, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rp-glass-sheet {
+  background: rgba(25, 26, 31, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.rp-glass-tooltip {
+  background: rgba(26, 27, 32, 0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .rp-glass-scrim {
+    background: rgba(0, 0, 0, 0.72);
+  }
+  .rp-glass-drawer {
+    background: #111116;
+  }
+  .rp-glass-sheet {
+    background: rgba(23, 24, 29, 0.97);
+  }
+  .rp-glass-tooltip {
+    background: rgba(27, 28, 33, 0.97);
+  }
+}
+
+body {
+  background: #121316;
+  color: #f7f7f8;
+  font-family: var(--font-sans);
+}
+
+.entry-ambient {
+  background:
+    radial-gradient(
+      460px 320px at 50% -4%,
+      rgba(255, 122, 60, 0.2),
+      transparent 70%
+    ),
+    radial-gradient(
+      560px 420px at 50% 112%,
+      rgba(139, 123, 255, 0.16),
+      transparent 72%
+    );
+}
+
+@keyframes rp-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-shake {
+  animation: rp-shake 0.45s ease both;
+}
+
+@keyframes rp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rp-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rp-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.rp-card {
+  animation: rp-rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.rp-spark {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: rp-draw 1.5s ease 0.3s forwards;
+}
+
+.rp-bar > span {
+  display: block;
+  height: 100%;
+  transform-origin: left;
+  animation: rp-grow 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s both;
+  border-radius: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-card,
+  .rp-spark,
+  .rp-bar > span {
+    animation: none;
+  }
+  .rp-spark {
+    stroke-dashoffset: 0;
+  }
+}

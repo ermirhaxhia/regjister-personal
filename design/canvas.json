@@ -1,0 +1,180 @@
+{
+  "pages": [
+    {
+      "id": "page-home",
+      "name": "Faqja kryesore"
+    },
+    {
+      "id": "page-cil",
+      "name": "Cilësime"
+    },
+    {
+      "id": "page-1",
+      "name": "Drejtime"
+    },
+    {
+      "id": "page-2",
+      "name": "Ikonat"
+    },
+    {
+      "id": "page-3",
+      "name": "Hyrja"
+    }
+  ],
+  "artboards": [
+    {
+      "file": "Home.dc.html",
+      "page": "page-home",
+      "x": 0,
+      "y": 0,
+      "w": 1320,
+      "h": 864,
+      "title": "Kryesore — Desktop (sidebar i hapur)"
+    },
+    {
+      "file": "HomeRail.dc.html",
+      "page": "page-home",
+      "x": 1440,
+      "y": 0,
+      "w": 1320,
+      "h": 864,
+      "title": "Kryesore — Desktop (sidebar i mbyllur)"
+    },
+    {
+      "file": "HomeMobile.dc.html",
+      "page": "page-home",
+      "x": 2880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Kryesore — Mobile"
+    },
+    {
+      "file": "HomeDrawer.dc.html",
+      "page": "page-home",
+      "x": 3390,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Kryesore — Mobile (menu e hapur)"
+    },
+    {
+      "file": "Main.dc.html",
+      "page": "page-1",
+      "x": 0,
+      "y": 150,
+      "w": 1280,
+      "h": 880,
+      "title": "A — Boshti i ditës"
+    },
+    {
+      "file": "DirectionB.dc.html",
+      "page": "page-1",
+      "x": 1400,
+      "y": 150,
+      "w": 1280,
+      "h": 880,
+      "title": "B — Tabela e gjendjes"
+    },
+    {
+      "file": "DirectionC.dc.html",
+      "page": "page-1",
+      "x": 2800,
+      "y": 150,
+      "w": 1280,
+      "h": 880,
+      "title": "C — Regjistri"
+    },
+    {
+      "file": "Icons.dc.html",
+      "page": "page-2",
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 880,
+      "title": "Sistemi i ikonave"
+    },
+    {
+      "file": "EntryMobile.dc.html",
+      "page": "page-3",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Hyrja — Mobile"
+    },
+    {
+      "file": "EntryError.dc.html",
+      "page": "page-3",
+      "x": 510,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Hyrja — PIN i gabuar"
+    },
+    {
+      "file": "EntryDesktop.dc.html",
+      "page": "page-3",
+      "x": 1020,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Hyrja — Desktop"
+    },
+    {
+      "file": "Cilesime.dc.html",
+      "page": "page-cil",
+      "x": 0,
+      "y": 0,
+      "w": 1200,
+      "h": 880,
+      "title": "Cilësime — 6 module + PIN"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "n-home",
+      "page": "page-home",
+      "x": 0,
+      "y": -220,
+      "w": 580,
+      "text": "FAQJA KRYESORE — v1 (fokus te paraja)\n\nBalanca E DISPONUESHME = Σ(income_allocations bucket «personale») − Σ shpenzime. Për pagën numërohet VETËM 50% (gjysma tjetër i shkon «familjes» dhe s'është në aksesin tënd); për të ardhurat e tjera numërohet 100%.\nSot / Java aktuale / Muaji = agregime nga expenses.amount sipas entry_date, me krahasim ndaj periudhës së kaluar.\nRitmi = shpenzuar që nga paga ÷ ditët e kaluara, ndaj alokimit «personale» ÷ 30.\n\nAsnjë info për kolegët/gjumin në ballë — module ditari, jo tregues faqeje.\n\nRESPONSIVE: asgjë s'kalon gjerësinë e ekranit. Sot/Java/Muaji: 3 kolona ≥560px → 1 kolonë e stivosur nën. Fleta: max(440px, 100vw−32px), skroll i brendshëm."
+    },
+    {
+      "id": "n-income",
+      "page": "page-home",
+      "x": 620,
+      "y": -220,
+      "w": 560,
+      "text": "MODELI I TË ARDHURAVE (i korrigjuar)\n\nincome.kind = «paga» ose «tjeter».\n• Paga → income_allocations: personale 50% + familje 50%. Vetëm 50% është e jotja.\n• Të ardhura të tjera → personale 100%, pa ndarje.\n\nForma e «Të ardhura»: dropdown Lloji. Për pagën shfaqen dy shiritat 50/50; për të tjerat një shirit «100% personale».\n\nDERI TE PAGA (karta): numri në qendër = ditë deri te paga tjetër. Unaza = sa je konsumuar nga buxheti personal (shpenzuar ÷ personale). Poshtë: «Shpenzuar X nga Y personale» + «Parashikim te paga: +Z» (jeshile) ose «−Z, do të dalësh minus» (kuqe)."
+    },
+    {
+      "id": "n-sidebar",
+      "page": "page-home",
+      "x": 1440,
+      "y": -150,
+      "w": 620,
+      "text": "SIDEBAR — hapet/mbyllet anash\n\nDesktop: rail 236px i hapur (ikona + etiketa + numër hyrjesh) ↔ 64px i mbyllur (vetëm ikona, tooltip në hover). Butoni « / » lart e ndërron; gjendja ruhet (localStorage).\nMobile: rail-i bëhet drawer që rrëshqet nga e majta mbi një scrim; hapet me butonin ☰, mbyllet me X, me tap mbi scrim, ose kur zgjedh një zë.\n\nZërat: Kryesore · [MODULE] Shpenzime · Të ardhura · Gjumi · … Cilësime · Dil poshtë. Modulet e tjera (Zakone, Aktivitet, Kolegët) shtohen kur të kenë API."
+    },
+    {
+      "id": "n-motion",
+      "page": "page-home",
+      "x": 2880,
+      "y": -150,
+      "w": 470,
+      "text": "ANIMACIONE & IKONA\n\nIkona: një set i vizatuar për projektin (grid 24, stroke ~1.7, round). Mikro-animacione: kartat ngrihen me radhë në ngarkim, sparkline vizatohet (stroke-dashoffset), shiritat rriten nga e majta, unaza «deri te paga» mbushet, ikonat e menusë skalojnë lehtë në hover, drawer-i rrëshqet me scrim që zbehet.\n\nNë kod: framer-motion për tranzicionet, i njëjti set SVG i bërë komponentë."
+    },
+    {
+      "id": "n-currency",
+      "page": "page-home",
+      "x": 3390,
+      "y": -150,
+      "w": 380,
+      "text": "MONEDHA — ALL (Lekë)\n\nTë gjitha shumat në Lekë, numra të plotë (pa qindarka). Formatim sq-AL: pikë për mijëshet, prapashtesa « L » (p.sh. 247.600 L). Backend-i i ruan si numër; formatimi bëhet vetëm në UI me një helper të vetëm."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-home"
+  }
+}

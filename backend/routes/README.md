@@ -1,0 +1,22 @@
+# routes
+
+**Qëllimi:** Endpoint-et HTTP të API-së — një file për modul.
+
+**Përmban:**
+- activity_types.py — CRUD /activity-types (lloje aktiviteti fizik; units nga vokabular fiks; daily_goal+goal_unit opsional; name unik → 409; DELETE me hyrje → 409 FK restrict); GET /activity-types/units (vokabulari me label + decimal)
+- auth.py — POST /auth/verify (kontroll PIN), POST /auth/pin (vendos/ndrysho PIN)
+- contacts.py — CRM: CRUD /contacts (?workplace_id filtron sector_id; renditur name,last_name; shton last_note_date); nested /contacts/{id}/notes GET/POST/PATCH/DELETE (contact_log, colleague_id=contact_id, renditur contact_date desc,created_at desc)
+- day.py — GET /day/{d}: pamja ditore, mbledh nga të 6 modulet rreshtat e një date (expenses.entry_date, income.received_on, sleep_log.night_date, habit_log.entry_date, fitness_entries.entry_date, contact_log.contact_date); emrat e FK-ve zgjidhen në Python (habits, activity_types, colleagues); expenses_total/income_total si Decimal; habits vetëm ato me rresht në habit_log për atë ditë
+- expense_categories.py — CRUD /expense-categories (tabela expense_categories; GET renditur sort_order,name + expense_count nga expenses.category; POST sort_order=max+1, name unik → 409; PATCH riemërton + bulk-update expenses.category; DELETE s'prek expenses, kthen {deleted, expense_count})
+- expenses.py — CRUD /expenses + filtra date_from/date_to/category
+- fitness.py — GET /fitness/entries (interval, default 30 ditë, ?activity_type_id) + activity_type_name nga hartë; POST/GET/PATCH/DELETE /fitness/entries/{id} (values {njesi:numër} ⊆ units të llojit); GET /fitness/summary?days= (goals për çdo lloj me daily_goal: today_total/days_met/streak/series; recent 10; week_entry_count ISO; type_count)
+- habits.py — CRUD /habits (?active filtron is_active); upsert PUT /habits/{id}/log/{date} + DELETE; GET /habits/log (interval); GET /habits/grid?days= (rrjeta e streak-ut, streak_current + rate_pct)
+- income.py — CRUD /income + ndarja automatike sipas kind ('paga' 50/50 personale/familje, 'tjeter' 100% personale)
+- income_sources.py — CRUD /income-sources (tabela income_sources, pa FK; GET renditur sort_order,name + income_count nga income.source; POST sort_order=max+1, name unik → 409; PATCH riemërton + bulk-update income.source; DELETE s'prek income, kthen {deleted, income_count})
+- insights.py — GET /insights (vetëm lexim); korrelacione mes moduleve: sleep_spend, weekday_spend, payday_window, fitness_habits (core/insights.py); kthen vetëm ato që kalojnë pragun, enough_data=False kur asnjë s'kalon
+- settings.py — GET/PUT /settings/sleep-goal (tabela app_settings, key='sleep_goal_minutes'; default 480 nëse mungon rreshti; PUT bën upsert, ge=60/le=960)
+- sleep.py — CRUD /sleep; night_date default nga sleep_start; duration_minutes vjen nga DB
+- summary.py — GET /summary; agregime për faqen kryesore (balanca nga alokimet personale, shpenzime sot/javë/muaj, buxheti, seria 30-ditore) + forecast: parashikim EWMA i shpenzimeve për 5 ditët e ardhshme (ndizet me ≥14 ditë histori dhe ≥8 ditë me shpenzim, përndryshe ready:false me reason) + flags: flamuj "Vëmendje" nga core/flags.py (warn/info, maks 5)
+- workplaces.py — CRM: CRUD /workplaces (tabela sectors; GET shton contact_count nga colleagues; name unik → 409; DELETE me kontakte → 409 FK restrict)
+
+**Lidhet me:** models/ (validim), core/database.py (Supabase), core/security.py (require_auth); tabelat expenses, expense_categories, income, income_allocations, income_sources, sleep_log, habits, habit_log, activity_types, fitness_entries, sectors, colleagues, contact_log, app_auth, app_settings

@@ -1,0 +1,18 @@
+# models
+
+**Qëllimi:** Modelet Pydantic për validim të kërkesave dhe formatim të përgjigjeve — një file për modul.
+
+**Përmban:**
+- auth.py — PinVerify, PinSet (PIN 4-8 shifra)
+- day.py — DayView (pamje ditore, vetëm lexim) + DayExpense / DayIncome / DaySleep / DayHabit / DayFitness / DayNote; amount dhe totalet si Decimal, duration_minutes i gjumit si float, colleague_name = name + last_name
+- expenses.py — ExpenseCreate / ExpenseUpdate / ExpenseRead; ExpenseCategoryCreate / ExpenseCategoryUpdate / ExpenseCategoryOut (name trim, 1–60 karaktere; +expense_count vetëm lexim)
+- habits.py — HabitCreate / HabitUpdate / HabitRead (tracking_type: 'binary'|'duration'); HabitLogUpsert / HabitLogRead; HabitGridRead + HabitGridRow / HabitGridCell (vetëm lexim)
+- income.py — IncomeCreate / IncomeUpdate / IncomeRead (fusha kind: 'paga'|'tjeter') + AllocationRead; IncomeSourceCreate / IncomeSourceUpdate / IncomeSourceOut (name trim, 1–60 karaktere; +income_count vetëm lexim)
+- insights.py — Insight (id/kind/title/detail/confidence 'low'|'medium'|'high'/data_points) + InsightsRead (insights[] + enough_data) (vetëm lexim)
+- fitness.py — UNITS (vokabulari i njësive); ActivityTypeCreate/Update/Read (units nga vokabular, daily_goal↔goal_unit); FitnessEntryCreate/Update/Read (values {njesi:numër} ≥0, +activity_type_name); FitnessSummary + FitnessGoalBlock / FitnessSeriesPoint / FitnessRecentEntry (vetëm lexim)
+- hr.py — CRM: WorkplaceCreate/Update/Read (sectors; +contact_count); ContactCreate/Update/Read (colleagues; +last_note_date; email me regex bazë, lejo bosh); NoteCreate/Update/Read (contact_log; note jo bosh, contact_date default sot)
+- settings.py — SleepGoalRead / SleepGoalUpdate (goal_minutes, ge=60/le=960; app_settings.sleep_goal_minutes)
+- sleep.py — SleepCreate (kontrollon sleep_end > sleep_start) / SleepUpdate / SleepRead
+- summary.py — SummaryRead + SpendingBlock / BudgetBlock / SeriesPoint / BiggestExpense / TopCategory / ForecastBlock + ForecastPoint (parashikim EWMA, ready + reason/method/total_lo..hi/points) + Flag (id/severity 'warn'|'info'/module/text) (vetëm lexim)
+
+**Lidhet me:** përdoren nga routes/; pasqyrojnë kolonat e tabelave te schema.sql
