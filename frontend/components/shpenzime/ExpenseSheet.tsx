@@ -22,6 +22,7 @@ interface Props {
   onSaved: (row: Expense, mode: SaveMode) => void;
   initial?: Expense | null;
   categories?: string[];
+  defaultDate?: string;
 }
 
 export default function ExpenseSheet({
@@ -30,6 +31,7 @@ export default function ExpenseSheet({
   onSaved,
   initial,
   categories = [],
+  defaultDate,
 }: Props) {
   const selectId = useId();
   const editing = Boolean(initial);
@@ -47,7 +49,9 @@ export default function ExpenseSheet({
     initial?.category ?? (options.length === 0 ? NEW_CATEGORY : ""),
   );
   const [newCategory, setNewCategory] = useState("");
-  const [date, setDate] = useState(initial?.entry_date ?? todayISO());
+  const [date, setDate] = useState(
+    initial?.entry_date ?? defaultDate ?? todayISO(),
+  );
   const [description, setDescription] = useState(initial?.description ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -9,6 +9,7 @@ import {
   type Expense,
 } from "@/lib/api";
 import { useGenLoad } from "@/lib/useGenLoad";
+import { todayISO } from "@/lib/date";
 import { useRegisterAdd, notifyDataChanged } from "@/components/shell/ShellContext";
 import PageHeader from "@/components/common/PageHeader";
 import { LoadingBlock, ErrorState, EmptyState } from "@/components/common/States";
@@ -24,6 +25,7 @@ export default function ExpensesPage() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editing, setEditing] = useState<Expense | null>(null);
   const [toDelete, setToDelete] = useState<Expense | null>(null);
+  const [lastDate, setLastDate] = useState(todayISO());
 
   const fetchList = useCallback(
     () => listExpenses(monthRange(month)),
@@ -59,6 +61,7 @@ export default function ExpensesPage() {
         setItems((prev) => prev.map((r) => (r.id === row.id ? row : r)));
         return;
       }
+      setLastDate(row.entry_date);
       notifyDataChanged({ key: "expenses", diff: 1 });
       if (month && !row.entry_date.startsWith(month)) return;
       setItems((prev) => [row, ...prev]);
@@ -132,6 +135,7 @@ export default function ExpensesPage() {
         open={sheetOpen}
         initial={editing}
         categories={catNames}
+        defaultDate={lastDate}
         onClose={() => setSheetOpen(false)}
         onSaved={onSaved}
       />
