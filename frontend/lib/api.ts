@@ -480,19 +480,6 @@ export function updateSleepGoal(goalMinutes: number): Promise<SleepGoal> {
   return apiPut<SleepGoal>("/settings/sleep-goal", { goal_minutes: goalMinutes });
 }
 
-export interface OpeningBalance {
-  amount: number;
-  locked: boolean;
-}
-
-export function getOpeningBalance(): Promise<OpeningBalance> {
-  return apiGet<OpeningBalance>("/settings/opening-balance");
-}
-
-export function setOpeningBalance(amount: number): Promise<OpeningBalance> {
-  return apiPost<OpeningBalance>("/settings/opening-balance", { amount });
-}
-
 export type HabitTrackingType = "binary" | "duration";
 
 export interface Habit {

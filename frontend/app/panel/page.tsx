@@ -83,12 +83,7 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-4 px-3.5 py-4 sm:px-6 sm:py-6">
-      <PageHeader
-        title="Faqja kryesore"
-        meta={fullDate(new Date())}
-        actionLabel="Shto shpenzim"
-        onAction={openSheet}
-      />
+      <PageHeader title="Faqja kryesore" meta={fullDate(new Date())} />
 
       {status === "loading" && <LoadingBlock lines={4} />}
 

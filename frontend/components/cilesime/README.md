@@ -10,12 +10,6 @@
   validim `^\d{4,8}$` + përputhje lokale) + buton "Ruaj" me gjendje `busy`; në
   sukses përditëson edhe PIN-in e ruajtur lokalisht (`storePin`). Konsumon
   `POST /auth/pin`.
-- `OpeningBalanceCard.tsx` — kartë "Bilanci fillestar": kur `locked: false`
-  shfaq fushë numerike + paralajmërim se vendoset **vetëm një herë**; pas
-  ruajtjes kalon vetë (nga përgjigja e API-t) në gjendje `locked: true` ku
-  shfaqet vetëm shuma e formatuar, pa mundësi ndryshimi. `409` → "Është
-  vendosur tashmë." Konsumon `GET/POST /settings/opening-balance` (s'ka
-  PUT/PATCH — me qëllim).
 - `ActivityTypeManager.tsx` — listë llojesh aktiviteti (emër + chips njësish +
   "synim: N njësi") me shto / modifiko / fshi (409 → mesazh). Konsumon
   `GET/POST/PATCH/DELETE /activity-types` + `GET /activity-types/units`.
