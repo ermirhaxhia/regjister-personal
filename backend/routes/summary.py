@@ -22,6 +22,8 @@ ALLOCATIONS = "income_allocations"
 SLEEP = "sleep_log"
 HABIT_LOG = "habit_log"
 HABITS = "habits"
+SETTINGS = "app_settings"
+OPENING_BALANCE_KEY = "opening_balance"
 
 HORIZON = 5
 MIN_HISTORY_DAYS = 14
@@ -69,6 +71,14 @@ def get_summary():
         .data
     )
     habit_rows = client.table(HABITS).select("id, name, is_active").execute().data
+    opening_balance_row = (
+        client.table(SETTINGS)
+        .select("value")
+        .eq("key", OPENING_BALANCE_KEY)
+        .execute()
+        .data
+    )
+    opening_balance = _num(opening_balance_row[0]["value"]) if opening_balance_row else 0.0
 
     today = date.today()
     yesterday = today - timedelta(days=1)
@@ -111,7 +121,7 @@ def get_summary():
         "month_previous": _r(_sum_between(by_date, prev_month_start, prev_month_end)),
     }
 
-    balance_total = _r(total_personale - total_expense)
+    balance_total = _r(opening_balance + total_personale - total_expense)
     balance_change_month = _r(personale_this_month - month_current)
 
     series_30d = [

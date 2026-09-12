@@ -13,6 +13,7 @@ import {
   IconUsers,
 } from "@/components/icons";
 import ModuleCard from "@/components/cilesime/ModuleCard";
+import OpeningBalanceCard from "@/components/cilesime/OpeningBalanceCard";
 import PinChangeCard from "@/components/cilesime/PinChangeCard";
 import ActivityTypeManager from "@/components/cilesime/ActivityTypeManager";
 import HabitManager from "@/components/cilesime/HabitManager";
@@ -124,6 +125,8 @@ export default function SettingsPage() {
           />
         ))}
       </div>
+
+      <OpeningBalanceCard />
 
       <PinChangeCard />
 
