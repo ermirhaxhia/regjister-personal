@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-20
+[MODUL: zbulime] [LLOJI: NDRYSHIM] get_insights (backend/routes/insights.py) — filtrohen jashtë zbulimet me confidence "low" (nuk shfaqen më si kartë) — një kartë me besueshmëri të ulët (p.sh. weekday_spend me ~20 pika) ishte zhurmë e pakuptimtë për përdoruesin, jo thjesht sinjal i dobët për t'u etiketuar
 [MODUL: kryesore] [LLOJI: FIX] budget anchor (backend/routes/summary.py) — buxheti i pagës tani ankorohet vetëm te e ardhura më e fundit me kind='paga', jo te çdo e ardhur — të ardhurat "tjeter" më të vona po shtrembëronin personal_allocation dhe daily_allowed
 [MODUL: kryesore] [LLOJI: FIX] week/month krahasim i drejtë (backend/routes/summary.py) — week_previous dhe month_previous tani mbulojnë po aq ditë sa kanë kaluar në periudhën aktuale, jo periudhën e kaluar të plotë — krahasimi ishte i pandershëm herët në javë/muaj
 [MODUL: kryesore] [LLOJI: NDRYSHIM] SpendingStrip (frontend/components/home/SpendingStrip.tsx) — shtuar titull "Shpenzimet" mbi kolonat Sot/Java/Muaji — përdoruesi s'e kuptonte menjëherë se ç'përfaqësonin numrat pa etiketë të përgjithshme

@@ -44,5 +44,7 @@ def get_insights() -> InsightsRead:
         payday_window(expenses, incomes, today),
         fitness_habits(fitness_rows, habit_log_rows, habits, today),
     ]
-    insights = [Insight(**c) for c in candidates if c is not None]
+    insights = [
+        Insight(**c) for c in candidates if c is not None and c["confidence"] != "low"
+    ]
     return InsightsRead(insights=insights, enough_data=len(insights) > 0)
