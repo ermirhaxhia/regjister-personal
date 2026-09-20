@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026-09-20
+[MODUL: kryesore] [LLOJI: FIX] budget anchor (backend/routes/summary.py) — buxheti i pagës tani ankorohet vetëm te e ardhura më e fundit me kind='paga', jo te çdo e ardhur — të ardhurat "tjeter" më të vona po shtrembëronin personal_allocation dhe daily_allowed
+[MODUL: kryesore] [LLOJI: FIX] week/month krahasim i drejtë (backend/routes/summary.py) — week_previous dhe month_previous tani mbulojnë po aq ditë sa kanë kaluar në periudhën aktuale, jo periudhën e kaluar të plotë — krahasimi ishte i pandershëm herët në javë/muaj
+[MODUL: kryesore] [LLOJI: NDRYSHIM] SpendingStrip (frontend/components/home/SpendingStrip.tsx) — shtuar titull "Shpenzimet" mbi kolonat Sot/Java/Muaji — përdoruesi s'e kuptonte menjëherë se ç'përfaqësonin numrat pa etiketë të përgjithshme
+
 ## 2026-09-12
 [MODUL: kryesore] [LLOJI: SHTIM] Tooltip me hover (frontend/components/home/Sparkline.tsx) — shtoi pikë, vijë udhëzuese dhe tooltip me datë/shumë (dallon vlerat e parashikimit) kur miu/prekja lëviz mbi grafikun e balancës — përmirëson leximin e saktë të vlerave pa mbingarkuar pamjen kur s'ka hover
 [MODUL: kryesore] [LLOJI: FIX] projected_at_payday (backend/routes/summary.py, backend/models/summary.py, backend/core/flags.py) — projeksioni "deri te paga tjetër" tani kthehet null kur days_elapsed < 5 (prag i ri MIN_DAYS_FOR_PROJECTION), në vend që të llogaritet me daily_rate të shtrembëruar nga backfill — evitohet projeksion absurdisht negativ me pak ditë histori; flamujt payday_negative/on_track trajtojnë vlerën None

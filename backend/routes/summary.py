@@ -56,7 +56,7 @@ def _sum_between(by_date: dict[date, float], lo: date, hi: date) -> float:
 def get_summary():
     client = get_client()
     expenses = client.table(EXPENSES).select("amount, category, entry_date").execute().data
-    incomes = client.table(INCOME).select("id, amount, received_on").execute().data
+    incomes = client.table(INCOME).select("id, amount, received_on, kind").execute().data
     personale_allocs = (
         client.table(ALLOCATIONS)
         .select("amount, income_id")
@@ -113,13 +113,20 @@ def get_summary():
     )
     month_current = _sum_between(by_date, month_start, today)
 
+    days_into_week = (today - week_start).days
+    prev_week_same_point = prev_week_start + timedelta(days=days_into_week)
+    days_into_month = (today - month_start).days
+    prev_month_same_point = min(
+        prev_month_start + timedelta(days=days_into_month), prev_month_end
+    )
+
     spending = {
         "today": _r(by_date.get(today, 0.0)),
         "yesterday": _r(by_date.get(yesterday, 0.0)),
         "week_current": _r(_sum_between(by_date, week_start, today)),
-        "week_previous": _r(_sum_between(by_date, prev_week_start, prev_week_end)),
+        "week_previous": _r(_sum_between(by_date, prev_week_start, prev_week_same_point)),
         "month_current": _r(month_current),
-        "month_previous": _r(_sum_between(by_date, prev_month_start, prev_month_end)),
+        "month_previous": _r(_sum_between(by_date, prev_month_start, prev_month_same_point)),
     }
 
     balance_total = _r(opening_balance + total_personale - total_expense)
@@ -151,8 +158,9 @@ def get_summary():
         top_category_month = {"category": cat, "amount": _r(amt), "pct": pct}
 
     budget = None
-    if incomes:
-        latest = max(incomes, key=lambda i: i["received_on"])
+    paga_incomes = [i for i in incomes if i.get("kind") == "paga"]
+    if paga_incomes:
+        latest = max(paga_incomes, key=lambda i: i["received_on"])
         received_on = date.fromisoformat(latest["received_on"])
         alloc = (
             client.table(ALLOCATIONS)

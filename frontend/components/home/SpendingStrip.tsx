@@ -7,6 +7,11 @@ import Delta from "@/components/home/Delta";
 export default function SpendingStrip({ s }: { s: SummarySpending }) {
   return (
     <div className="rp-card grid grid-cols-1 rounded-[18px] border border-border bg-surface min-[560px]:grid-cols-3">
+      <div className="border-b border-border px-4 py-2.5 sm:px-[22px] min-[560px]:col-span-3">
+        <span className="text-[9.5px] font-semibold uppercase tracking-[0.1em] text-text-lo">
+          Shpenzimet
+        </span>
+      </div>
       <Cell label="Sot" value={s.today}>
         <span className="font-mono text-[11px] text-text-lo">
           dje {formatALL(s.yesterday)}
