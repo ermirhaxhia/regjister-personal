@@ -22,13 +22,19 @@ export default function DeviationChart({
 
   const mean = Number(meanExpense) || 0;
   const values = daily.map((d) => Number(d.expense) || 0);
-  const max = Math.max(...values, mean, 1);
+  const n = values.length;
+  const variance =
+    n > 0 ? values.reduce((acc, v) => acc + (v - mean) ** 2, 0) / n : 0;
+  const stdDev = Math.sqrt(variance);
+  const stdLevel = mean + stdDev;
+  const max = Math.max(...values, mean, stdLevel, 1);
   const min = 0;
   const span = max - min || 1;
 
   const yOf = (v: number) => pad + (1 - (v - min) / span) * (H - pad * 2);
   const step = daily.length > 1 ? W / (daily.length - 1) : 0;
   const meanY = yOf(mean);
+  const stdY = yOf(stdLevel);
 
   const fmt = (x: number, y: number) => `${x.toFixed(1)},${y.toFixed(1)}`;
   const coords = daily.map((d, i) => {
@@ -67,6 +73,16 @@ export default function DeviationChart({
           strokeDasharray="6 5"
           vectorEffect="non-scaling-stroke"
         />
+        <line
+          x1={0}
+          y1={stdY}
+          x2={W}
+          y2={stdY}
+          stroke="rgba(255,122,60,0.35)"
+          strokeWidth={1.2}
+          strokeDasharray="3 4"
+          vectorEffect="non-scaling-stroke"
+        />
         {coords.length > 0 && (
           <>
             <path d={area} fill={`url(#${gradId})`} />
@@ -93,7 +109,7 @@ export default function DeviationChart({
         )}
       </svg>
       <p className="mt-2 text-[11px] text-text-lo">
-        Mesatarja: {formatALL(mean)}/ditë
+        Mesatarja: {formatALL(mean)}/ditë · Devijimi standard: ±{formatALL(stdDev)}
       </p>
     </div>
   );
