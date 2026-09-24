@@ -13,7 +13,9 @@ arkivimi i zakoneve rri te Cilësimet (`components/cilesime/HabitManager`).
 - `HabitHistory.tsx` — rrip qelizash për ditët; kokë shkronjash (H·M·M·E·P·Sh·D) sipër,
   numri i ditës së muajit brenda çdo kutie (shkurtim muaji te dita 1 në desktop), data
   e plotë si `title`; skroll horizontal vetëm brenda rripit.
-- `TodayControl.tsx` — checkbox i madh (binar) ose input minuta (kohëzgjatje).
+- `TodayControl.tsx` — checkbox i madh (binar), input minuta (kohëzgjatje), ose
+  link "Lexim →" te `/panel/zakone/lexim` (tracking_type `lexim`, ku menaxhohen
+  librat dhe sesionet).
 - `HabitCells.tsx` — `HabitName`, `StreakBadge` (flame kur ≥ 3), `RateBar`
   ("{mbajtur} / {gjithsej} ditë" + mini-shirit).
 - `DurationMark.tsx` — input minuta (blur/Enter).

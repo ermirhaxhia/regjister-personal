@@ -480,7 +480,7 @@ export function updateSleepGoal(goalMinutes: number): Promise<SleepGoal> {
   return apiPut<SleepGoal>("/settings/sleep-goal", { goal_minutes: goalMinutes });
 }
 
-export type HabitTrackingType = "binary" | "duration";
+export type HabitTrackingType = "binary" | "duration" | "lexim";
 
 export interface Habit {
   id: string;
@@ -912,4 +912,100 @@ export interface DashboardRead {
 
 export function getDashboard(): Promise<DashboardRead> {
   return apiGet<DashboardRead>("/dashboard");
+}
+
+export type BookStatus = "reading" | "finished";
+
+export interface Book {
+  id: string;
+  title: string;
+  author: string | null;
+  total_pages: number;
+  status: BookStatus;
+  pages_read: number;
+  pct_complete: number;
+  sessions_count: number;
+  pages_per_day: number | null;
+  estimated_finish: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BookInput {
+  title: string;
+  author?: string | null;
+  total_pages: number;
+}
+
+export interface BookPatch {
+  title?: string;
+  author?: string | null;
+  total_pages?: number;
+  status?: BookStatus;
+}
+
+export interface ReadingSession {
+  id: string;
+  book_id: string;
+  session_date: string;
+  pages_read: number;
+  minutes: number | null;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReadingSessionInput {
+  session_date?: string;
+  pages_read: number;
+  minutes?: number | null;
+  note?: string | null;
+}
+
+export type ReadingSessionPatch = Partial<ReadingSessionInput>;
+
+export function listBooks(): Promise<Book[]> {
+  return apiGet<Book[]>("/books");
+}
+
+export function createBook(body: BookInput): Promise<Book> {
+  return apiPost<Book>("/books", body);
+}
+
+export function getBook(id: string): Promise<Book> {
+  return apiGet<Book>(`/books/${id}`);
+}
+
+export function updateBook(id: string, patch: BookPatch): Promise<Book> {
+  return apiPatch<Book>(`/books/${id}`, patch);
+}
+
+export function deleteBook(id: string): Promise<void> {
+  return apiDelete(`/books/${id}`);
+}
+
+export function listReadingSessions(bookId: string): Promise<ReadingSession[]> {
+  return apiGet<ReadingSession[]>(`/books/${bookId}/sessions`);
+}
+
+export function createReadingSession(
+  bookId: string,
+  body: ReadingSessionInput,
+): Promise<ReadingSession> {
+  return apiPost<ReadingSession>(`/books/${bookId}/sessions`, body);
+}
+
+export function updateReadingSession(
+  bookId: string,
+  sessionId: string,
+  patch: ReadingSessionPatch,
+): Promise<ReadingSession> {
+  return apiPatch<ReadingSession>(`/books/${bookId}/sessions/${sessionId}`, patch);
+}
+
+export function deleteReadingSession(
+  bookId: string,
+  sessionId: string,
+): Promise<void> {
+  return apiDelete(`/books/${bookId}/sessions/${sessionId}`);
 }

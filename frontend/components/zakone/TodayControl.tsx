@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { cn } from "@/lib/cn";
-import { IconCheck } from "@/components/icons";
+import { IconCheck, IconBook, IconChevronRight } from "@/components/icons";
 import DurationMark from "@/components/zakone/DurationMark";
 import type { HabitTrackingType } from "@/lib/api";
 
@@ -30,6 +31,21 @@ export default function TodayControl({
           initial={durationMinutes ?? 0}
           onCommit={onCommitDuration}
         />
+      </div>
+    );
+  }
+
+  if (trackingType === "lexim") {
+    return (
+      <div className="flex justify-center">
+        <Link
+          href="/panel/zakone/lexim"
+          className="flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-[12px] text-text-mid transition-colors hover:border-accent-2/50 hover:text-text-hi"
+        >
+          <IconBook size={14} />
+          Lexim
+          <IconChevronRight size={12} />
+        </Link>
       </div>
     );
   }

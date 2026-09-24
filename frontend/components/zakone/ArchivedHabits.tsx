@@ -49,7 +49,11 @@ export default function ArchivedHabits({
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm text-text-hi">{h.name}</div>
                 <div className="font-mono text-[10px] uppercase tracking-wide text-text-lo">
-                  {h.tracking_type === "binary" ? "binar" : "minuta"}
+                  {h.tracking_type === "binary"
+                    ? "binar"
+                    : h.tracking_type === "duration"
+                      ? "minuta"
+                      : "lexim"}
                 </div>
               </div>
               <button

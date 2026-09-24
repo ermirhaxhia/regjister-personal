@@ -10,6 +10,7 @@
 - habits.py — HabitCreate / HabitUpdate / HabitRead (tracking_type: 'binary'|'duration'); HabitLogUpsert / HabitLogRead; HabitGridRead + HabitGridRow / HabitGridCell (vetëm lexim)
 - income.py — IncomeCreate / IncomeUpdate / IncomeRead (fusha kind: 'paga'|'tjeter') + AllocationRead; IncomeSourceCreate / IncomeSourceUpdate / IncomeSourceOut (name trim, 1–60 karaktere; +income_count vetëm lexim)
 - insights.py — Insight (id/kind/title/detail/confidence 'low'|'medium'|'high'/data_points) + InsightsRead (insights[] + enough_data) (vetëm lexim)
+- reading.py — BookCreate/Update/Read (books; status 'reading'|'finished'; +pages_read/pct_complete/sessions_count/pages_per_day/estimated_finish vetëm lexim, llogaritur nga reading_sessions); ReadingSessionCreate/Update/Read (reading_sessions)
 - fitness.py — UNITS (vokabulari i njësive); ActivityTypeCreate/Update/Read (units nga vokabular, daily_goal↔goal_unit); FitnessEntryCreate/Update/Read (values {njesi:numër} ≥0, +activity_type_name); FitnessSummary + FitnessGoalBlock / FitnessSeriesPoint / FitnessRecentEntry (vetëm lexim)
 - hr.py — CRM: WorkplaceCreate/Update/Read (sectors; +contact_count); ContactCreate/Update/Read (colleagues; +last_note_date; email me regex bazë, lejo bosh); NoteCreate/Update/Read (contact_log; note jo bosh, contact_date default sot)
 - settings.py — SleepGoalRead / SleepGoalUpdate (goal_minutes, ge=60/le=960; app_settings.sleep_goal_minutes); OpeningBalanceRead (amount, locked) / OpeningBalanceCreate (amount ge=0; app_settings.opening_balance, vendoset një herë)

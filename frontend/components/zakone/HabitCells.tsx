@@ -17,7 +17,11 @@ export function HabitName({
         {name}
       </span>
       <span className="font-mono text-[10px] text-text-lo">
-        {trackingType === "binary" ? "po / jo" : "minuta"}
+        {trackingType === "binary"
+          ? "po / jo"
+          : trackingType === "duration"
+            ? "minuta"
+            : "libra"}
       </span>
     </div>
   );

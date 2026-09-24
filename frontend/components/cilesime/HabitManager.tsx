@@ -23,6 +23,7 @@ import { IconPlus, IconPencil } from "@/components/icons";
 const TYPE_LABEL: Record<HabitTrackingType, string> = {
   binary: "po / jo",
   duration: "minuta",
+  lexim: "lexim",
 };
 
 const byName = (list: Habit[]): Habit[] =>
@@ -193,7 +194,9 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
           hint={
             trackingType === "binary"
               ? "Shënohet me po / jo çdo ditë."
-              : "Shënohet me minuta çdo ditë."
+              : trackingType === "duration"
+                ? "Shënohet me minuta çdo ditë."
+                : "Hap një faqe të veçantë për të menaxhuar librat dhe sesionet e leximit."
           }
         >
           <select
@@ -206,6 +209,7 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
+            <option value="lexim">Lexim (libra)</option>
           </select>
         </Field>
         {error && <p className="text-[11px] text-danger">{error}</p>}

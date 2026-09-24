@@ -335,6 +335,15 @@ export function IconActivity(props: IconProps) {
   );
 }
 
+export function IconBook(props: IconProps) {
+  return (
+    <Line {...props}>
+      <path d="M12 6.2C10.4 4.9 8.2 4.3 5.5 4.3v14.4c2.7 0 4.9.6 6.5 1.9 1.6-1.3 3.8-1.9 6.5-1.9V4.3c-2.7 0-4.9.6-6.5 1.9Z" />
+      <path d="M12 6.2v14.4" />
+    </Line>
+  );
+}
+
 export function IconSpark(props: IconProps) {
   return (
     <Line {...props}>
