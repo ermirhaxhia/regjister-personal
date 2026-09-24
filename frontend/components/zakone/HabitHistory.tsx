@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 import { fullDate, monthShort } from "@/lib/date";
 import type { HabitGridCell } from "@/lib/api";
 
-const WEEKDAY_LETTER = ["D", "H", "M", "M", "E", "P", "Sh"];
+const WEEKDAY_LETTER = ["Die", "Hën", "Mar", "Mër", "Enj", "Pre", "Sht"];
 
 interface Props {
   cells: HabitGridCell[];

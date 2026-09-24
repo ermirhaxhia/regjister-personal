@@ -113,9 +113,6 @@ export default function HabitsTable({
     <section className="flex w-full flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-2">
-          <p className="max-w-md text-xs text-text-lo">
-            Shëno çdo ditë a e mbajte zakonin.
-          </p>
           <HabitLegend />
         </div>
         <div className="flex shrink-0 overflow-hidden rounded-lg border border-border font-mono text-[11px]">

@@ -54,17 +54,6 @@ export default function HabitsPage() {
     <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-4 px-3.5 py-4 sm:px-6 sm:py-6">
       <PageHeader title="Zakone" />
 
-      <p className="text-[13px] text-text-lo">
-        Shëno ditën për çdo zakon. Krijimi dhe arkivimi bëhen te{" "}
-        <Link
-          href="/panel/cilesime"
-          className="text-accent-2 underline-offset-2 hover:underline"
-        >
-          Cilësimet
-        </Link>
-        .
-      </p>
-
       {status === "loading" && <LoadingBlock lines={4} />}
       {status === "error" && (
         <ErrorState message="Rrjeta nuk u ngarkua." onRetry={reload} />
