@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2026-09-24
+[MODUL: dashboard] [LLOJI: NDRYSHIM] DeviationChart (frontend/components/dashboard/DeviationChart.tsx) — zëvendësoi pragun mean+std me median+MAD dhe shtoi tooltip me hover (datë, shpenzim, devijim nga mesatarja) — pragu i vjetër shtrembërohej nga një ditë e vetme outlier, MAD është rezistent ndaj tij
+[MODUL: dashboard] [LLOJI: NDRYSHIM] CategoryDonut (frontend/components/dashboard/CategoryDonut.tsx) — shtoi tooltip me hover mbi harkun e çdo kategorie që shfaq shumën në Lekë dhe emrin — lejon të shihet shuma ekzakte pa e llogaritur nga përqindja e legjendës
 [MODUL: dashboard] [LLOJI: NDRYSHIM] DeviationChart (frontend/components/dashboard/DeviationChart.tsx) — shtuar vijë e dytë horizontale për pragun mean+1 std_dev, me stil vizual të dallueshëm nga vija e mesatares, dhe përditësuar teksti nën grafik me devijimin standard — për të dalluar ditët "mbi mesatare" nga ditët statistikisht të pazakonta
 [MODUL: dashboard] [LLOJI: NDRYSHIM] DeviationChart (frontend/components/dashboard/DeviationChart.tsx) — grafiku i devijimit ditor tani vizaton një vijë të lidhur me gradient portokalli për shpenzimin e çdo dite, në vend të pikave të shpërndara, ndërsa vija horizontale e mesatares mbetet — konsistencë vizuale me Sparkline/IncomeExpenseChart dhe lexueshmëri më e mirë sipas kërkesës së përdoruesit
 [MODUL: dashboard] [LLOJI: SHTIM] models/dashboard.py — modele DashboardRead/DashboardDay/CategoryShare për agregimet e faqes dashboard — mbështet grafikët e rinj pa prekur skemën

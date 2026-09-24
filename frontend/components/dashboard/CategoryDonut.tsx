@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import type { CategoryShare } from "@/lib/api";
+import { formatALL } from "@/lib/money";
 
 interface Props {
   categories: CategoryShare[];
@@ -32,6 +34,8 @@ function groupCategories(categories: CategoryShare[]): CategoryShare[] {
 }
 
 export default function CategoryDonut({ categories }: Props) {
+  const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+
   if (categories.length === 0) {
     return (
       <p className="py-8 text-center text-[13px] text-text-lo">
@@ -64,25 +68,42 @@ export default function CategoryDonut({ categories }: Props) {
         strokeDasharray={`${dash} ${circ - dash}`}
         strokeDashoffset={-offset}
         transform={`rotate(-90 ${cx} ${cy})`}
+        className="cursor-pointer"
+        onMouseEnter={() => setHoverIdx(i)}
+        onMouseLeave={() => setHoverIdx(null)}
       />
     );
     offset += dash;
     return arc;
   });
 
+  const hovered = hoverIdx !== null ? slices[hoverIdx] : null;
+
   return (
     <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-center sm:justify-center">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-        <circle
-          cx={cx}
-          cy={cy}
-          r={r}
-          fill="none"
-          stroke="rgba(255,255,255,0.07)"
-          strokeWidth={strokeWidth}
-        />
-        {arcs}
-      </svg>
+      <div className="relative">
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+          <circle
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill="none"
+            stroke="rgba(255,255,255,0.07)"
+            strokeWidth={strokeWidth}
+          />
+          {arcs}
+        </svg>
+        {hovered && (
+          <div
+            className="rp-glass-tooltip pointer-events-none absolute left-1/2 top-1/2 z-10 w-[120px] -translate-x-1/2 -translate-y-1/2 rounded-md px-2 py-1.5 text-center text-[11px] leading-tight text-text-hi shadow-lg"
+          >
+            <div className="truncate">{hovered.category}</div>
+            <div className="font-mono text-text-hi">
+              {formatALL(Number(hovered.amount))}
+            </div>
+          </div>
+        )}
+      </div>
       <ul className="flex w-full max-w-[220px] flex-col gap-1.5">
         {slices.map((s, i) => (
           <li
