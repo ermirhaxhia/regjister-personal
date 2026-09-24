@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## 2026-09-24
+[MODUL: dashboard] [LLOJI: SHTIM] models/dashboard.py — modele DashboardRead/DashboardDay/CategoryShare për agregimet e faqes dashboard — mbështet grafikët e rinj pa prekur skemën
+[MODUL: dashboard] [LLOJI: SHTIM] GET /dashboard (routes/dashboard.py) — seri 30-ditore expense/income, mesatare 30-ditore, ndarje kategorish e muajit aktual — furnizon faqen "Dashboard" me grafikë duke agreguar mbi expenses+income ekzistuese
+[MODUL: dashboard] [LLOJI: SHTIM] api.ts (frontend/lib/api.ts) — tipet DashboardDay/CategoryShare/DashboardRead dhe getDashboard() për GET /dashboard
+[MODUL: dashboard] [LLOJI: SHTIM] nav.ts (frontend/components/shell/nav.ts) — hyrja "Dashboard" te sidebar/tab-bar pas "Zbulime"
+[MODUL: dashboard] [LLOJI: SHTIM] DeviationChart (frontend/components/dashboard/DeviationChart.tsx) — grafik pikash SVG i devijimit ditor të shpenzimeve kundrejt mesatares 30-ditore
+[MODUL: dashboard] [LLOJI: SHTIM] CategoryDonut (frontend/components/dashboard/CategoryDonut.tsx) — donut SVG me stroke-dasharray për ndarjen e shpenzimeve sipas kategorisë të muajit, me grupim "Të tjera" dhe legjendë
+[MODUL: dashboard] [LLOJI: SHTIM] IncomeExpenseChart (frontend/components/dashboard/IncomeExpenseChart.tsx) — grafik dy-seri SVG shpenzime/të ardhura mbi 30 ditë
+[MODUL: dashboard] [LLOJI: SHTIM] DashboardPage (frontend/app/panel/dashboard/page.tsx) — faqe e re me tre grafikë dhe tri gjendjet standarde (ngarkim/gabim/bosh)
+
 ## 2026-09-20
 [MODUL: zbulime] [LLOJI: NDRYSHIM] get_insights (backend/routes/insights.py) — filtrohen jashtë zbulimet me confidence "low" (nuk shfaqen më si kartë) — një kartë me besueshmëri të ulët (p.sh. weekday_spend me ~20 pika) ishte zhurmë e pakuptimtë për përdoruesin, jo thjesht sinjal i dobët për t'u etiketuar
 [MODUL: kryesore] [LLOJI: FIX] budget anchor (backend/routes/summary.py) — buxheti i pagës tani ankorohet vetëm te e ardhura më e fundit me kind='paga', jo te çdo e ardhur — të ardhurat "tjeter" më të vona po shtrembëronin personal_allocation dhe daily_allowed

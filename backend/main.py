@@ -6,6 +6,7 @@ from routes import (
     activity_types,
     auth,
     contacts,
+    dashboard,
     day,
     expense_categories,
     expenses,
@@ -35,6 +36,7 @@ app.add_middleware(
 app.include_router(activity_types.router)
 app.include_router(auth.router)
 app.include_router(contacts.router)
+app.include_router(dashboard.router)
 app.include_router(day.router)
 app.include_router(expense_categories.router)
 app.include_router(expenses.router)

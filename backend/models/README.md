@@ -4,6 +4,7 @@
 
 **Përmban:**
 - auth.py — PinVerify, PinSet (PIN 4-8 shifra)
+- dashboard.py — DashboardRead + DashboardDay (date/expense/income) / CategoryShare (category/amount/pct) (vetëm lexim, agregime mbi expenses + income për grafikët e dashboard-it)
 - day.py — DayView (pamje ditore, vetëm lexim) + DayExpense / DayIncome / DaySleep / DayHabit / DayFitness / DayNote; amount dhe totalet si Decimal, duration_minutes i gjumit si float, colleague_name = name + last_name
 - expenses.py — ExpenseCreate / ExpenseUpdate / ExpenseRead; ExpenseCategoryCreate / ExpenseCategoryUpdate / ExpenseCategoryOut (name trim, 1–60 karaktere; +expense_count vetëm lexim)
 - habits.py — HabitCreate / HabitUpdate / HabitRead (tracking_type: 'binary'|'duration'); HabitLogUpsert / HabitLogRead; HabitGridRead + HabitGridRow / HabitGridCell (vetëm lexim)

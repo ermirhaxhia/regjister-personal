@@ -3,6 +3,7 @@ import {
   IconHome,
   IconCalendar,
   IconSpark,
+  IconGrid,
   IconReceipt,
   IconBanknote,
   IconMoon,
@@ -29,6 +30,7 @@ export const PRIMARY: NavItem = {
 export const MODULES: NavItem[] = [
   { href: "/panel/dita", label: "Dita", icon: IconCalendar },
   { href: "/panel/zbulime", label: "Zbulime", icon: IconSpark },
+  { href: "/panel/dashboard", label: "Dashboard", icon: IconGrid },
   { href: "/panel/shpenzime", label: "Shpenzime", icon: IconReceipt, countKey: "expenses" },
   { href: "/panel/te-ardhura", label: "Të ardhura", icon: IconBanknote, countKey: "income" },
   { href: "/panel/gjumi", label: "Gjumi", icon: IconMoon, countKey: "sleep" },

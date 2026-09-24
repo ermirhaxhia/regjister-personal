@@ -891,3 +891,25 @@ export interface DayView {
 export function getDay(date: string): Promise<DayView> {
   return apiGet<DayView>(`/day/${date}`);
 }
+
+export interface DashboardDay {
+  date: string;
+  expense: string;
+  income: string;
+}
+
+export interface CategoryShare {
+  category: string;
+  amount: string;
+  pct: number;
+}
+
+export interface DashboardRead {
+  daily: DashboardDay[];
+  expense_mean_30d: string;
+  categories_month: CategoryShare[];
+}
+
+export function getDashboard(): Promise<DashboardRead> {
+  return apiGet<DashboardRead>("/dashboard");
+}

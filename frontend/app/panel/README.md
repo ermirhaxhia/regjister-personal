@@ -7,6 +7,8 @@
 - `page.tsx` — Faqja kryesore; konsumon `GET /summary` (balancë, ritëm, deri te paga, highlights).
 - `dita/` — Pamja Ditore; konsumon `GET /day/{YYYY-MM-DD}` (të 6 modulet për një ditë).
 - `zbulime/` — Zbulime mes moduleve; konsumon `GET /insights` (bosh derisa ka histori).
+- `dashboard/` — Grafikë 30-ditorë (devijim shpenzimesh, kategori, shpenzime vs. të
+  ardhura); konsumon `GET /dashboard`.
 - `shpenzime/`, `te-ardhura/`, `gjumi/`, `zakone/`, `aktivitet/` — faqet e moduleve
   (listë + shto/edito/fshi).
 - `burime-njerezore/` — CRM personal kontaktesh: vende → kontakte → karta + shënime.
