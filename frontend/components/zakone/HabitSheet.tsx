@@ -91,7 +91,9 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
           hint={
             trackingType === "binary"
               ? "Shënohet me po / jo çdo ditë."
-              : "Shënohet me minuta çdo ditë."
+              : trackingType === "duration"
+                ? "Shënohet me minuta çdo ditë."
+                : "Hap një faqe të veçantë për të menaxhuar librat dhe sesionet e leximit."
           }
         >
           <select
@@ -104,6 +106,7 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
+            <option value="lexim">Lexim (libra)</option>
           </select>
         </Field>
 

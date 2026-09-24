@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-24
+[MODUL: lexim] [LLOJI: FIX] HabitSheet (frontend/components/zakone/HabitSheet.tsx) — shtoi opsionin "Lexim (libra)" dhe hintin përkatës te selecti i llojit të ndjekjes në dritaren e editimit të zakonit — më parë mungonte, ndaj një zakon ekzistues s'mund të konvertohej në "lexim" nga UI, edhe pse krijimi i një zakoni të ri e lejonte tashmë
 [MODUL: zakone] [LLOJI: FIX] HabitHistory (frontend/components/zakone/HabitHistory.tsx) — shkronjat e header-it të javës u zëvendësuan me shkurtesa 3-shkronjëshe të dallueshme (Die/Hën/Mar/Mër/Enj/Pre/Sht) — Martë dhe Mërkurë kishin të dyja "M", të pallogaritshme në historikun 14/30-ditor
 [MODUL: zakone] [LLOJI: HEQJE] tekste gjenerike (frontend/app/panel/zakone/page.tsx, frontend/components/zakone/HabitsTable.tsx) — u hoqën dy paragrafë instruksionesh gjenerike (mbi ekran dhe mbi tabelë) që përsërisnin çfarë tregonte tashmë legjenda/UI-ja — thjeshtim vizual, informacioni ishte i tepërt
 [MODUL: lexim] [LLOJI: FIX] _sync_habit_log (backend/routes/reading.py) — sinkronizimi me habit_log tani bazohet te faqet e lexuara (pages_read) në vend të minutave — minutat janë opsionale, kështu një ditë me vetëm faqe të regjistruara duhej të dilte "e mbajtur"
