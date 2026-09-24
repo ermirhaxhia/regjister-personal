@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-24
+[MODUL: dashboard] [LLOJI: NDRYSHIM] DeviationChart (frontend/components/dashboard/DeviationChart.tsx) — grafiku i devijimit ditor tani vizaton një vijë të lidhur me gradient portokalli për shpenzimin e çdo dite, në vend të pikave të shpërndara, ndërsa vija horizontale e mesatares mbetet — konsistencë vizuale me Sparkline/IncomeExpenseChart dhe lexueshmëri më e mirë sipas kërkesës së përdoruesit
 [MODUL: dashboard] [LLOJI: SHTIM] models/dashboard.py — modele DashboardRead/DashboardDay/CategoryShare për agregimet e faqes dashboard — mbështet grafikët e rinj pa prekur skemën
 [MODUL: dashboard] [LLOJI: SHTIM] GET /dashboard (routes/dashboard.py) — seri 30-ditore expense/income, mesatare 30-ditore, ndarje kategorish e muajit aktual — furnizon faqen "Dashboard" me grafikë duke agreguar mbi expenses+income ekzistuese
 [MODUL: dashboard] [LLOJI: SHTIM] api.ts (frontend/lib/api.ts) — tipet DashboardDay/CategoryShare/DashboardRead dhe getDashboard() për GET /dashboard

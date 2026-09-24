@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import type { DashboardDay } from "@/lib/api";
 import { formatALL } from "@/lib/money";
 
@@ -14,6 +15,7 @@ export default function DeviationChart({
   meanExpense,
   height = 160,
 }: Props) {
+  const gradId = useId();
   const W = 1180;
   const H = height;
   const pad = 10;
@@ -28,7 +30,17 @@ export default function DeviationChart({
   const step = daily.length > 1 ? W / (daily.length - 1) : 0;
   const meanY = yOf(mean);
 
-  const maxDelta = Math.max(...values.map((v) => Math.abs(v - mean)), 1);
+  const fmt = (x: number, y: number) => `${x.toFixed(1)},${y.toFixed(1)}`;
+  const coords = daily.map((d, i) => {
+    const x = daily.length > 1 ? i * step : W / 2;
+    return [x, yOf(values[i])] as const;
+  });
+
+  const line = coords
+    .map(([x, y], i) => `${i === 0 ? "M" : "L"}${fmt(x, y)}`)
+    .join(" ");
+  const lastX = coords.length ? coords[coords.length - 1][0] : 0;
+  const area = coords.length ? `${line} L${fmt(lastX, H)} L${fmt(0, H)} Z` : "";
 
   return (
     <div>
@@ -39,6 +51,12 @@ export default function DeviationChart({
         preserveAspectRatio="none"
         className="block"
       >
+        <defs>
+          <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#FF7A3C" stopOpacity="0.3" />
+            <stop offset="1" stopColor="#FF7A3C" stopOpacity="0" />
+          </linearGradient>
+        </defs>
         <line
           x1={0}
           y1={meanY}
@@ -49,28 +67,30 @@ export default function DeviationChart({
           strokeDasharray="6 5"
           vectorEffect="non-scaling-stroke"
         />
-        {daily.map((d, i) => {
-          const v = values[i];
-          const x = daily.length > 1 ? i * step : W / 2;
-          const y = yOf(v);
-          const delta = v - mean;
-          const intensity = Math.min(Math.abs(delta) / maxDelta, 1);
-          const isAbove = delta > 0;
-          const fill = isAbove
-            ? `rgba(255,122,60,${0.35 + intensity * 0.65})`
-            : "rgba(255,255,255,0.3)";
-          const r = 3 + intensity * 2.5;
-          return (
-            <circle
-              key={d.date}
-              cx={x}
-              cy={y}
-              r={r}
-              fill={fill}
+        {coords.length > 0 && (
+          <>
+            <path d={area} fill={`url(#${gradId})`} />
+            <path
+              d={line}
+              fill="none"
+              stroke="#FF7A3C"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
             />
-          );
-        })}
+            {coords.map(([x, y], i) => (
+              <circle
+                key={daily[i].date}
+                cx={x}
+                cy={y}
+                r={2.5}
+                fill="#FF7A3C"
+                vectorEffect="non-scaling-stroke"
+              />
+            ))}
+          </>
+        )}
       </svg>
       <p className="mt-2 text-[11px] text-text-lo">
         Mesatarja: {formatALL(mean)}/ditë
