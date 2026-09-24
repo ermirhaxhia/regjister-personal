@@ -76,17 +76,17 @@ def _enrich(client, book: dict) -> dict:
 
 
 def _sync_habit_log(client, d: date) -> None:
-    """Sinkronizon kohëzgjatjen totale të leximit të një date me habit_log."""
+    """Sinkronizon numrin total të faqeve të lexuara të një date me habit_log."""
     lexim_habits = (
         client.table("habits").select("id").eq("tracking_type", "lexim").execute().data
     )
     if not lexim_habits:
         return
     day_str = d.isoformat()
-    total_minutes = sum(
-        (r.get("minutes") or 0)
+    total_pages = sum(
+        (r.get("pages_read") or 0)
         for r in client.table(SESSIONS_TABLE)
-        .select("minutes, session_date")
+        .select("pages_read, session_date")
         .eq("session_date", day_str)
         .execute()
         .data
@@ -100,11 +100,11 @@ def _sync_habit_log(client, d: date) -> None:
             .execute()
             .data
         )
-        if total_minutes > 0:
+        if total_pages > 0:
             payload = {
                 "habit_id": h["id"],
                 "entry_date": day_str,
-                "duration_minutes": total_minutes,
+                "duration_minutes": total_pages,
             }
             if existing:
                 client.table("habit_log").update(payload).eq(

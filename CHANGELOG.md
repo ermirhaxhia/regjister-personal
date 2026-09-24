@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2026-09-24
+[MODUL: lexim] [LLOJI: FIX] _sync_habit_log (backend/routes/reading.py) — sinkronizimi me habit_log tani bazohet te faqet e lexuara (pages_read) në vend të minutave — minutat janë opsionale, kështu një ditë me vetëm faqe të regjistruara duhej të dilte "e mbajtur"
+[MODUL: lexim] [LLOJI: FIX] tracking_type validation (backend/models/habits.py) — u shtua "lexim" te pattern-i i lejuar për HabitCreate/HabitUpdate.tracking_type — DB e lejonte tashmë "lexim", por Pydantic e refuzonte me 422 para se kërkesa të arrinte te databaza, duke bllokuar krijimin e zakoneve të leximit nga app-i
 [MODUL: lexim] [LLOJI: SHTIM] lib/api.ts (frontend/lib/api.ts) — tipe dhe funksione klienti për Book/ReadingSession dhe tracking_type "lexim" — mbulon kontratën e re të backend-it për modulin e leximit
 [MODUL: lexim] [LLOJI: SHTIM] Faqja Lexim (frontend/app/panel/zakone/lexim/page.tsx, frontend/app/panel/zakone/lexim/[bookId]/page.tsx) — listë librash (Duke lexuar/Të mbaruara) dhe detaj libri me sesione, progres, statistika, shëno-si-mbaruar, fshirje — menaxhim i plotë i librave dhe sesioneve të leximit jashtë tabelës ditore të zakoneve
 [MODUL: lexim] [LLOJI: SHTIM] Komponentët e leximit (frontend/components/lexim/BookCard.tsx, BookForm.tsx, SessionSheet.tsx, SessionList.tsx) — kartë libri, formë libër i ri, fletë sesioni, listë sesionesh — ndarje në komponentë të vegjël sipas konventës së projektit

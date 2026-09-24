@@ -5,13 +5,13 @@ from pydantic import BaseModel, Field
 
 class HabitCreate(BaseModel):
     name: str = Field(min_length=1)
-    tracking_type: str = Field(pattern="^(binary|duration)$")
+    tracking_type: str = Field(pattern="^(binary|duration|lexim)$")
     is_active: bool = True
 
 
 class HabitUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1)
-    tracking_type: str | None = Field(default=None, pattern="^(binary|duration)$")
+    tracking_type: str | None = Field(default=None, pattern="^(binary|duration|lexim)$")
     is_active: bool | None = None
 
 
