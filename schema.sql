@@ -160,7 +160,7 @@ create trigger sleep_log_set_updated_at
 create table habits (
     id            uuid primary key default gen_random_uuid(),
     name          text not null unique,
-    tracking_type text not null check (tracking_type in ('binary', 'duration', 'koleksion')),
+    tracking_type text not null check (tracking_type in ('binary', 'duration', 'koleksion', 'numer')),
     unit_label    text,           -- kuptimplotë vetëm kur tracking_type = 'koleksion', p.sh. "faqe", "ushtrime"
     is_active     boolean not null default true,
     created_at    timestamptz not null default now(),
@@ -178,11 +178,12 @@ create table habit_log (
     entry_date       date not null default current_date,
     done             boolean,        -- përdoret kur habit-i është 'binary'
     duration_minutes integer check (duration_minutes >= 0),  -- kur është 'duration'
+    count            int check (count >= 0),                 -- kur është 'numer', p.sh. "kafe në ditë"
     note             text,
     created_at       timestamptz not null default now(),
     updated_at       timestamptz not null default now(),
     unique (habit_id, entry_date),
-    constraint habit_log_has_value check (done is not null or duration_minutes is not null)
+    constraint habit_log_has_value check (done is not null or duration_minutes is not null or count is not null)
 );
 
 create index habit_log_entry_date_idx on habit_log (entry_date desc);
@@ -193,7 +194,8 @@ create trigger habit_log_set_updated_at
     for each row execute function moddatetime(updated_at);
 
 -- Siguron përputhjen e rreshtit me llojin e ndjekjes së zakonit:
--- 'binary' kërkon 'done' jo-NULL, 'duration' kërkon 'duration_minutes' jo-NULL.
+-- 'binary' kërkon 'done' jo-NULL, 'duration' kërkon 'duration_minutes' jo-NULL,
+-- 'numer' kërkon 'count' jo-NULL.
 create or replace function habit_log_check_type()
 returns trigger
 language plpgsql
@@ -209,6 +211,8 @@ begin
         raise exception 'Zakoni binar kërkon vlerë te "done" (nuk mund të jetë NULL).';
     elsif v_tracking_type = 'duration' and new.duration_minutes is null then
         raise exception 'Zakoni me kohëzgjatje kërkon vlerë te "duration_minutes" (nuk mund të jetë NULL).';
+    elsif v_tracking_type = 'numer' and new.count is null then
+        raise exception 'Zakoni i llojit numër kërkon vlerë te "count" (nuk mund të jetë NULL).';
     end if;
 
     return new;

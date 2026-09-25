@@ -17,6 +17,7 @@ Ndryshime shtuese ndaj skemës, të numëruara me rradhë; `schema.sql` në rrë
 - `013-mood-log.sql` — Moduli 7 "Humor dhe Energjia": shton `mood_log` (check-in ditor, `log_date` PK, `mood`/`energy` 1-5, `note` opsionale).
 - `014-work-sessions.sql` — Moduli 8 "Orë Pune": shton `work_sessions` (start/end `timestamptz`, `work_date`, `workplace_id` -> `sectors` ON DELETE SET NULL, kohëzgjatje e llogaritur), modeluar sipas `sleep_log`.
 - `015-weekly-review.sql` — Moduli 9 "Rishikimi Javor": shton `weekly_review` (`week_start` PK, `good`/`bad`/`next` opsionale), modeluar sipas `mood_log`; numrat krahasues llogariten nga backend-i, jo nga kjo tabelë.
+- `016-habit-count-type.sql` — shton `tracking_type = 'numer'` te `habits` (p.sh. "kafe në ditë"); shton `habit_log.count`, zgjeron `habit_log_has_value` dhe trigger-in `habit_log_check_type`.
 
 ## Lidhet me
 - `schema.sql` (rrënjë) — burimi i vetëm i së vërtetës për skemën.

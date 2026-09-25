@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: db] [LLOJI: SHTIM] habits/habit_log (schema.sql, db/migrations/016-habit-count-type.sql) — shton llojin e katërt të zakonit "numer" (vlerë numerike ditore, p.sh. kafe/gota uji), kolonën habit_log.count, dhe degën përkatëse te trigger-i habit_log_check_type — mbulon rastin kur zakoni s'është as bool, as kohëzgjatje, as koleksion me total/hyrje
 [MODUL: rishikimi-javor] [LLOJI: SHTIM] Faqja "Java në numra" (frontend/app/panel/rishikimi-javor, frontend/components/rishikimi-javor/) — 4 pllaka metrikash krahasuese javë-me-javë (shpenzime, gjumë, zakone %, hapa/ditë) + formë reflektimi good/bad/next me ruajtje automatike, plus navigim javë-mbrapa/para
 [MODUL: weekly_review] [LLOJI: SHTIM] get_weekly_summary, upsert_weekly_review (backend/routes/weekly_review.py, backend/models/weekly_review.py) — endpoint-e të reja për "Java në numra" (shpenzime, gjumë, zakone %, hapa/ditë krahasuar me javën paraardhëse) dhe reflektim javor good/bad/next
 [MODUL: db] [LLOJI: SHTIM] weekly_review (db/migrations/015-weekly-review.sql, schema.sql) — tabelë e re për Modulin "Rishikimi Javor" (week_start PK, good/bad/next opsionale) — numrat krahasues (shpenzime/gjumë/zakone/hapa) llogariten nga backend nga module ekzistuese, s'kërkojnë tabelë
