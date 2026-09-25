@@ -857,13 +857,15 @@ export interface DaySleep {
 }
 
 export interface DayHabit {
-  id: string;
+  id: string | null;
   habit_id: string;
   name: string;
   tracking_type: HabitTrackingType;
+  unit_label: string | null;
   done: boolean | null;
   duration_minutes: number | null;
   note: string | null;
+  met: boolean;
 }
 
 export interface DayFitness {
@@ -875,6 +877,7 @@ export interface DayFitness {
 
 export interface DayNote {
   id: string;
+  colleague_id: string;
   colleague_name: string;
   note: string;
 }

@@ -20,6 +20,7 @@ interface Props {
   activityType: ActivityType | null;
   units: ActivityUnit[];
   initial?: FitnessEntry | null;
+  defaultDate?: string;
   onClose: () => void;
   onSaved: (row: FitnessEntry, mode: SaveMode) => void;
 }
@@ -36,6 +37,7 @@ export default function EntryModal({
   activityType,
   units,
   initial,
+  defaultDate,
   onClose,
   onSaved,
 }: Props) {
@@ -50,7 +52,9 @@ export default function EntryModal({
     }
     return out;
   });
-  const [date, setDate] = useState(initial?.entry_date ?? todayISO());
+  const [date, setDate] = useState(
+    initial?.entry_date ?? defaultDate ?? todayISO(),
+  );
   const [note, setNote] = useState(initial?.note ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);

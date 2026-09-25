@@ -13,28 +13,36 @@ interface Props {
   onClose: () => void;
   onSaved: (row: Sleep, mode: SaveMode) => void;
   initial?: Sleep | null;
+  defaultDate?: string;
 }
 
-function defaultStart(): string {
-  const d = new Date();
+function defaultStart(anchor?: string): string {
+  const d = anchor ? new Date(`${anchor}T00:00:00`) : new Date();
   d.setHours(23, 0, 0, 0);
-  d.setDate(d.getDate() - 1);
+  if (!anchor) d.setDate(d.getDate() - 1);
   return toDatetimeLocal(d);
 }
 
-function defaultEnd(): string {
-  const d = new Date();
+function defaultEnd(anchor?: string): string {
+  const d = anchor ? new Date(`${anchor}T00:00:00`) : new Date();
   d.setHours(7, 0, 0, 0);
+  if (anchor) d.setDate(d.getDate() + 1);
   return toDatetimeLocal(d);
 }
 
-export default function SleepSheet({ open, onClose, onSaved, initial }: Props) {
+export default function SleepSheet({
+  open,
+  onClose,
+  onSaved,
+  initial,
+  defaultDate,
+}: Props) {
   const editing = Boolean(initial);
   const [start, setStart] = useState(
-    initial ? toDatetimeLocal(initial.sleep_start) : defaultStart(),
+    initial ? toDatetimeLocal(initial.sleep_start) : defaultStart(defaultDate),
   );
   const [end, setEnd] = useState(
-    initial ? toDatetimeLocal(initial.sleep_end) : defaultEnd(),
+    initial ? toDatetimeLocal(initial.sleep_end) : defaultEnd(defaultDate),
   );
   const [note, setNote] = useState(initial?.note ?? "");
   const [busy, setBusy] = useState(false);

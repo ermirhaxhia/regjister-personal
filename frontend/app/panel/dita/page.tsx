@@ -15,7 +15,7 @@ export default function DayPage() {
 
   const fetchDay = useCallback(() => getDay(date), [date]);
   const applyDay = useCallback((d: DayView) => setDay(d), []);
-  const { status, reload } = useGenLoad(fetchDay, applyDay);
+  const { status, reload, refresh } = useGenLoad(fetchDay, applyDay);
 
   const refreshing = status === "refreshing";
 
@@ -39,7 +39,7 @@ export default function DayPage() {
           }
           aria-busy={refreshing}
         >
-          <DayBoard day={day} />
+          <DayBoard day={day} onChanged={refresh} />
         </div>
       )}
     </div>

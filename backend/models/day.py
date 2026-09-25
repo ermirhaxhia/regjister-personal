@@ -48,6 +48,7 @@ class DayFitness(BaseModel):
 
 class DayNote(BaseModel):
     id: str
+    colleague_id: str
     colleague_name: str
     note: str
 

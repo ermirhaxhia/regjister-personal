@@ -24,6 +24,7 @@ interface Props {
   onSaved: (row: Income, mode: SaveMode) => void;
   initial?: Income | null;
   sources?: string[];
+  defaultDate?: string;
 }
 
 export default function IncomeSheet({
@@ -32,6 +33,7 @@ export default function IncomeSheet({
   onSaved,
   initial,
   sources = [],
+  defaultDate,
 }: Props) {
   const selectId = useId();
   const editing = Boolean(initial);
@@ -47,10 +49,12 @@ export default function IncomeSheet({
   const [amount, setAmount] = useState(initial ? initial.amount : "");
   const [kind, setKind] = useState<IncomeKind>(initial?.kind ?? "paga");
   const [month, setMonth] = useState(
-    initial ? initial.period_month.slice(0, 7) : todayISO().slice(0, 7),
+    initial
+      ? initial.period_month.slice(0, 7)
+      : (defaultDate ?? todayISO()).slice(0, 7),
   );
   const [receivedOn, setReceivedOn] = useState(
-    initial?.received_on ?? todayISO(),
+    initial?.received_on ?? defaultDate ?? todayISO(),
   );
   const [source, setSource] = useState(
     initial?.source ?? (options.length === 0 ? NEW_SOURCE : NO_SOURCE),

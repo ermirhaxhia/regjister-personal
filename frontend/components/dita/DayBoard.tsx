@@ -1,130 +1,96 @@
-import type { DayView } from "@/lib/api";
-import { formatALL } from "@/lib/money";
-import { EmptyState } from "@/components/common/States";
+"use client";
+
+import { useCallback, useState } from "react";
 import {
-  IconActivity,
-  IconBanknote,
-  IconHabits,
-  IconMoon,
-  IconReceipt,
-  IconUsers,
-} from "@/components/icons";
-import DaySection from "@/components/dita/DaySection";
-import {
-  ExpenseRow,
-  FitnessRow,
-  HabitRow,
-  IncomeRow,
-  NoteRow,
-  SleepRow,
-} from "@/components/dita/DayRows";
+  listExpenseCategories,
+  listIncomeSources,
+  listActivityTypes,
+  listUnits,
+  listContacts,
+  type ActivityType,
+  type ActivityUnit,
+  type Contact,
+  type DayView,
+} from "@/lib/api";
+import { useGenLoad } from "@/lib/useGenLoad";
+import DayExpensesSection from "@/components/dita/DayExpensesSection";
+import DayIncomeSection from "@/components/dita/DayIncomeSection";
+import DaySleepSection from "@/components/dita/DaySleepSection";
+import DayHabitsSection from "@/components/dita/DayHabitsSection";
+import DayFitnessSection from "@/components/dita/DayFitnessSection";
+import DayNotesSection from "@/components/dita/DayNotesSection";
 
-function isDayEmpty(day: DayView): boolean {
-  return (
-    day.expenses.length === 0 &&
-    day.incomes.length === 0 &&
-    day.sleep.length === 0 &&
-    day.habits.length === 0 &&
-    day.fitness.length === 0 &&
-    day.notes.length === 0
+type RefData = [string[], string[], ActivityType[], ActivityUnit[], Contact[]];
+
+export default function DayBoard({
+  day,
+  onChanged,
+}: {
+  day: DayView;
+  onChanged: () => void;
+}) {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [sources, setSources] = useState<string[]>([]);
+  const [types, setTypes] = useState<ActivityType[]>([]);
+  const [units, setUnits] = useState<ActivityUnit[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+
+  const fetchRefs = useCallback(
+    (): Promise<RefData> =>
+      Promise.all([
+        listExpenseCategories().then((rows) => rows.map((c) => c.name)),
+        listIncomeSources().then((rows) => rows.map((s) => s.name)),
+        listActivityTypes(),
+        listUnits(),
+        listContacts(),
+      ]),
+    [],
   );
-}
-
-function TotalFooter({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between border-t border-border px-4 py-2.5">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-text-lo">
-        {label}
-      </span>
-      <span className="font-mono text-[13px] font-semibold text-text-hi">
-        {formatALL(value)}
-      </span>
-    </div>
-  );
-}
-
-export default function DayBoard({ day }: { day: DayView }) {
-  if (isDayEmpty(day)) {
-    return (
-      <EmptyState title="Ditë e qetë — asgjë e regjistruar për këtë ditë" />
-    );
-  }
+  const applyRefs = useCallback(([c, s, t, u, ct]: RefData) => {
+    setCategories(c);
+    setSources(s);
+    setTypes(t);
+    setUnits(u);
+    setContacts(ct);
+  }, []);
+  useGenLoad(fetchRefs, applyRefs);
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <DaySection
-        icon={IconReceipt}
-        title="Shpenzime"
-        accent="orange"
-        count={day.expenses.length}
-        isEmpty={day.expenses.length === 0}
-        footer={<TotalFooter label="Gjithsej" value={day.expenses_total} />}
-      >
-        {day.expenses.map((e) => (
-          <ExpenseRow key={e.id} item={e} />
-        ))}
-      </DaySection>
+      <DayExpensesSection
+        date={day.date}
+        items={day.expenses}
+        total={day.expenses_total}
+        categories={categories}
+        onChanged={onChanged}
+      />
 
-      <DaySection
-        icon={IconBanknote}
-        title="Të ardhura"
-        accent="orange"
-        count={day.incomes.length}
-        isEmpty={day.incomes.length === 0}
-        footer={<TotalFooter label="Gjithsej" value={day.income_total} />}
-      >
-        {day.incomes.map((i) => (
-          <IncomeRow key={i.id} item={i} />
-        ))}
-      </DaySection>
+      <DayIncomeSection
+        date={day.date}
+        items={day.incomes}
+        total={day.income_total}
+        sources={sources}
+        onChanged={onChanged}
+      />
 
-      <DaySection
-        icon={IconMoon}
-        title="Gjumi"
-        accent="violet"
-        count={day.sleep.length}
-        isEmpty={day.sleep.length === 0}
-      >
-        {day.sleep.map((s) => (
-          <SleepRow key={s.id} item={s} />
-        ))}
-      </DaySection>
+      <DaySleepSection date={day.date} items={day.sleep} onChanged={onChanged} />
 
-      <DaySection
-        icon={IconHabits}
-        title="Zakone"
-        accent="violet"
-        count={day.habits.length}
-        isEmpty={day.habits.length === 0}
-      >
-        {day.habits.map((h) => (
-          <HabitRow key={h.id} item={h} />
-        ))}
-      </DaySection>
+      <DayHabitsSection date={day.date} items={day.habits} onChanged={onChanged} />
 
-      <DaySection
-        icon={IconActivity}
-        title="Aktivitet"
-        accent="orange"
-        count={day.fitness.length}
-        isEmpty={day.fitness.length === 0}
-      >
-        {day.fitness.map((f) => (
-          <FitnessRow key={f.id} item={f} />
-        ))}
-      </DaySection>
+      <DayFitnessSection
+        date={day.date}
+        items={day.fitness}
+        types={types}
+        units={units}
+        onChanged={onChanged}
+      />
 
-      <DaySection
-        icon={IconUsers}
-        title="Shënime"
-        accent="violet"
-        count={day.notes.length}
-        isEmpty={day.notes.length === 0}
-      >
-        {day.notes.map((n) => (
-          <NoteRow key={n.id} item={n} />
-        ))}
-      </DaySection>
+      <DayNotesSection
+        date={day.date}
+        items={day.notes}
+        contacts={contacts}
+        onChanged={onChanged}
+      />
     </div>
   );
 }

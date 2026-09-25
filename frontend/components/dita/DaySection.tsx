@@ -8,6 +8,7 @@ interface Props {
   isEmpty: boolean;
   emptyLabel?: string;
   footer?: ReactNode;
+  action?: ReactNode;
   children: ReactNode;
 }
 
@@ -19,6 +20,7 @@ export default function DaySection({
   isEmpty,
   emptyLabel = "asgjë atë ditë",
   footer,
+  action,
   children,
 }: Props) {
   return (
@@ -38,6 +40,7 @@ export default function DaySection({
         {count != null && count > 0 && (
           <span className="font-mono text-[11px] text-text-lo">{count}</span>
         )}
+        {action}
       </header>
 
       {isEmpty ? (

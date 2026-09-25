@@ -188,6 +188,7 @@ def get_day(d: date) -> DayView:
     notes = [
         DayNote(
             id=r["id"],
+            colleague_id=r["colleague_id"],
             colleague_name=_colleague_name(colleagues_map.get(r["colleague_id"]) or {}),
             note=r["note"],
         )
