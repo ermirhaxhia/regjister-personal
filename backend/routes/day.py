@@ -100,15 +100,15 @@ def get_day(d: date) -> DayView:
         .data
     )
 
-    habits_map: dict[str, dict] = {}
-    if habit_rows:
-        habits_map = {
-            h["id"]: h
-            for h in client.table(HABITS)
-            .select("id, name, tracking_type")
-            .execute()
-            .data
-        }
+    active_habits = (
+        client.table(HABITS)
+        .select("id, name, tracking_type, unit_label")
+        .eq("is_active", True)
+        .order("name")
+        .execute()
+        .data
+    )
+    habit_log_map: dict[str, dict] = {r["habit_id"]: r for r in habit_rows}
     types_map: dict[str, str] = {}
     if fitness_rows:
         types_map = {
@@ -154,18 +154,28 @@ def get_day(d: date) -> DayView:
         )
         for r in sleep_rows
     ]
-    habits = [
-        DayHabit(
-            id=r["id"],
-            habit_id=r["habit_id"],
-            name=(habits_map.get(r["habit_id"]) or {}).get("name", ""),
-            tracking_type=(habits_map.get(r["habit_id"]) or {}).get("tracking_type", ""),
-            done=r.get("done"),
-            duration_minutes=r.get("duration_minutes"),
-            note=r.get("note"),
+    habits = []
+    for habit in active_habits:
+        log = habit_log_map.get(habit["id"])
+        done = log.get("done") if log else None
+        duration = log.get("duration_minutes") if log else None
+        if habit["tracking_type"] == "binary":
+            met = done is True
+        else:
+            met = duration is not None and duration > 0
+        habits.append(
+            DayHabit(
+                id=log.get("id") if log else None,
+                habit_id=habit["id"],
+                name=habit["name"],
+                tracking_type=habit["tracking_type"],
+                unit_label=habit.get("unit_label"),
+                done=done,
+                duration_minutes=duration,
+                note=log.get("note") if log else None,
+                met=met,
+            )
         )
-        for r in habit_rows
-    ]
     fitness = [
         DayFitness(
             id=r["id"],

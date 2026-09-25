@@ -28,13 +28,15 @@ class DaySleep(BaseModel):
 
 
 class DayHabit(BaseModel):
-    id: str
+    id: str | None = None
     habit_id: str
     name: str
     tracking_type: str
+    unit_label: str | None = None
     done: bool | None = None
     duration_minutes: int | None = None
     note: str | None = None
+    met: bool
 
 
 class DayFitness(BaseModel):
