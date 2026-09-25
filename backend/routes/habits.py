@@ -115,13 +115,16 @@ def habit_grid(days: int = Query(default=14, ge=7, le=60)):
             entry = entries.get(day.isoformat())
             done = entry["done"] if entry else None
             duration = entry["duration_minutes"] if entry else None
+            count = entry["count"] if entry else None
             if habit["tracking_type"] == "binary":
                 met = done is True
+            elif habit["tracking_type"] == "numer":
+                met = count is not None and count > 0
             else:
                 met = duration is not None and duration > 0
             cells.append(
                 HabitGridCell(
-                    date=day, done=done, duration_minutes=duration, met=met
+                    date=day, done=done, duration_minutes=duration, count=count, met=met
                 )
             )
         streak = 0
@@ -184,6 +187,10 @@ def upsert_habit_log(habit_id: str, entry_date: date, body: HabitLogUpsert):
         raise HTTPException(
             status.HTTP_400_BAD_REQUEST,
             "Zakoni me kohëzgjatje kërkon fushën 'duration_minutes'",
+        )
+    if habit["tracking_type"] == "numer" and body.count is None:
+        raise HTTPException(
+            status.HTTP_400_BAD_REQUEST, "Zakoni i llojit numër kërkon fushën 'count'"
         )
     payload = {
         **body.model_dump(mode="json", exclude_none=True),

@@ -35,6 +35,7 @@ class DayHabit(BaseModel):
     unit_label: str | None = None
     done: bool | None = None
     duration_minutes: int | None = None
+    count: int | None = None
     note: str | None = None
     met: bool
 

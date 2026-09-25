@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: burime-njerezore] [LLOJI: SHTIM] ColdContactsSection (frontend/components/burime-njerezore/ColdContactsSection.tsx, app/panel/burime-njerezore/page.tsx) — seksion i ri "Kontakte të ftohura" te faqja Burime Njerëzore, kolegët renditur sipas ditëve që nga shënimi i fundit, plotësisht client-side (pa ndryshim backend)
+[MODUL: habits] [LLOJI: SHTIM] mbeshtetje per tracking_type 'numer' (backend/models/habits.py, backend/models/day.py, backend/routes/habits.py, backend/routes/day.py, backend/routes/weekly_review.py, backend/core/correlations.py, backend/routes/insights.py) — shtuar fusha 'count' dhe llogaritja 'met' per zakonet e llojit numer (p.sh. kafe, gota uje) ne grid, day, weekly-review dhe correlations
 [MODUL: db] [LLOJI: SHTIM] habits/habit_log (schema.sql, db/migrations/016-habit-count-type.sql) — shton llojin e katërt të zakonit "numer" (vlerë numerike ditore, p.sh. kafe/gota uji), kolonën habit_log.count, dhe degën përkatëse te trigger-i habit_log_check_type — mbulon rastin kur zakoni s'është as bool, as kohëzgjatje, as koleksion me total/hyrje
 [MODUL: rishikimi-javor] [LLOJI: SHTIM] Faqja "Java në numra" (frontend/app/panel/rishikimi-javor, frontend/components/rishikimi-javor/) — 4 pllaka metrikash krahasuese javë-me-javë (shpenzime, gjumë, zakone %, hapa/ditë) + formë reflektimi good/bad/next me ruajtje automatike, plus navigim javë-mbrapa/para
 [MODUL: weekly_review] [LLOJI: SHTIM] get_weekly_summary, upsert_weekly_review (backend/routes/weekly_review.py, backend/models/weekly_review.py) — endpoint-e të reja për "Java në numra" (shpenzime, gjumë, zakone %, hapa/ditë krahasuar me javën paraardhëse) dhe reflektim javor good/bad/next

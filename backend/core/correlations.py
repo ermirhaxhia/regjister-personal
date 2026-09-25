@@ -59,6 +59,9 @@ def _habit_rate_by_date(habit_log_rows: list[dict], habits: list[dict]) -> dict[
                 continue
             if tracking_type == "binary":
                 met = log.get("done") is True
+            elif tracking_type == "numer":
+                cnt = log.get("count")
+                met = cnt is not None and cnt > 0
             else:
                 dur = log.get("duration_minutes")
                 met = dur is not None and dur > 0

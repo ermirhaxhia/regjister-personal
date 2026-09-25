@@ -75,7 +75,7 @@ def _habit_rate_pct(client, start: date, end: date) -> float | None:
         return None
     log_rows = (
         client.table(HABIT_LOG)
-        .select("entry_date, habit_id, done, duration_minutes")
+        .select("entry_date, habit_id, done, duration_minutes, count")
         .gte("entry_date", start.isoformat())
         .lte("entry_date", end.isoformat())
         .execute()
@@ -95,6 +95,9 @@ def _habit_rate_pct(client, start: date, end: date) -> float | None:
             log = day_logs.get(habit["id"])
             if habit["tracking_type"] == "binary":
                 met = bool(log and log.get("done") is True)
+            elif habit["tracking_type"] == "numer":
+                count = log.get("count") if log else None
+                met = count is not None and count > 0
             else:
                 duration = log.get("duration_minutes") if log else None
                 met = duration is not None and duration > 0

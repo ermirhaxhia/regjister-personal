@@ -2,16 +2,25 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
-import { listWorkplaces, type Workplace } from "@/lib/api";
+import { listWorkplaces, listContacts, type Workplace, type Contact } from "@/lib/api";
 import { useGenLoad } from "@/lib/useGenLoad";
 import PageHeader from "@/components/common/PageHeader";
 import { LoadingBlock, ErrorState, EmptyState } from "@/components/common/States";
 import WorkplaceCard from "@/components/hr/WorkplaceCard";
+import ColdContactsSection from "@/components/burime-njerezore/ColdContactsSection";
 
 export default function WorkplacesPage() {
   const [items, setItems] = useState<Workplace[]>([]);
-  const apply = useCallback((list: Workplace[]) => setItems(list), []);
-  const { status, reload } = useGenLoad(listWorkplaces, apply);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const fetchAll = useCallback(
+    () => Promise.all([listWorkplaces(), listContacts()]),
+    [],
+  );
+  const apply = useCallback(([wps, cs]: [Workplace[], Contact[]]) => {
+    setItems(wps);
+    setContacts(cs);
+  }, []);
+  const { status, reload } = useGenLoad(fetchAll, apply);
 
   const ready = status === "ready" || status === "refreshing";
   const totalContacts = items.reduce((s, w) => s + w.contact_count, 0);
@@ -53,6 +62,10 @@ export default function WorkplacesPage() {
             <WorkplaceCard key={w.id} item={w} />
           ))}
         </div>
+      )}
+
+      {ready && items.length > 0 && (
+        <ColdContactsSection contacts={contacts} workplaces={items} />
       )}
     </div>
   );

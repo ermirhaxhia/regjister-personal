@@ -77,7 +77,7 @@ def get_day(d: date) -> DayView:
     )
     habit_rows = (
         client.table(HABIT_LOG)
-        .select("id, habit_id, done, duration_minutes, note, created_at")
+        .select("id, habit_id, done, duration_minutes, count, note, created_at")
         .eq("entry_date", iso)
         .order("created_at")
         .execute()
@@ -159,8 +159,11 @@ def get_day(d: date) -> DayView:
         log = habit_log_map.get(habit["id"])
         done = log.get("done") if log else None
         duration = log.get("duration_minutes") if log else None
+        count = log.get("count") if log else None
         if habit["tracking_type"] == "binary":
             met = done is True
+        elif habit["tracking_type"] == "numer":
+            met = count is not None and count > 0
         else:
             met = duration is not None and duration > 0
         habits.append(
@@ -172,6 +175,7 @@ def get_day(d: date) -> DayView:
                 unit_label=habit.get("unit_label"),
                 done=done,
                 duration_minutes=duration,
+                count=count,
                 note=log.get("note") if log else None,
                 met=met,
             )

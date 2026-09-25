@@ -39,7 +39,7 @@ def get_insights() -> InsightsRead:
     sleep_rows = client.table(SLEEP).select("night_date, duration_minutes").execute().data
     habit_log_rows = (
         client.table(HABIT_LOG)
-        .select("habit_id, entry_date, done, duration_minutes")
+        .select("habit_id, entry_date, done, duration_minutes, count")
         .execute()
         .data
     )
@@ -70,7 +70,7 @@ def get_correlations() -> CorrelationsRead:
     expense_rows = client.table(EXPENSES).select("amount, entry_date").execute().data
     habit_log_rows = (
         client.table(HABIT_LOG)
-        .select("habit_id, entry_date, done, duration_minutes")
+        .select("habit_id, entry_date, done, duration_minutes, count")
         .execute()
         .data
     )
