@@ -20,6 +20,7 @@ import DayHabitsSection from "@/components/dita/DayHabitsSection";
 import DayFitnessSection from "@/components/dita/DayFitnessSection";
 import DayNotesSection from "@/components/dita/DayNotesSection";
 import DayMoodSection from "@/components/dita/DayMoodSection";
+import DayWorkSection from "@/components/dita/DayWorkSection";
 
 type RefData = [string[], string[], ActivityType[], ActivityUnit[], Contact[]];
 
@@ -79,6 +80,8 @@ export default function DayBoard({
       <DayHabitsSection date={day.date} items={day.habits} onChanged={onChanged} />
 
       <DayMoodSection date={day.date} />
+
+      <DayWorkSection date={day.date} onChanged={onChanged} />
 
       <DayFitnessSection
         date={day.date}

@@ -344,6 +344,17 @@ export function IconBook(props: IconProps) {
   );
 }
 
+export function IconBriefcase(props: IconProps) {
+  return (
+    <Line {...props}>
+      <rect x="3" y="8" width="18" height="11.5" rx="2" />
+      <path d="M8.5 8V6a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2" />
+      <path d="M3 13.2h18" />
+      <path d="M10.5 13.2v1.6h3v-1.6" />
+    </Line>
+  );
+}
+
 export function IconSpark(props: IconProps) {
   return (
     <Line {...props}>

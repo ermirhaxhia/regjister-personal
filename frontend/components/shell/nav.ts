@@ -10,6 +10,7 @@ import {
   IconHabits,
   IconActivity,
   IconUsers,
+  IconBriefcase,
   IconSliders,
   IconLogout,
 } from "@/components/icons";
@@ -36,6 +37,7 @@ export const MODULES: NavItem[] = [
   { href: "/panel/gjumi", label: "Gjumi", icon: IconMoon, countKey: "sleep" },
   { href: "/panel/zakone", label: "Zakone", icon: IconHabits, countKey: "habits" },
   { href: "/panel/aktivitet", label: "Aktivitet", icon: IconActivity, countKey: "fitness" },
+  { href: "/panel/ore-pune", label: "Orë Pune", icon: IconBriefcase },
   { href: "/panel/burime-njerezore", label: "Burime Njerëzore", icon: IconUsers, countKey: "hr" },
 ];
 

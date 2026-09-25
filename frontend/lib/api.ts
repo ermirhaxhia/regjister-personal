@@ -782,6 +782,72 @@ export function deleteWorkplace(id: string): Promise<void> {
   return apiDelete(`/workplaces/${id}`);
 }
 
+export interface WorkSession {
+  id: string;
+  start_ts: string;
+  end_ts: string;
+  work_date: string;
+  workplace_id: string | null;
+  workplace_name: string | null;
+  duration_minutes: number;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WorkSessionInput {
+  start_ts: string;
+  end_ts: string;
+  work_date?: string;
+  workplace_id?: string | null;
+  note?: string | null;
+}
+
+export type WorkSessionPatch = Partial<WorkSessionInput>;
+
+export interface WorkSummary {
+  total_hours: number;
+  days_worked: number;
+  avg_hours_per_day: number;
+}
+
+export function listWorkSessions(
+  dateFrom?: string,
+  dateTo?: string,
+): Promise<WorkSession[]> {
+  return apiGet<WorkSession[]>(
+    `/work-sessions${qs({ date_from: dateFrom, date_to: dateTo })}`,
+  );
+}
+
+export function createWorkSession(body: WorkSessionInput): Promise<WorkSession> {
+  return apiPost<WorkSession>("/work-sessions", body);
+}
+
+export function getWorkSession(id: string): Promise<WorkSession> {
+  return apiGet<WorkSession>(`/work-sessions/${id}`);
+}
+
+export function updateWorkSession(
+  id: string,
+  patch: WorkSessionPatch,
+): Promise<WorkSession> {
+  return apiPatch<WorkSession>(`/work-sessions/${id}`, patch);
+}
+
+export function deleteWorkSession(id: string): Promise<void> {
+  return apiDelete(`/work-sessions/${id}`);
+}
+
+export function getWorkSummary(
+  dateFrom?: string,
+  dateTo?: string,
+): Promise<WorkSummary> {
+  return apiGet<WorkSummary>(
+    `/work-sessions/summary${qs({ date_from: dateFrom, date_to: dateTo })}`,
+  );
+}
+
 export interface Contact {
   id: string;
   name: string;

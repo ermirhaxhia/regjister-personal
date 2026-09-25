@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: ore-pune] [LLOJI: SHTIM] Faqja Orë Pune, seksioni i Ditës, klienti API (frontend/app/panel/ore-pune, frontend/components/ore-pune, frontend/components/dita/DayWorkSection.tsx, frontend/lib/api.ts) — listë/shto/redakto/fshi seancash pune me krye KPI (orë, ditë, mesatare) dhe integrim te Dita
 [MODUL: work] [LLOJI: SHTIM] work-sessions (backend/routes/work.py, backend/models/work.py) — endpoint-e CRUD + summary për regjistrimin manual të orëve të punës (start/end, vend pune, shënim) — mbështet modulin e ri "Orë pune" mbi tabelën work_sessions
 [MODUL: db] [LLOJI: SHTIM] work_sessions (db/migrations/014-work-sessions.sql, schema.sql) — tabelë e re për seancat e punës (fillim/mbarim, vend pune lidhur me sectors, kohëzgjatje e llogaritur nga DB) — mbështet modulin e ri "Orë Pune"
 [MODUL: dashboard] [LLOJI: SHTIM] KpiTiles (frontend/components/dashboard/KpiTiles.tsx, frontend/app/panel/dashboard/page.tsx, frontend/lib/api.ts) — shtoi tri pllaka KPI në krye të Dashboard-it: Norma e kursimit (me krahasim pikë-përqindje ndaj muajit paraardhës), Runway, Plotësia e regjistrimit
