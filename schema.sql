@@ -160,7 +160,8 @@ create trigger sleep_log_set_updated_at
 create table habits (
     id            uuid primary key default gen_random_uuid(),
     name          text not null unique,
-    tracking_type text not null check (tracking_type in ('binary', 'duration', 'lexim')),
+    tracking_type text not null check (tracking_type in ('binary', 'duration', 'koleksion')),
+    unit_label    text,           -- kuptimplotë vetëm kur tracking_type = 'koleksion', p.sh. "faqe", "ushtrime"
     is_active     boolean not null default true,
     created_at    timestamptz not null default now(),
     updated_at    timestamptz not null default now()
@@ -220,41 +221,47 @@ create trigger habit_log_check_type_trg
 
 
 -- ============================================================================
--- MODULI I LEXIMIT (books / reading_sessions)
--- Aktivizohet kur një zakon ka tracking_type = 'lexim'; libri dhe sesionet e
--- leximit menaxhohen te faqja e dedikuar "Lexim", jo si hyrje te habit_log.
+-- MODULI I KOLEKSIONEVE (collections / collection_entries)
+-- Sistem i përgjithshëm progresi: total (opsional) + hyrje kumulative, jo
+-- vetëm për lexim — mund të përdoret për libra, ushtrime, projekte, etj.
+-- Aktivizohet kur një zakon ka tracking_type = 'koleksion' (unit_label thotë
+-- çfarë njësie mat, p.sh. "faqe"); koleksioni dhe hyrjet e tij menaxhohen te
+-- faqja e dedikuar, jo si rreshta te habit_log.
 -- ============================================================================
-create table books (
+create table collections (
     id           uuid primary key default gen_random_uuid(),
+    habit_id     uuid not null references habits (id) on delete cascade,
     title        text not null,
     author       text,
-    total_pages  int  not null check (total_pages > 0),
-    status       text not null default 'reading' check (status in ('reading', 'finished')),
+    total_amount int  check (total_amount is null or total_amount > 0),  -- opsional: pa total të njohur ende
+    status       text not null default 'active' check (status in ('active', 'paused', 'finished')),
     created_at   timestamptz not null default now(),
     updated_at   timestamptz not null default now()
 );
 
-create trigger books_set_updated_at
-    before update on books
+create index collections_habit_id_idx on collections (habit_id);
+
+create trigger collections_set_updated_at
+    before update on collections
     for each row execute function moddatetime(updated_at);
 
 
-create table reading_sessions (
+create table collection_entries (
     id           uuid primary key default gen_random_uuid(),
-    book_id      uuid not null references books (id) on delete cascade,
-    session_date date not null default current_date,
-    pages_read   int  not null check (pages_read > 0),
+    collection_id uuid not null references collections (id) on delete cascade,
+    entry_date   date not null default current_date,
+    amount       int  not null check (amount > 0),
     minutes      int  check (minutes >= 0),
     note         text,
     created_at   timestamptz not null default now(),
     updated_at   timestamptz not null default now()
 );
 
-create index reading_sessions_book_id_idx      on reading_sessions (book_id);
-create index reading_sessions_session_date_idx on reading_sessions (session_date desc);
+create index collection_entries_collection_id_idx on collection_entries (collection_id);
+create index collection_entries_entry_date_idx    on collection_entries (entry_date desc);
 
-create trigger reading_sessions_set_updated_at
-    before update on reading_sessions
+create trigger collection_entries_set_updated_at
+    before update on collection_entries
     for each row execute function moddatetime(updated_at);
 
 

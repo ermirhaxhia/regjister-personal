@@ -137,6 +137,7 @@ def habit_grid(days: int = Query(default=14, ge=7, le=60)):
                 id=habit["id"],
                 name=habit["name"],
                 tracking_type=habit["tracking_type"],
+                unit_label=habit.get("unit_label"),
                 cells=cells,
                 streak_current=streak,
                 rate_pct=rate,

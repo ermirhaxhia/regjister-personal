@@ -1,6 +1,15 @@
 # CHANGELOG
 
+## 2026-09-25
+[MODUL: koleksione] [LLOJI: SHTIM] unit_label i zakoneve (backend/models/habits.py, backend/routes/habits.py) — HabitCreate/HabitUpdate/HabitRead/HabitGridRow marrin fushën opsionale unit_label — mungonte plotësisht, ndaj emri i njësisë (p.sh. "faqe", "ushtrime") s'mund të ruhej/lexohej nga API-ja e zakoneve, edhe pse kolona ekziston në DB që nga migrimi 010
+[MODUL: koleksione] [LLOJI: FIX] delete_collection (backend/routes/collections.py) — sinkronizon habit_log për datat e prekura kur fshihet një koleksion — evitohej lënia e rreshtave "stale" në habit_log pas fshirjes së koleksionit
+[MODUL: koleksione] [LLOJI: FIX] tracking_type validation (backend/models/habits.py) — Field pattern i HabitCreate/HabitUpdate.tracking_type ndryshua nga "lexim" në "koleksion" — migrimi 010 e ndryshoi check-un e DB nga 'lexim' në 'koleksion', dhe Pydantic po refuzonte me 422 para se kërkesa të arrinte te DB
+[MODUL: koleksione] [LLOJI: NDRYSHIM] modul koleksione (backend/routes/collections.py, backend/models/collections.py) — zëvendëson modulin e vjetër specifik për lexim (books/reading_sessions) me API të përgjithshëm koleksionesh lidhur me zakone tracking_type='koleksion' (habit_id i detyrueshëm, total_amount opsional, status active/paused/finished) — mbështet çdo lloj koleksioni progresi (libra, ushtrime, projekte), jo vetëm lexim, sipas migrimit 010
+[MODUL: koleksione] [LLOJI: HEQJE] modul reading (backend/routes/reading.py, backend/models/reading.py) — hequr CRUD /books dhe /books/{id}/sessions — zëvendësuar plotësisht nga modul koleksione
+
 ## 2026-09-24
+[MODUL: db] [LLOJI: FIX] collection_entries.entry_date (db/migrations/011-collection-entries-entry-date.sql) — migrimi 010 riemërtoi book_id/pages_read por harroi session_date→entry_date, duke lënë bazën jokonsistente me schema.sql dhe backend-in e ri
+[MODUL: db] [LLOJI: NDRYSHIM] koleksione (db/migrations/010-collections.sql, schema.sql) — përgjithësohet moduli i Leximit (books/reading_sessions) në collections/collection_entries të lidhura me habits.tracking_type='koleksion' (total opsional, status active/paused/finished) — ripërdorim i të njëjtit mekanizëm progresi për çdo koleksion (libra, ushtrime, etj.), jo vetëm lexim
 [MODUL: lexim] [LLOJI: FIX] HabitSheet (frontend/components/zakone/HabitSheet.tsx) — shtoi opsionin "Lexim (libra)" dhe hintin përkatës te selecti i llojit të ndjekjes në dritaren e editimit të zakonit — më parë mungonte, ndaj një zakon ekzistues s'mund të konvertohej në "lexim" nga UI, edhe pse krijimi i një zakoni të ri e lejonte tashmë
 [MODUL: zakone] [LLOJI: FIX] HabitHistory (frontend/components/zakone/HabitHistory.tsx) — shkronjat e header-it të javës u zëvendësuan me shkurtesa 3-shkronjëshe të dallueshme (Die/Hën/Mar/Mër/Enj/Pre/Sht) — Martë dhe Mërkurë kishin të dyja "M", të pallogaritshme në historikun 14/30-ditor
 [MODUL: zakone] [LLOJI: HEQJE] tekste gjenerike (frontend/app/panel/zakone/page.tsx, frontend/components/zakone/HabitsTable.tsx) — u hoqën dy paragrafë instruksionesh gjenerike (mbi ekran dhe mbi tabelë) që përsërisnin çfarë tregonte tashmë legjenda/UI-ja — thjeshtim vizual, informacioni ishte i tepërt

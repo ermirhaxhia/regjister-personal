@@ -5,6 +5,7 @@ from core.config import get_settings
 from routes import (
     activity_types,
     auth,
+    collections,
     contacts,
     dashboard,
     day,
@@ -15,7 +16,6 @@ from routes import (
     income,
     income_sources,
     insights,
-    reading,
     settings as settings_route,
     sleep,
     summary,
@@ -36,6 +36,7 @@ app.add_middleware(
 
 app.include_router(activity_types.router)
 app.include_router(auth.router)
+app.include_router(collections.router)
 app.include_router(contacts.router)
 app.include_router(dashboard.router)
 app.include_router(day.router)
@@ -46,7 +47,6 @@ app.include_router(habits.router)
 app.include_router(income.router)
 app.include_router(income_sources.router)
 app.include_router(insights.router)
-app.include_router(reading.router)
 app.include_router(settings_route.router)
 app.include_router(sleep.router)
 app.include_router(summary.router)

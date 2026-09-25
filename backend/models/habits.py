@@ -5,13 +5,15 @@ from pydantic import BaseModel, Field
 
 class HabitCreate(BaseModel):
     name: str = Field(min_length=1)
-    tracking_type: str = Field(pattern="^(binary|duration|lexim)$")
+    tracking_type: str = Field(pattern="^(binary|duration|koleksion)$")
+    unit_label: str | None = Field(default=None, min_length=1)
     is_active: bool = True
 
 
 class HabitUpdate(BaseModel):
     name: str | None = Field(default=None, min_length=1)
-    tracking_type: str | None = Field(default=None, pattern="^(binary|duration|lexim)$")
+    tracking_type: str | None = Field(default=None, pattern="^(binary|duration|koleksion)$")
+    unit_label: str | None = Field(default=None, min_length=1)
     is_active: bool | None = None
 
 
@@ -19,6 +21,7 @@ class HabitRead(BaseModel):
     id: str
     name: str
     tracking_type: str
+    unit_label: str | None = None
     is_active: bool
     created_at: datetime
     updated_at: datetime
@@ -52,6 +55,7 @@ class HabitGridRow(BaseModel):
     id: str
     name: str
     tracking_type: str
+    unit_label: str | None = None
     cells: list[HabitGridCell]
     streak_current: int
     rate_pct: int
