@@ -20,6 +20,7 @@ from routes import (
     settings as settings_route,
     sleep,
     summary,
+    work,
     workplaces,
 )
 
@@ -52,6 +53,7 @@ app.include_router(mood.router)
 app.include_router(settings_route.router)
 app.include_router(sleep.router)
 app.include_router(summary.router)
+app.include_router(work.router)
 app.include_router(workplaces.router)
 
 
