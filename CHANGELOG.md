@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: db] [LLOJI: SHTIM] mood_log (db/migrations/013-mood-log.sql, schema.sql) — check-in ditor humor/energji (1-5) + shënim opsional, log_date si PK — modul i ri "Humor dhe Energjia"
 [MODUL: day] [LLOJI: NDRYSHIM] Faqja "Dita" (frontend/app/panel/dita, frontend/components/dita/) — e bërë plotësisht e edituar: shto/ndrysho/fshi për të 6 modulet direkt nga një ekran, duke ripërdorur Sheet/modalet dhe TodayControl ekzistues, plus edit/fshirje për shënime kolegësh — faza 1 e "Mbyll ditën", pa asnjë ndryshim skeme/DB
 [MODUL: day] [LLOJI: SHTIM] colleague_id te DayNote (backend/models/day.py, backend/routes/day.py, frontend/lib/api.ts) — mungonte plotësisht, ndaj shënimet e kolegëve të shfaqura te "Dita" s'mund të fshiheshin/ndryshoheshin (deleteNote/updateNote kërkojnë contactId, i palexueshëm nga përgjigja e vjetër)
 [MODUL: day] [LLOJI: NDRYSHIM] get_day (backend/routes/day.py, backend/models/day.py) — GET /day/{d} tani kthen të gjitha zakonet aktive (jo vetëm ato me log), me fushat e reja met/unit_label, njësoj si habit_grid — përgatit faqen "Dita" për t'u bërë ekran i vetëm editimi ("Mbyll ditën")

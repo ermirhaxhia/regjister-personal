@@ -365,6 +365,25 @@ create trigger contact_log_set_updated_at
 
 
 -- ============================================================================
+-- MODULI 7 — HUMOR DHE ENERGJIA (mood_log)
+-- Check-in ditor i shpejtë: humor + energji nga 1 në 5, plus shënim opsional.
+-- Një rresht për ditë (log_date = PK), ndryshe nga sleep_log/expenses.
+-- ============================================================================
+create table mood_log (
+    log_date   date        primary key,
+    mood       smallint    not null check (mood between 1 and 5),
+    energy     smallint    not null check (energy between 1 and 5),
+    note       text,
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
+);
+
+create trigger mood_log_set_updated_at
+    before update on mood_log
+    for each row execute function moddatetime(updated_at);
+
+
+-- ============================================================================
 -- CILËSIME GLOBALE (app_settings)
 -- Çelës/vlerë për cilësime të vogla të gjithë aplikacionit, jo të lidhura me
 -- një modul të vetëm (p.sh. synimi ditor i gjumit). `value` jsonb që të mbajë
