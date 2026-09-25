@@ -13,3 +13,15 @@ class Insight(BaseModel):
 class InsightsRead(BaseModel):
     insights: list[Insight]
     enough_data: bool
+
+
+class CorrelationCell(BaseModel):
+    row: str
+    col: str
+    rho: float | None
+    n: int
+    significant: bool
+
+
+class CorrelationsRead(BaseModel):
+    cells: list[CorrelationCell]

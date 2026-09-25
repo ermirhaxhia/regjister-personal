@@ -3,6 +3,7 @@ from datetime import date
 from fastapi import APIRouter, Depends
 
 from core.database import get_client
+from core.correlations import lagged_correlation_matrix
 from core.insights import (
     fitness_habits,
     mood_sleep,
@@ -11,7 +12,7 @@ from core.insights import (
     weekday_spend,
 )
 from core.security import require_auth
-from models.insights import Insight, InsightsRead
+from models.insights import CorrelationCell, CorrelationsRead, Insight, InsightsRead
 
 router = APIRouter(
     prefix="/insights",
@@ -26,6 +27,7 @@ HABITS = "habits"
 FITNESS = "fitness_entries"
 INCOME = "income"
 MOOD = "mood_log"
+WORK_SESSIONS = "work_sessions"
 
 
 @router.get("", response_model=InsightsRead)
@@ -57,3 +59,28 @@ def get_insights() -> InsightsRead:
         Insight(**c) for c in candidates if c is not None and c["confidence"] != "low"
     ]
     return InsightsRead(insights=insights, enough_data=len(insights) > 0)
+
+
+@router.get("/correlations", response_model=CorrelationsRead)
+def get_correlations() -> CorrelationsRead:
+    """Matrica e korrelacioneve Spearman me vonesë 1-ditë, e korrigjuar me BH."""
+    client = get_client()
+
+    mood_rows = client.table(MOOD).select("log_date, mood, energy").execute().data
+    expense_rows = client.table(EXPENSES).select("amount, entry_date").execute().data
+    habit_log_rows = (
+        client.table(HABIT_LOG)
+        .select("habit_id, entry_date, done, duration_minutes")
+        .execute()
+        .data
+    )
+    habits = client.table(HABITS).select("id, is_active, tracking_type").execute().data
+    sleep_rows = client.table(SLEEP).select("night_date, duration_minutes").execute().data
+    work_rows = (
+        client.table(WORK_SESSIONS).select("work_date, duration_minutes").execute().data
+    )
+
+    cells = lagged_correlation_matrix(
+        mood_rows, expense_rows, habit_log_rows, habits, sleep_rows, work_rows
+    )
+    return CorrelationsRead(cells=[CorrelationCell(**c) for c in cells])

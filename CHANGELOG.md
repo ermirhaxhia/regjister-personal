@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: insights] [LLOJI: SHTIM] get_correlations (backend/routes/insights.py, backend/core/correlations.py, backend/models/insights.py) — GET /insights/correlations, matricë korrelacionesh Spearman me vonesë 1-ditë (energy/mood/expense_next/habit_rate ~ sleep/work_hours/expense) me korrigjim Benjamini–Hochberg (q=0.1), vetëm qelizat me n≥30 — shton scipy si varësi e re (requirements.txt) për p-value të sakta
 [MODUL: sleep] [LLOJI: SHTIM] get_sleep_insights (backend/routes/sleep.py, backend/models/sleep.py) — endpoint GET /sleep/insights?days=14 për dritaren e gjumit (rregullsi orë-fjetje, mesatare+std) dhe borxhin kumulativ të gjumit kundrejt synimit 8h — pa ndryshim skeme
 [MODUL: dashboard] [LLOJI: SHTIM] get_expense_heatmap (backend/routes/dashboard.py, backend/models/dashboard.py) — endpoint GET /dashboard/expense-heatmap?months=1-12 që kthen shpenzimin ditor për periudhën, çdo ditë pa zbrazëtira, për heatmap kalendarik stil GitHub
 [MODUL: ore-pune] [LLOJI: SHTIM] Faqja Orë Pune, seksioni i Ditës, klienti API (frontend/app/panel/ore-pune, frontend/components/ore-pune, frontend/components/dita/DayWorkSection.tsx, frontend/lib/api.ts) — listë/shto/redakto/fshi seancash pune me krye KPI (orë, ditë, mesatare) dhe integrim te Dita
