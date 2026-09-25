@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: weekly_review] [LLOJI: SHTIM] get_weekly_summary, upsert_weekly_review (backend/routes/weekly_review.py, backend/models/weekly_review.py) — endpoint-e të reja për "Java në numra" (shpenzime, gjumë, zakone %, hapa/ditë krahasuar me javën paraardhëse) dhe reflektim javor good/bad/next
 [MODUL: db] [LLOJI: SHTIM] weekly_review (db/migrations/015-weekly-review.sql, schema.sql) — tabelë e re për Modulin "Rishikimi Javor" (week_start PK, good/bad/next opsionale) — numrat krahasues (shpenzime/gjumë/zakone/hapa) llogariten nga backend nga module ekzistuese, s'kërkojnë tabelë
 [MODUL: shpenzime] [LLOJI: SHTIM] Quick-add PWA (frontend/app/manifest.ts, frontend/app/layout.tsx, frontend/app/panel/shpenzime/shpejt/page.tsx) — manifest PWA me shkurtore "+ Shpenzim" dhe faqe minimaliste (layout i ngushtë, jo full-width, i qëllimshëm) për shtim të shpejtë shpenzimesh rresht pas rreshti nga telefoni, pa lundrim mes faqeve
 [MODUL: dashboard] [LLOJI: SHTIM] ForecastBacktestChart (frontend/components/dashboard/ForecastBacktestChart.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — seksion i ri "Saktësia e parashikimit" te Dashboard: brezi 80%, pikat brenda/jashtë brezit, dhe krahasim MAE model kundrejt parashikimit naiv
