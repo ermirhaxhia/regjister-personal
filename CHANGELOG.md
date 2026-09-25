@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: shpenzime] [LLOJI: SHTIM] Quick-add PWA (frontend/app/manifest.ts, frontend/app/layout.tsx, frontend/app/panel/shpenzime/shpejt/page.tsx) — manifest PWA me shkurtore "+ Shpenzim" dhe faqe minimaliste (layout i ngushtë, jo full-width, i qëllimshëm) për shtim të shpejtë shpenzimesh rresht pas rreshti nga telefoni, pa lundrim mes faqeve
 [MODUL: dashboard] [LLOJI: SHTIM] ForecastBacktestChart (frontend/components/dashboard/ForecastBacktestChart.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — seksion i ri "Saktësia e parashikimit" te Dashboard: brezi 80%, pikat brenda/jashtë brezit, dhe krahasim MAE model kundrejt parashikimit naiv
 [MODUL: summary] [LLOJI: SHTIM] get_forecast_backtest (backend/routes/forecast_backtest.py, backend/models/summary.py) — endpoint GET /summary/forecast-backtest me backtest walk-forward të parashikimit EWMA (mbulim brezi 80%, MAE kundrejt mesatares 7-ditore) — verifikim i kalibrimit të modelit të parashikimit të shpenzimeve
 [MODUL: zbulime] [LLOJI: SHTIM] CorrelationMatrix (frontend/components/zbulime/CorrelationMatrix.tsx, frontend/app/panel/zbulime/page.tsx, frontend/lib/api.ts) — seksion i ri "Korrelacione me vonesë" te Zbulime, matricë vizuale e GET /insights/correlations, me gjendje bosh e qartë kur s'ka ende ≥30 ditë të mbivendosura

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -32,6 +32,16 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "Regjistri Personal",
   description: "Ditari yt i strukturuar — vetëm për ty.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Regjistri",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#121316",
 };
 
 export default function RootLayout({
