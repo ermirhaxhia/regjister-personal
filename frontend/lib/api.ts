@@ -1211,3 +1211,53 @@ export interface ForecastBacktestRead {
 export function getForecastBacktest(): Promise<ForecastBacktestRead> {
   return apiGet<ForecastBacktestRead>("/summary/forecast-backtest");
 }
+
+export interface WeeklyMetric {
+  current: number | null;
+  previous: number | null;
+}
+
+export interface WeeklySummaryRead {
+  week_start: string;
+  week_end: string;
+  expenses: WeeklyMetric;
+  sleep_avg_minutes: WeeklyMetric;
+  habit_rate_pct: WeeklyMetric;
+  steps_per_day: WeeklyMetric;
+}
+
+export function getWeeklySummary(weekStart?: string): Promise<WeeklySummaryRead> {
+  return apiGet<WeeklySummaryRead>(
+    `/weekly-review/summary${qs({ week_start: weekStart })}`,
+  );
+}
+
+export interface WeeklyReviewRead {
+  week_start: string;
+  good: string | null;
+  bad: string | null;
+  next: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WeeklyReviewInput {
+  good?: string | null;
+  bad?: string | null;
+  next?: string | null;
+}
+
+export function getWeeklyReview(weekStart: string): Promise<WeeklyReviewRead> {
+  return apiGet<WeeklyReviewRead>(`/weekly-review/${weekStart}`);
+}
+
+export function upsertWeeklyReview(
+  weekStart: string,
+  body: WeeklyReviewInput,
+): Promise<WeeklyReviewRead> {
+  return apiPut<WeeklyReviewRead>(`/weekly-review/${weekStart}`, body);
+}
+
+export function deleteWeeklyReview(weekStart: string): Promise<void> {
+  return apiDelete(`/weekly-review/${weekStart}`);
+}

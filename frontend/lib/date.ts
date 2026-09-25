@@ -113,3 +113,18 @@ export function toDatetimeLocal(input: string | Date): string {
 export function fromDatetimeLocal(value: string): string {
   return new Date(value).toISOString();
 }
+
+export function weekRangeLabel(startIso: string, endIso: string): string {
+  const start = asDate(startIso);
+  const end = asDate(endIso);
+  const sameMonth = start.getMonth() === end.getMonth();
+  const sameYear = start.getFullYear() === end.getFullYear();
+  if (sameMonth && sameYear) {
+    return `${start.getDate()}-${end.getDate()} ${MONTHS[start.getMonth()]}`;
+  }
+  const startLabel = `${start.getDate()} ${MONTHS[start.getMonth()]}`;
+  const endLabel = sameYear
+    ? `${end.getDate()} ${MONTHS[end.getMonth()]}`
+    : `${end.getDate()} ${MONTHS[end.getMonth()]} ${end.getFullYear()}`;
+  return `${startLabel} - ${endLabel}`;
+}

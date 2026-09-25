@@ -252,6 +252,17 @@ export function IconCalendar(props: IconProps) {
   );
 }
 
+export function IconWeekReview(props: IconProps) {
+  return (
+    <Line {...props}>
+      <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
+      <path d="M3.5 9.6h17M8.4 3v4M15.6 3v4" />
+      <rect x="6" y="12.5" width="12" height="4.2" rx="1.2" fill="currentColor" stroke="none" opacity="0.18" />
+      <path d="M8 14.6h8" />
+    </Line>
+  );
+}
+
 export function IconTrendUp(props: IconProps) {
   return (
     <Line {...props}>
