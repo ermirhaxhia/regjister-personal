@@ -68,6 +68,24 @@ class Flag(BaseModel):
     text: str
 
 
+class ForecastBacktestPoint(BaseModel):
+    date: date
+    actual: float
+    yhat: float
+    lo: float
+    hi: float
+    in_band: bool
+
+
+class ForecastBacktestRead(BaseModel):
+    coverage_pct: float | None
+    target_coverage_pct: float
+    mae_ewma: float | None
+    mae_naive: float | None
+    days_tested: int
+    points: list[ForecastBacktestPoint] = []
+
+
 class SummaryRead(BaseModel):
     balance_total: float
     balance_change_month: float

@@ -12,6 +12,7 @@ from routes import (
     expense_categories,
     expenses,
     fitness,
+    forecast_backtest,
     habits,
     income,
     income_sources,
@@ -45,6 +46,7 @@ app.include_router(day.router)
 app.include_router(expense_categories.router)
 app.include_router(expenses.router)
 app.include_router(fitness.router)
+app.include_router(forecast_backtest.router)
 app.include_router(habits.router)
 app.include_router(income.router)
 app.include_router(income_sources.router)
