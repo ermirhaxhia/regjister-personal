@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: dashboard] [LLOJI: SHTIM] ForecastBacktestChart (frontend/components/dashboard/ForecastBacktestChart.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — seksion i ri "Saktësia e parashikimit" te Dashboard: brezi 80%, pikat brenda/jashtë brezit, dhe krahasim MAE model kundrejt parashikimit naiv
 [MODUL: summary] [LLOJI: SHTIM] get_forecast_backtest (backend/routes/forecast_backtest.py, backend/models/summary.py) — endpoint GET /summary/forecast-backtest me backtest walk-forward të parashikimit EWMA (mbulim brezi 80%, MAE kundrejt mesatares 7-ditore) — verifikim i kalibrimit të modelit të parashikimit të shpenzimeve
 [MODUL: zbulime] [LLOJI: SHTIM] CorrelationMatrix (frontend/components/zbulime/CorrelationMatrix.tsx, frontend/app/panel/zbulime/page.tsx, frontend/lib/api.ts) — seksion i ri "Korrelacione me vonesë" te Zbulime, matricë vizuale e GET /insights/correlations, me gjendje bosh e qartë kur s'ka ende ≥30 ditë të mbivendosura
 [MODUL: dashboard] [LLOJI: SHTIM] Grafikët e gjumit dhe heatmap i shpenzimeve (frontend/components/dashboard/SleepWindowChart.tsx, SleepDebtChart.tsx, ExpenseHeatmap.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — dritarja e gjumit, borxhi i gjumit, dhe heatmap kalendarik i shpenzimeve te Dashboard-i, duke konsumuar GET /sleep/insights dhe GET /dashboard/expense-heatmap

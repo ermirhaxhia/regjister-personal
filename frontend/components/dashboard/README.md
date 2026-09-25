@@ -21,7 +21,11 @@ grafikësh.
 - `ExpenseHeatmap.tsx` — heatmap kalendarik stil GitHub mbi
   `GET /dashboard/expense-heatmap`, ngjyrosje me kuantile (20/40/60/80) mbi
   ditët me shpenzim > 0.
+- `ForecastBacktestChart.tsx` — brez `[lo, hi]` + vijë `yhat` mbi
+  `GET /summary/forecast-backtest`, pika `actual` ngjyrë `accent-2` kur `in_band`,
+  `danger` kur jo; tre statistika sipër (mbulimi, MAE model, MAE naiv); gjendje
+  bosh kur `days_tested === 0`.
 
 **Lidhet me:** `lib/api` (`DashboardRead`, `DashboardDay`, `CategoryShare`,
-`SavingsRateMonth`, `SleepInsightsRead`, `ExpenseHeatmapRead`), `lib/money`,
-`lib/date`, `lib/cn`.
+`SavingsRateMonth`, `SleepInsightsRead`, `ExpenseHeatmapRead`,
+`ForecastBacktestRead`), `lib/money`, `lib/date`, `lib/cn`.

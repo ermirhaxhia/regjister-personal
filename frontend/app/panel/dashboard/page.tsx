@@ -5,9 +5,11 @@ import {
   getDashboard,
   getSleepInsights,
   getExpenseHeatmap,
+  getForecastBacktest,
   type DashboardRead,
   type SleepInsightsRead,
   type ExpenseHeatmapRead,
+  type ForecastBacktestRead,
 } from "@/lib/api";
 import { useGenLoad } from "@/lib/useGenLoad";
 import PageHeader from "@/components/common/PageHeader";
@@ -19,11 +21,13 @@ import KpiTiles from "@/components/dashboard/KpiTiles";
 import SleepWindowChart from "@/components/dashboard/SleepWindowChart";
 import SleepDebtChart from "@/components/dashboard/SleepDebtChart";
 import ExpenseHeatmap from "@/components/dashboard/ExpenseHeatmap";
+import ForecastBacktestChart from "@/components/dashboard/ForecastBacktestChart";
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardRead | null>(null);
   const [sleep, setSleep] = useState<SleepInsightsRead | null>(null);
   const [heatmap, setHeatmap] = useState<ExpenseHeatmapRead | null>(null);
+  const [backtest, setBacktest] = useState<ForecastBacktestRead | null>(null);
 
   const fetchDashboard = useCallback(() => getDashboard(), []);
   const applyDashboard = useCallback((d: DashboardRead) => setData(d), []);
@@ -44,6 +48,21 @@ export default function DashboardPage() {
       })
       .catch(() => {
         if (!cancelled) setHeatmap({ days: [] });
+      });
+    getForecastBacktest()
+      .then((d) => {
+        if (!cancelled) setBacktest(d);
+      })
+      .catch(() => {
+        if (!cancelled)
+          setBacktest({
+            coverage_pct: null,
+            target_coverage_pct: 80,
+            mae_ewma: null,
+            mae_naive: null,
+            days_tested: 0,
+            points: [],
+          });
       });
     return () => {
       cancelled = true;
@@ -154,6 +173,19 @@ export default function DashboardPage() {
             {heatmap ? (
               <div className="mt-3">
                 <ExpenseHeatmap data={heatmap} />
+              </div>
+            ) : (
+              <LoadingBlock lines={1} className="mt-3" />
+            )}
+          </div>
+
+          <div className="rp-card rounded-[18px] border border-border bg-surface px-4 py-4 sm:px-[22px] sm:py-[18px]">
+            <h2 className="font-display text-sm font-semibold text-text-hi">
+              Saktësia e parashikimit
+            </h2>
+            {backtest ? (
+              <div className="mt-3">
+                <ForecastBacktestChart data={backtest} />
               </div>
             ) : (
               <LoadingBlock lines={1} className="mt-3" />

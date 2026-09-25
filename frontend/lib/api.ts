@@ -1189,3 +1189,25 @@ export interface CorrelationsRead {
 export function getCorrelations(): Promise<CorrelationsRead> {
   return apiGet<CorrelationsRead>("/insights/correlations");
 }
+
+export interface ForecastBacktestPoint {
+  date: string;
+  actual: number;
+  yhat: number;
+  lo: number;
+  hi: number;
+  in_band: boolean;
+}
+
+export interface ForecastBacktestRead {
+  coverage_pct: number | null;
+  target_coverage_pct: number;
+  mae_ewma: number | null;
+  mae_naive: number | null;
+  days_tested: number;
+  points: ForecastBacktestPoint[];
+}
+
+export function getForecastBacktest(): Promise<ForecastBacktestRead> {
+  return apiGet<ForecastBacktestRead>("/summary/forecast-backtest");
+}
