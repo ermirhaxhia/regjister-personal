@@ -33,3 +33,18 @@ class SleepRead(BaseModel):
     note: str | None = None
     created_at: datetime
     updated_at: datetime
+
+
+class SleepNightPoint(BaseModel):
+    night_date: date
+    bedtime_hour: float
+    waketime_hour: float
+    duration_minutes: float
+    debt_hours_night: float
+    cumulative_debt_hours: float
+
+
+class SleepInsightsRead(BaseModel):
+    nights: list[SleepNightPoint]
+    bedtime_mean: float | None
+    bedtime_std: float | None

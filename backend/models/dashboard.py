@@ -28,3 +28,12 @@ class DashboardRead(BaseModel):
     savings_rate: list[SavingsRateMonth]
     runway_days: int | None
     data_completeness_pct: int
+
+
+class HeatmapDay(BaseModel):
+    date: date
+    amount: Decimal
+
+
+class ExpenseHeatmapRead(BaseModel):
+    days: list[HeatmapDay]

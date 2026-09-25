@@ -2,11 +2,18 @@ from collections import defaultdict
 from datetime import date, timedelta
 from decimal import Decimal
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from core.database import get_client
 from core.security import require_auth
-from models.dashboard import CategoryShare, DashboardDay, DashboardRead, SavingsRateMonth
+from models.dashboard import (
+    CategoryShare,
+    DashboardDay,
+    DashboardRead,
+    ExpenseHeatmapRead,
+    HeatmapDay,
+    SavingsRateMonth,
+)
 
 router = APIRouter(
     prefix="/dashboard",
@@ -181,3 +188,41 @@ def get_dashboard():
         runway_days=runway_days,
         data_completeness_pct=data_completeness_pct,
     )
+
+
+@router.get("/expense-heatmap", response_model=ExpenseHeatmapRead)
+def get_expense_heatmap(months: int = Query(default=6, ge=1, le=12)):
+    """Shpenzimi ditor per heatmap kalendarik (stil GitHub).
+
+    Periudha: nga fillimi i muajit (sot - (months-1) muaj) deri sot, perfshire.
+    Kthen çdo ditë të periudhës, edhe ato pa shpenzime (amount=0).
+    """
+    client = get_client()
+    today = date.today()
+    start_date = today.replace(day=1)
+    for _ in range(months - 1):
+        start_date = _prev_month_start(start_date)
+
+    expenses = (
+        client.table(EXPENSES)
+        .select("amount, entry_date")
+        .gte("entry_date", start_date.isoformat())
+        .lte("entry_date", today.isoformat())
+        .execute()
+        .data
+    )
+
+    expense_by_date: dict[date, Decimal] = defaultdict(lambda: Decimal("0"))
+    for e in expenses:
+        expense_by_date[date.fromisoformat(e["entry_date"])] += _num(e["amount"])
+
+    total_days = (today - start_date).days + 1
+    days = [
+        HeatmapDay(
+            date=start_date + timedelta(days=i),
+            amount=expense_by_date.get(start_date + timedelta(days=i), Decimal("0")),
+        )
+        for i in range(total_days)
+    ]
+
+    return ExpenseHeatmapRead(days=days)
