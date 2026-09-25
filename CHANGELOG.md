@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: db] [LLOJI: SHTIM] weekly_review (db/migrations/015-weekly-review.sql, schema.sql) — tabelë e re për Modulin "Rishikimi Javor" (week_start PK, good/bad/next opsionale) — numrat krahasues (shpenzime/gjumë/zakone/hapa) llogariten nga backend nga module ekzistuese, s'kërkojnë tabelë
 [MODUL: shpenzime] [LLOJI: SHTIM] Quick-add PWA (frontend/app/manifest.ts, frontend/app/layout.tsx, frontend/app/panel/shpenzime/shpejt/page.tsx) — manifest PWA me shkurtore "+ Shpenzim" dhe faqe minimaliste (layout i ngushtë, jo full-width, i qëllimshëm) për shtim të shpejtë shpenzimesh rresht pas rreshti nga telefoni, pa lundrim mes faqeve
 [MODUL: dashboard] [LLOJI: SHTIM] ForecastBacktestChart (frontend/components/dashboard/ForecastBacktestChart.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — seksion i ri "Saktësia e parashikimit" te Dashboard: brezi 80%, pikat brenda/jashtë brezit, dhe krahasim MAE model kundrejt parashikimit naiv
 [MODUL: summary] [LLOJI: SHTIM] get_forecast_backtest (backend/routes/forecast_backtest.py, backend/models/summary.py) — endpoint GET /summary/forecast-backtest me backtest walk-forward të parashikimit EWMA (mbulim brezi 80%, MAE kundrejt mesatares 7-ditore) — verifikim i kalibrimit të modelit të parashikimit të shpenzimeve

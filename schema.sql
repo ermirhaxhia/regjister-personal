@@ -412,6 +412,27 @@ create trigger work_sessions_set_updated_at
 
 
 -- ============================================================================
+-- MODULI 9 — RISHIKIMI JAVOR (weekly_review)
+-- Reflektim i shkurtër çdo javë: çfarë shkoi mirë / çfarë jo / një gjë për javën
+-- tjetër. Numrat krahasues (shpenzime, gjumë, zakone, hapa) vijnë nga module të
+-- tjera te backend-i, jo nga kjo tabelë. Një rresht/javë (week_start = PK, e
+-- hëna e javës ISO), modeluar sipas mood_log. Të tria fushat janë opsionale.
+-- ============================================================================
+create table weekly_review (
+    week_start date primary key,
+    good       text,
+    bad        text,
+    next       text,
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
+);
+
+create trigger weekly_review_set_updated_at
+    before update on weekly_review
+    for each row execute function moddatetime(updated_at);
+
+
+-- ============================================================================
 -- CILËSIME GLOBALE (app_settings)
 -- Çelës/vlerë për cilësime të vogla të gjithë aplikacionit, jo të lidhura me
 -- një modul të vetëm (p.sh. synimi ditor i gjumit). `value` jsonb që të mbajë
