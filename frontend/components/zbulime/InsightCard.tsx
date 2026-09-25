@@ -8,6 +8,7 @@ import {
   IconReceipt,
   IconBanknote,
   IconActivity,
+  IconSpark,
 } from "@/components/icons";
 
 type IconType = ComponentType<{ size?: number; className?: string }>;
@@ -17,6 +18,7 @@ const KIND_ICON: Record<Insight["kind"], IconType> = {
   weekday_spend: IconReceipt,
   payday_window: IconBanknote,
   fitness_habits: IconActivity,
+  mood_sleep: IconSpark,
 };
 
 const CONFIDENCE: Record<

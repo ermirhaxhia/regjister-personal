@@ -261,7 +261,12 @@ export function getSummary(): Promise<Summary> {
 
 export interface Insight {
   id: string;
-  kind: "sleep_spend" | "weekday_spend" | "payday_window" | "fitness_habits";
+  kind:
+    | "sleep_spend"
+    | "weekday_spend"
+    | "payday_window"
+    | "fitness_habits"
+    | "mood_sleep";
   title: string;
   detail: string;
   confidence: "low" | "medium" | "high";
@@ -429,6 +434,37 @@ export function updateIncome(
 
 export function deleteIncome(id: string): Promise<void> {
   return apiDelete(`/income/${id}`);
+}
+
+export interface Mood {
+  log_date: string;
+  mood: number;
+  energy: number;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MoodInput {
+  mood: number;
+  energy: number;
+  note?: string | null;
+}
+
+export function getMood(date: string): Promise<Mood> {
+  return apiGet<Mood>(`/mood/${date}`);
+}
+
+export function listMood(dateFrom?: string, dateTo?: string): Promise<Mood[]> {
+  return apiGet<Mood[]>(`/mood${qs({ date_from: dateFrom, date_to: dateTo })}`);
+}
+
+export function upsertMood(date: string, body: MoodInput): Promise<Mood> {
+  return apiPut<Mood>(`/mood/${date}`, body);
+}
+
+export function deleteMood(date: string): Promise<void> {
+  return apiDelete(`/mood/${date}`);
 }
 
 export interface Sleep {

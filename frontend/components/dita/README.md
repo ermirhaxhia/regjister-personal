@@ -1,8 +1,9 @@
 # components/dita/ — Pamja ditore e edituar
 
 **Qëllimi:** Faqja `/panel/dita` — jo më vetëm lexim: një ekran i vetëm ku shtohen,
-ndryshohen dhe fshihen të dhënat e ditës për të 6 modulet, duke thirrur direkt API-të
-ekzistuese të secilit modul (asnjë koncept i ri "dita e konfirmuar" në DB).
+ndryshohen dhe fshihen të dhënat e ditës për 6 modulet + check-in-in e humorit/energjisë,
+duke thirrur direkt API-të ekzistuese të secilit modul (asnjë koncept i ri "dita e
+konfirmuar" në DB).
 
 **Përmban:**
 - `DayNav.tsx` — navigimi i datës (shigjeta, `<input type="date">`, buton «Sot»).
@@ -16,6 +17,9 @@ ekzistuese të secilit modul (asnjë koncept i ri "dita e konfirmuar" në DB).
   ekzistuese (`ExpenseSheet`, `IncomeSheet`, `SleepSheet`, `EntryModal`) dhe
   `TodayControl` nga `components/zakone`; pas çdo mutacioni thërret `onChanged`
   (=`refresh()` nga `useGenLoad` te faqja).
+- `DayMoodSection.tsx` — check-in i humorit/energjisë (1-5) + shënim opsional; `/day/{d}`
+  nuk e përfshin moodin, ndaj ky komponent ngarkon/ruan vetë me `getMood`/`upsertMood`/
+  `deleteMood`, pa u varur nga `onChanged` i `DayBoard`.
 
 **Kufizim i njohur:** `DayNote` nga `/day/{d}` s'ka `colleague_id`, ndaj shënimet
 ekzistuese të një dite shfaqen vetëm për lexim (edit/delete kërkon shtim të asaj
