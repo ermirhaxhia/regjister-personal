@@ -18,9 +18,10 @@
 - `UnitPicker.tsx` — chips toggle për zgjedhje të shumëfishtë njësish.
 - `HabitManager.tsx` — menaxhon zakonet (prop `bare` për brenda Sheet): listë aktive
   me riemërto (`components/zakone/HabitSheet`) / arkivo, formë "Shto zakon" (emër +
-  dropdown `tracking_type`: binar / kohëzgjatje / lexim), seksion i palosur
-  "Arkivuar" (`components/zakone/ArchivedHabits`) me ri-aktivizim / fshirje
-  (`Confirm`). 409 → mesazh. Konsumon `GET/POST/PATCH/DELETE /habits`.
+  dropdown `tracking_type`: binar / kohëzgjatje / koleksion, me fushë shtesë
+  `unit_label` kur zgjidhet koleksion), seksion i palosur "Arkivuar"
+  (`components/zakone/ArchivedHabits`) me ri-aktivizim / fshirje (`Confirm`). 409 →
+  mesazh. Konsumon `GET/POST/PATCH/DELETE /habits`.
 - `ExpenseCategoryManager.tsx` — menaxhon kategoritë e shpenzimeve (prop `bare`):
   formë "Shto" (vetëm emër), listë sipas `sort_order` me numër shpenzimesh,
   riemërtim inline (Enter/blur/Esc) dhe fshirje me `Confirm` (mesazhi varet nga

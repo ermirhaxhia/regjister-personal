@@ -7,22 +7,28 @@ import type { HabitGridCell, HabitTrackingType } from "@/lib/api";
 export function HabitName({
   name,
   trackingType,
+  unitLabel,
 }: {
   name: string;
   trackingType: HabitTrackingType;
+  unitLabel?: string | null;
 }) {
+  const subtitle =
+    trackingType === "binary"
+      ? "po / jo"
+      : trackingType === "duration"
+        ? "minuta"
+        : unitLabel && unitLabel.trim()
+          ? unitLabel.trim()
+          : null;
   return (
     <div className="flex min-w-0 flex-col gap-0.5">
       <span className="truncate font-display text-[14px] font-medium text-text-hi">
         {name}
       </span>
-      <span className="font-mono text-[10px] text-text-lo">
-        {trackingType === "binary"
-          ? "po / jo"
-          : trackingType === "duration"
-            ? "minuta"
-            : "libra"}
-      </span>
+      {subtitle && (
+        <span className="font-mono text-[10px] text-text-lo">{subtitle}</span>
+      )}
     </div>
   );
 }

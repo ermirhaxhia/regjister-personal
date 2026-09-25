@@ -53,7 +53,7 @@ export default function ArchivedHabits({
                     ? "binar"
                     : h.tracking_type === "duration"
                       ? "minuta"
-                      : "lexim"}
+                      : "koleksion"}
                 </div>
               </div>
               <button

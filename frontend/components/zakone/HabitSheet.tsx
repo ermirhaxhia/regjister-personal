@@ -26,11 +26,14 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
   const [trackingType, setTrackingType] = useState<HabitTrackingType>(
     initial?.tracking_type ?? "binary",
   );
+  const [unitLabel, setUnitLabel] = useState(initial?.unit_label ?? "");
   const [isActive, setIsActive] = useState(initial?.is_active ?? true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const valid = name.trim().length > 0;
+  const unitLabelValid =
+    trackingType !== "koleksion" || unitLabel.trim().length > 0;
+  const valid = name.trim().length > 0 && unitLabelValid;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +44,7 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
       const body = {
         name: name.trim(),
         tracking_type: trackingType,
+        unit_label: trackingType === "koleksion" ? unitLabel.trim() : null,
         is_active: isActive,
       };
       const row =
@@ -81,7 +85,7 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={inputClass}
-            placeholder="p.sh. Lexim jashtëshkollor"
+            placeholder="p.sh. Palestër"
           />
         </Field>
 
@@ -93,7 +97,7 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
               ? "Shënohet me po / jo çdo ditë."
               : trackingType === "duration"
                 ? "Shënohet me minuta çdo ditë."
-                : "Hap një faqe të veçantë për të menaxhuar librat dhe sesionet e leximit."
+                : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
           }
         >
           <select
@@ -106,9 +110,20 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
-            <option value="lexim">Lexim (libra)</option>
+            <option value="koleksion">Koleksion (progres)</option>
           </select>
         </Field>
+
+        {trackingType === "koleksion" && (
+          <Field label="Emri i njësisë" hint='p.sh. "faqe", "ushtrime", "kapituj"'>
+            <input
+              value={unitLabel}
+              onChange={(e) => setUnitLabel(e.target.value)}
+              className={inputClass}
+              placeholder="p.sh. faqe"
+            />
+          </Field>
+        )}
 
         <label className="flex items-center justify-between rounded-xl border border-border bg-surface-2 px-3 py-2.5">
           <span className="text-sm text-text-mid">

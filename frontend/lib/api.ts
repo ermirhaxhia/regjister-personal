@@ -480,12 +480,13 @@ export function updateSleepGoal(goalMinutes: number): Promise<SleepGoal> {
   return apiPut<SleepGoal>("/settings/sleep-goal", { goal_minutes: goalMinutes });
 }
 
-export type HabitTrackingType = "binary" | "duration" | "lexim";
+export type HabitTrackingType = "binary" | "duration" | "koleksion";
 
 export interface Habit {
   id: string;
   name: string;
   tracking_type: HabitTrackingType;
+  unit_label: string | null;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -494,6 +495,7 @@ export interface Habit {
 export interface HabitInput {
   name: string;
   tracking_type: HabitTrackingType;
+  unit_label?: string | null;
   is_active?: boolean;
 }
 
@@ -525,6 +527,7 @@ export interface HabitGridRow {
   id: string;
   name: string;
   tracking_type: HabitTrackingType;
+  unit_label: string | null;
   cells: HabitGridCell[];
   streak_current: number;
   rate_pct: number;
@@ -914,98 +917,104 @@ export function getDashboard(): Promise<DashboardRead> {
   return apiGet<DashboardRead>("/dashboard");
 }
 
-export type BookStatus = "reading" | "finished";
+export type CollectionStatus = "active" | "paused" | "finished";
 
-export interface Book {
+export interface Collection {
   id: string;
-  title: string;
-  author: string | null;
-  total_pages: number;
-  status: BookStatus;
-  pages_read: number;
-  pct_complete: number;
-  sessions_count: number;
-  pages_per_day: number | null;
-  estimated_finish: string | null;
+  habit_id: string;
+  name: string;
+  total_amount: number | null;
+  status: CollectionStatus;
   created_at: string;
   updated_at: string;
+  amount_total: number;
+  pct_complete: number | null;
+  entries_count: number;
+  amount_per_day: number | null;
+  estimated_finish: string | null;
 }
 
-export interface BookInput {
-  title: string;
-  author?: string | null;
-  total_pages: number;
+export interface CollectionInput {
+  name: string;
+  total_amount?: number | null;
+  status?: CollectionStatus;
 }
 
-export interface BookPatch {
-  title?: string;
-  author?: string | null;
-  total_pages?: number;
-  status?: BookStatus;
-}
+export type CollectionPatch = Partial<CollectionInput>;
 
-export interface ReadingSession {
+export interface CollectionEntry {
   id: string;
-  book_id: string;
-  session_date: string;
-  pages_read: number;
+  collection_id: string;
+  entry_date: string;
+  amount: number;
   minutes: number | null;
   note: string | null;
   created_at: string;
   updated_at: string;
 }
 
-export interface ReadingSessionInput {
-  session_date?: string;
-  pages_read: number;
+export interface CollectionEntryInput {
+  entry_date?: string;
+  amount: number;
   minutes?: number | null;
   note?: string | null;
 }
 
-export type ReadingSessionPatch = Partial<ReadingSessionInput>;
+export type CollectionEntryPatch = Partial<CollectionEntryInput>;
 
-export function listBooks(): Promise<Book[]> {
-  return apiGet<Book[]>("/books");
+export function listCollections(habitId: string): Promise<Collection[]> {
+  return apiGet<Collection[]>(`/habits/${habitId}/collections`);
 }
 
-export function createBook(body: BookInput): Promise<Book> {
-  return apiPost<Book>("/books", body);
+export function createCollection(
+  habitId: string,
+  body: CollectionInput,
+): Promise<Collection> {
+  return apiPost<Collection>(`/habits/${habitId}/collections`, body);
 }
 
-export function getBook(id: string): Promise<Book> {
-  return apiGet<Book>(`/books/${id}`);
+export function getCollection(id: string): Promise<Collection> {
+  return apiGet<Collection>(`/collections/${id}`);
 }
 
-export function updateBook(id: string, patch: BookPatch): Promise<Book> {
-  return apiPatch<Book>(`/books/${id}`, patch);
+export function updateCollection(
+  id: string,
+  patch: CollectionPatch,
+): Promise<Collection> {
+  return apiPatch<Collection>(`/collections/${id}`, patch);
 }
 
-export function deleteBook(id: string): Promise<void> {
-  return apiDelete(`/books/${id}`);
+export function deleteCollection(id: string): Promise<void> {
+  return apiDelete(`/collections/${id}`);
 }
 
-export function listReadingSessions(bookId: string): Promise<ReadingSession[]> {
-  return apiGet<ReadingSession[]>(`/books/${bookId}/sessions`);
+export function listCollectionEntries(
+  collectionId: string,
+): Promise<CollectionEntry[]> {
+  return apiGet<CollectionEntry[]>(`/collections/${collectionId}/entries`);
 }
 
-export function createReadingSession(
-  bookId: string,
-  body: ReadingSessionInput,
-): Promise<ReadingSession> {
-  return apiPost<ReadingSession>(`/books/${bookId}/sessions`, body);
+export function createCollectionEntry(
+  collectionId: string,
+  body: CollectionEntryInput,
+): Promise<CollectionEntry> {
+  return apiPost<CollectionEntry>(`/collections/${collectionId}/entries`, body);
 }
 
-export function updateReadingSession(
-  bookId: string,
-  sessionId: string,
-  patch: ReadingSessionPatch,
-): Promise<ReadingSession> {
-  return apiPatch<ReadingSession>(`/books/${bookId}/sessions/${sessionId}`, patch);
+export function updateCollectionEntry(
+  collectionId: string,
+  entryId: string,
+  patch: CollectionEntryPatch,
+): Promise<CollectionEntry> {
+  return apiPatch<CollectionEntry>(
+    `/collections/${collectionId}/entries/${entryId}`,
+    patch,
+  );
 }
 
-export function deleteReadingSession(
-  bookId: string,
-  sessionId: string,
+export function deleteCollectionEntry(
+  collectionId: string,
+  entryId: string,
 ): Promise<void> {
-  return apiDelete(`/books/${bookId}/sessions/${sessionId}`);
+  return apiDelete(`/collections/${collectionId}/entries/${entryId}`);
 }

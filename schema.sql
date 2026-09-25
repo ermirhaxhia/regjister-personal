@@ -231,8 +231,7 @@ create trigger habit_log_check_type_trg
 create table collections (
     id           uuid primary key default gen_random_uuid(),
     habit_id     uuid not null references habits (id) on delete cascade,
-    title        text not null,
-    author       text,
+    name         text not null,
     total_amount int  check (total_amount is null or total_amount > 0),  -- opsional: pa total të njohur ende
     status       text not null default 'active' check (status in ('active', 'paused', 'finished')),
     created_at   timestamptz not null default now(),

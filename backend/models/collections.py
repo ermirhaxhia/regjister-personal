@@ -5,14 +5,12 @@ from pydantic import BaseModel, Field
 
 
 class CollectionCreate(BaseModel):
-    title: str = Field(min_length=1)
-    author: str | None = None
+    name: str = Field(min_length=1)
     total_amount: int | None = Field(default=None, gt=0)
 
 
 class CollectionUpdate(BaseModel):
-    title: str | None = Field(default=None, min_length=1)
-    author: str | None = None
+    name: str | None = Field(default=None, min_length=1)
     total_amount: int | None = Field(default=None, gt=0)
     status: Literal["active", "paused", "finished"] | None = None
 
@@ -20,8 +18,7 @@ class CollectionUpdate(BaseModel):
 class CollectionRead(BaseModel):
     id: str
     habit_id: str
-    title: str
-    author: str | None
+    name: str
     total_amount: int | None
     status: Literal["active", "paused", "finished"]
     amount_total: int

@@ -4,37 +4,34 @@ import { useState } from "react";
 import Sheet from "@/components/common/Sheet";
 import { Field, SubmitRow, inputClass } from "@/components/common/Field";
 import { todayISO } from "@/lib/date";
-import {
-  ApiError,
-  createReadingSession,
-  type ReadingSession,
-} from "@/lib/api";
+import { ApiError, createCollectionEntry, type CollectionEntry } from "@/lib/api";
 
 interface Props {
   open: boolean;
-  bookId: string;
+  collectionId: string;
+  unitLabel: string;
   defaultDate: string;
   onClose: () => void;
-  onSaved: (row: ReadingSession) => void;
+  onSaved: (row: CollectionEntry) => void;
 }
 
-export default function SessionSheet({
+export default function EntrySheet({
   open,
-  bookId,
+  collectionId,
+  unitLabel,
   defaultDate,
   onClose,
   onSaved,
 }: Props) {
   const [date, setDate] = useState(defaultDate || todayISO());
-  const [pages, setPages] = useState("");
+  const [amount, setAmount] = useState("");
   const [minutes, setMinutes] = useState("");
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const pagesNum = Number(pages);
-  const valid =
-    Number.isFinite(pagesNum) && pagesNum > 0 && Number.isInteger(pagesNum);
+  const amountNum = Number(amount);
+  const valid = Number.isFinite(amountNum) && amountNum > 0;
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,14 +40,14 @@ export default function SessionSheet({
     setError(null);
     try {
       const minutesNum = minutes.trim() ? Number(minutes) : undefined;
-      const row = await createReadingSession(bookId, {
-        session_date: date,
-        pages_read: pagesNum,
+      const row = await createCollectionEntry(collectionId, {
+        entry_date: date,
+        amount: amountNum,
         minutes: minutesNum,
         note: note.trim() || null,
       });
       onSaved(row);
-      setPages("");
+      setAmount("");
       setMinutes("");
       setNote("");
       onClose();
@@ -62,7 +59,7 @@ export default function SessionSheet({
   };
 
   return (
-    <Sheet open={open} title="Sesion i ri" onClose={onClose}>
+    <Sheet open={open} title="Hyrje e re" onClose={onClose}>
       <form onSubmit={submit} className="flex flex-col gap-3.5">
         <Field label="Data">
           <input
@@ -73,15 +70,15 @@ export default function SessionSheet({
           />
         </Field>
 
-        <Field label="Faqe të lexuara">
+        <Field label={`Sasi (${unitLabel})`}>
           <input
             type="number"
             inputMode="numeric"
             min="1"
             step="1"
             autoFocus
-            value={pages}
-            onChange={(e) => setPages(e.target.value)}
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
             className={inputClass}
             placeholder="0"
           />

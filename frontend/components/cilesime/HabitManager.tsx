@@ -23,7 +23,7 @@ import { IconPlus, IconPencil } from "@/components/icons";
 const TYPE_LABEL: Record<HabitTrackingType, string> = {
   binary: "po / jo",
   duration: "minuta",
-  lexim: "lexim",
+  koleksion: "koleksion",
 };
 
 const byName = (list: Habit[]): Habit[] =>
@@ -91,6 +91,7 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
   const [archived, setArchived] = useState<Habit[]>([]);
   const [name, setName] = useState("");
   const [trackingType, setTrackingType] = useState<HabitTrackingType>("binary");
+  const [unitLabel, setUnitLabel] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<Habit | null>(null);
@@ -107,17 +108,25 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
   }, []);
   const { status, reload, refresh } = useGenLoad(fetchAll, applyAll);
 
+  const unitLabelValid =
+    trackingType !== "koleksion" || unitLabel.trim().length > 0;
+
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
     const next = name.trim();
-    if (!next || busy) return;
+    if (!next || !unitLabelValid || busy) return;
     setBusy(true);
     setError(null);
     try {
-      const row = await createHabit({ name: next, tracking_type: trackingType });
+      const row = await createHabit({
+        name: next,
+        tracking_type: trackingType,
+        unit_label: trackingType === "koleksion" ? unitLabel.trim() : null,
+      });
       setActive((prev) => byName([...prev, row]));
       setName("");
       setTrackingType("binary");
+      setUnitLabel("");
       notifyDataChanged({ key: "habits", diff: 1 });
     } catch (err) {
       setError(
@@ -185,7 +194,7 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={inputClass}
-            placeholder="p.sh. Lexim"
+            placeholder="p.sh. Palestër"
           />
         </Field>
         <Field
@@ -196,7 +205,7 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
               ? "Shënohet me po / jo çdo ditë."
               : trackingType === "duration"
                 ? "Shënohet me minuta çdo ditë."
-                : "Hap një faqe të veçantë për të menaxhuar librat dhe sesionet e leximit."
+                : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
           }
         >
           <select
@@ -209,13 +218,23 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
-            <option value="lexim">Lexim (libra)</option>
+            <option value="koleksion">Koleksion (progres)</option>
           </select>
         </Field>
+        {trackingType === "koleksion" && (
+          <Field label="Emri i njësisë" hint='p.sh. "faqe", "ushtrime", "kapituj"'>
+            <input
+              value={unitLabel}
+              onChange={(e) => setUnitLabel(e.target.value)}
+              className={inputClass}
+              placeholder="p.sh. faqe"
+            />
+          </Field>
+        )}
         {error && <p className="text-[11px] text-danger">{error}</p>}
         <button
           type="submit"
-          disabled={busy || !name.trim()}
+          disabled={busy || !name.trim() || !unitLabelValid}
           className="flex h-[42px] items-center justify-center gap-1.5 rounded-xl bg-accent px-4 text-[13px] font-semibold text-bg transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           <IconPlus size={14} />

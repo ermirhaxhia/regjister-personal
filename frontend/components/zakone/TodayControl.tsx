@@ -7,6 +7,7 @@ import DurationMark from "@/components/zakone/DurationMark";
 import type { HabitTrackingType } from "@/lib/api";
 
 interface Props {
+  habitId: string;
   trackingType: HabitTrackingType;
   met: boolean;
   durationMinutes: number | null;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function TodayControl({
+  habitId,
   trackingType,
   met,
   durationMinutes,
@@ -35,15 +37,15 @@ export default function TodayControl({
     );
   }
 
-  if (trackingType === "lexim") {
+  if (trackingType === "koleksion") {
     return (
       <div className="flex justify-center">
         <Link
-          href="/panel/zakone/lexim"
+          href={`/panel/zakone/koleksion/${habitId}`}
           className="flex h-9 items-center gap-1 rounded-lg border border-border px-2.5 text-[12px] text-text-mid transition-colors hover:border-accent-2/50 hover:text-text-hi"
         >
           <IconBook size={14} />
-          Lexim
+          Koleksion
           <IconChevronRight size={12} />
         </Link>
       </div>

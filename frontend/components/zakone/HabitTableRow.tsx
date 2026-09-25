@@ -25,10 +25,15 @@ export default function HabitTableRow({
   return (
     <tr className="h-16 border-b border-border align-middle transition-colors last:border-0 hover:bg-white/[0.02]">
       <td className="px-4">
-        <HabitName name={row.name} trackingType={row.tracking_type} />
+        <HabitName
+          name={row.name}
+          trackingType={row.tracking_type}
+          unitLabel={row.unit_label}
+        />
       </td>
       <td className="px-2">
         <TodayControl
+          habitId={row.id}
           trackingType={row.tracking_type}
           met={last.met}
           durationMinutes={last.duration_minutes}
