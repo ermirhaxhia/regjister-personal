@@ -11,6 +11,8 @@ grafikësh.
   automatik nën "Të tjera" përtej 6 kategorive, legjendë me pikë ngjyre + %.
 - `IncomeExpenseChart.tsx` — dy seri (shpenzime/zonë portokalli, të ardhura/vijë
   vjollcë e ndërprerë) mbi të njëjtin bosht 30-ditor, si `Sparkline`.
+- `KpiTiles.tsx` — tre pllaka KPI (norma e kursimit, runway, plotësia e
+  regjistrimit) mbi fushat e reja të `GET /dashboard`; trajtojnë vlerat `null`.
 
-**Lidhet me:** `lib/api` (`DashboardRead`, `DashboardDay`, `CategoryShare`),
-`lib/money`, `lib/date`.
+**Lidhet me:** `lib/api` (`DashboardRead`, `DashboardDay`, `CategoryShare`,
+`SavingsRateMonth`), `lib/money`, `lib/date`, `lib/cn`.

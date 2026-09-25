@@ -946,10 +946,18 @@ export interface CategoryShare {
   pct: number;
 }
 
+export interface SavingsRateMonth {
+  month: string;
+  rate_pct: number | null;
+}
+
 export interface DashboardRead {
   daily: DashboardDay[];
   expense_mean_30d: string;
   categories_month: CategoryShare[];
+  savings_rate: SavingsRateMonth[];
+  runway_days: number | null;
+  data_completeness_pct: number;
 }
 
 export function getDashboard(): Promise<DashboardRead> {

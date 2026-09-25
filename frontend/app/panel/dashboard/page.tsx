@@ -8,6 +8,7 @@ import { LoadingBlock, ErrorState, EmptyState } from "@/components/common/States
 import DeviationChart from "@/components/dashboard/DeviationChart";
 import CategoryDonut from "@/components/dashboard/CategoryDonut";
 import IncomeExpenseChart from "@/components/dashboard/IncomeExpenseChart";
+import KpiTiles from "@/components/dashboard/KpiTiles";
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardRead | null>(null);
@@ -51,6 +52,12 @@ export default function DashboardPage() {
 
       {ready && data && !noData && (
         <div className="flex flex-col gap-4">
+          <KpiTiles
+            savingsRate={data.savings_rate}
+            runwayDays={data.runway_days}
+            dataCompletenessPct={data.data_completeness_pct}
+          />
+
           <div className="grid gap-4 lg:grid-cols-2">
             <div className="rp-card rounded-[18px] border border-border bg-surface px-4 py-4 sm:px-[22px] sm:py-[18px]">
               <h2 className="font-display text-sm font-semibold text-text-hi">
