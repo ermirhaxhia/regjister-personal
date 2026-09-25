@@ -24,6 +24,7 @@ const TYPE_LABEL: Record<HabitTrackingType, string> = {
   binary: "po / jo",
   duration: "minuta",
   koleksion: "koleksion",
+  numer: "numër",
 };
 
 const byName = (list: Habit[]): Habit[] =>
@@ -108,8 +109,9 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
   }, []);
   const { status, reload, refresh } = useGenLoad(fetchAll, applyAll);
 
-  const unitLabelValid =
-    trackingType !== "koleksion" || unitLabel.trim().length > 0;
+  const unitLabelRequired =
+    trackingType === "koleksion" || trackingType === "numer";
+  const unitLabelValid = !unitLabelRequired || unitLabel.trim().length > 0;
 
   const add = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,7 +123,7 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
       const row = await createHabit({
         name: next,
         tracking_type: trackingType,
-        unit_label: trackingType === "koleksion" ? unitLabel.trim() : null,
+        unit_label: unitLabelRequired ? unitLabel.trim() : null,
       });
       setActive((prev) => byName([...prev, row]));
       setName("");
@@ -205,7 +207,9 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
               ? "Shënohet me po / jo çdo ditë."
               : trackingType === "duration"
                 ? "Shënohet me minuta çdo ditë."
-                : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
+                : trackingType === "numer"
+                  ? "Shënohet me një numër (p.sh. sasi) çdo ditë."
+                  : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
           }
         >
           <select
@@ -218,10 +222,11 @@ export default function HabitManager({ bare = false }: { bare?: boolean }) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
+            <option value="numer">Numër (sasi)</option>
             <option value="koleksion">Koleksion (progres)</option>
           </select>
         </Field>
-        {trackingType === "koleksion" && (
+        {unitLabelRequired && (
           <Field label="Emri i njësisë" hint='p.sh. "faqe", "ushtrime", "kapituj"'>
             <input
               value={unitLabel}

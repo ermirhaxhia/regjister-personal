@@ -107,6 +107,21 @@ export default function HabitsTable({
     }
   };
 
+  const commitCount = async (row: HabitGridRow, value: number) => {
+    const n = Math.max(0, Math.round(value || 0));
+    const prev = row.cells[row.cells.length - 1].count ?? 0;
+    if (n === prev) return;
+    onOptimistic(row.id, (r) =>
+      setLastCell(r, { count: n > 0 ? n : null, met: n > 0 }),
+    );
+    try {
+      if (n > 0) await upsertHabitLog(row.id, today, { count: n });
+      else await deleteHabitLog(row.id, today);
+    } finally {
+      onRefresh();
+    }
+  };
+
   const rows = grid.habits;
 
   return (
@@ -173,6 +188,7 @@ export default function HabitsTable({
                   days={days}
                   onToggle={() => toggleBinary(row)}
                   onCommitDuration={(v) => commitDuration(row, v)}
+                  onCommitCount={(v) => commitCount(row, v)}
                 />
               ))}
             </tbody>
@@ -189,6 +205,7 @@ export default function HabitsTable({
             days={days}
             onToggle={() => toggleBinary(row)}
             onCommitDuration={(v) => commitDuration(row, v)}
+            onCommitCount={(v) => commitCount(row, v)}
           />
         ))}
       </div>

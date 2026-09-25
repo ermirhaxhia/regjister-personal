@@ -516,7 +516,7 @@ export function updateSleepGoal(goalMinutes: number): Promise<SleepGoal> {
   return apiPut<SleepGoal>("/settings/sleep-goal", { goal_minutes: goalMinutes });
 }
 
-export type HabitTrackingType = "binary" | "duration" | "koleksion";
+export type HabitTrackingType = "binary" | "duration" | "koleksion" | "numer";
 
 export interface Habit {
   id: string;
@@ -541,6 +541,7 @@ export interface HabitLog {
   entry_date: string;
   done: boolean | null;
   duration_minutes: number | null;
+  count: number | null;
   note: string | null;
   created_at: string;
   updated_at: string;
@@ -549,6 +550,7 @@ export interface HabitLog {
 export interface HabitLogInput {
   done?: boolean;
   duration_minutes?: number;
+  count?: number;
   note?: string | null;
 }
 
@@ -556,6 +558,7 @@ export interface HabitGridCell {
   date: string;
   done: boolean | null;
   duration_minutes: number | null;
+  count: number | null;
   met: boolean;
 }
 
@@ -966,6 +969,7 @@ export interface DayHabit {
   unit_label: string | null;
   done: boolean | null;
   duration_minutes: number | null;
+  count: number | null;
   note: string | null;
   met: boolean;
 }

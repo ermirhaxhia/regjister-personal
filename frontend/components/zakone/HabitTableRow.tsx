@@ -11,6 +11,7 @@ interface Props {
   days: 14 | 30;
   onToggle: () => void;
   onCommitDuration: (value: number) => void;
+  onCommitCount: (value: number) => void;
 }
 
 export default function HabitTableRow({
@@ -19,6 +20,7 @@ export default function HabitTableRow({
   days,
   onToggle,
   onCommitDuration,
+  onCommitCount,
 }: Props) {
   const last = row.cells[row.cells.length - 1];
 
@@ -37,9 +39,12 @@ export default function HabitTableRow({
           trackingType={row.tracking_type}
           met={last.met}
           durationMinutes={last.duration_minutes}
+          count={last.count}
+          unitLabel={row.unit_label}
           name={row.name}
           onToggle={onToggle}
           onCommitDuration={onCommitDuration}
+          onCommitCount={onCommitCount}
         />
       </td>
       <td className="px-3">

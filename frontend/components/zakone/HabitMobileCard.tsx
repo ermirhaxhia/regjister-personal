@@ -11,6 +11,7 @@ interface Props {
   days: 14 | 30;
   onToggle: () => void;
   onCommitDuration: (value: number) => void;
+  onCommitCount: (value: number) => void;
 }
 
 function Label({ children }: { children: React.ReactNode }) {
@@ -27,6 +28,7 @@ export default function HabitMobileCard({
   days,
   onToggle,
   onCommitDuration,
+  onCommitCount,
 }: Props) {
   const last = row.cells[row.cells.length - 1];
 
@@ -46,9 +48,12 @@ export default function HabitMobileCard({
             trackingType={row.tracking_type}
             met={last.met}
             durationMinutes={last.duration_minutes}
+            count={last.count}
+            unitLabel={row.unit_label}
             name={row.name}
             onToggle={onToggle}
             onCommitDuration={onCommitDuration}
+            onCommitCount={onCommitCount}
           />
         </div>
         <div className="flex flex-col gap-1.5">

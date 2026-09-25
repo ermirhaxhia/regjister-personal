@@ -53,6 +53,22 @@ export default function DayHabitsSection({ date, items, onChanged }: Props) {
     }
   };
 
+  const commitCount = async (habit: DayHabit, value: number) => {
+    const n = Math.max(0, Math.round(value || 0));
+    if (n === (habit.count ?? 0)) return;
+    setBusyId(habit.habit_id);
+    setError(null);
+    try {
+      if (n > 0) await upsertHabitLog(habit.habit_id, date, { count: n });
+      else await deleteHabitLog(habit.habit_id, date);
+      onChanged();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Ndryshimi dështoi");
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   return (
     <DaySection
       icon={IconHabits}
@@ -82,9 +98,12 @@ export default function DayHabitsSection({ date, items, onChanged }: Props) {
             trackingType={h.tracking_type}
             met={h.met}
             durationMinutes={h.duration_minutes}
+            count={h.count}
+            unitLabel={h.unit_label}
             name={h.name}
             onToggle={() => toggle(h)}
             onCommitDuration={(v) => commitDuration(h, v)}
+            onCommitCount={(v) => commitCount(h, v)}
           />
         </div>
       ))}

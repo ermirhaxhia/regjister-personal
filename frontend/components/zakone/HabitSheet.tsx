@@ -31,8 +31,9 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const unitLabelValid =
-    trackingType !== "koleksion" || unitLabel.trim().length > 0;
+  const unitLabelRequired =
+    trackingType === "koleksion" || trackingType === "numer";
+  const unitLabelValid = !unitLabelRequired || unitLabel.trim().length > 0;
   const valid = name.trim().length > 0 && unitLabelValid;
 
   const submit = async (e: React.FormEvent) => {
@@ -44,7 +45,7 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
       const body = {
         name: name.trim(),
         tracking_type: trackingType,
-        unit_label: trackingType === "koleksion" ? unitLabel.trim() : null,
+        unit_label: unitLabelRequired ? unitLabel.trim() : null,
         is_active: isActive,
       };
       const row =
@@ -97,7 +98,9 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
               ? "Shënohet me po / jo çdo ditë."
               : trackingType === "duration"
                 ? "Shënohet me minuta çdo ditë."
-                : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
+                : trackingType === "numer"
+                  ? "Shënohet me një numër (p.sh. sasi) çdo ditë."
+                  : "Hap një faqe të veçantë për të menaxhuar koleksione progresi (libra, ushtrime, projekte etj.)."
           }
         >
           <select
@@ -110,11 +113,12 @@ export default function HabitSheet({ open, onClose, onSaved, initial }: Props) {
           >
             <option value="binary">Binar (po / jo)</option>
             <option value="duration">Kohëzgjatje (minuta)</option>
+            <option value="numer">Numër (sasi)</option>
             <option value="koleksion">Koleksion (progres)</option>
           </select>
         </Field>
 
-        {trackingType === "koleksion" && (
+        {unitLabelRequired && (
           <Field label="Emri i njësisë" hint='p.sh. "faqe", "ushtrime", "kapituj"'>
             <input
               value={unitLabel}

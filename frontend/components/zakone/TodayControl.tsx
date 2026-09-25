@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/cn";
 import { IconCheck, IconBook, IconChevronRight } from "@/components/icons";
 import DurationMark from "@/components/zakone/DurationMark";
+import CountMark from "@/components/zakone/CountMark";
 import type { HabitTrackingType } from "@/lib/api";
 
 interface Props {
@@ -11,9 +12,12 @@ interface Props {
   trackingType: HabitTrackingType;
   met: boolean;
   durationMinutes: number | null;
+  count: number | null;
+  unitLabel: string | null;
   name: string;
   onToggle: () => void;
   onCommitDuration: (value: number) => void;
+  onCommitCount: (value: number) => void;
 }
 
 export default function TodayControl({
@@ -21,9 +25,12 @@ export default function TodayControl({
   trackingType,
   met,
   durationMinutes,
+  count,
+  unitLabel,
   name,
   onToggle,
   onCommitDuration,
+  onCommitCount,
 }: Props) {
   if (trackingType === "duration") {
     return (
@@ -32,6 +39,19 @@ export default function TodayControl({
           key={durationMinutes ?? 0}
           initial={durationMinutes ?? 0}
           onCommit={onCommitDuration}
+        />
+      </div>
+    );
+  }
+
+  if (trackingType === "numer") {
+    return (
+      <div className="flex justify-center">
+        <CountMark
+          key={count ?? 0}
+          initial={count ?? 0}
+          unitLabel={unitLabel ?? "nr."}
+          onCommit={onCommitCount}
         />
       </div>
     );

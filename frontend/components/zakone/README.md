@@ -13,13 +13,15 @@ arkivimi i zakoneve rri te Cilësimet (`components/cilesime/HabitManager`).
 - `HabitHistory.tsx` — rrip qelizash për ditët; kokë shkronjash (H·M·M·E·P·Sh·D) sipër,
   numri i ditës së muajit brenda çdo kutie (shkurtim muaji te dita 1 në desktop), data
   e plotë si `title`; skroll horizontal vetëm brenda rripit.
-- `TodayControl.tsx` — checkbox i madh (binar), input minuta (kohëzgjatje), ose
-  link "Koleksion →" te `/panel/zakone/koleksion/{habitId}` (tracking_type
-  `koleksion`, ku menaxhohen koleksionet e progresit të atij zakoni).
-- `HabitCells.tsx` — `HabitName` (nëntitulli për `koleksion` vjen nga
+- `TodayControl.tsx` — checkbox i madh (binar), input minuta (kohëzgjatje), input
+  numër + njësi (`numer`), ose link "Koleksion →" te
+  `/panel/zakone/koleksion/{habitId}` (tracking_type `koleksion`, ku menaxhohen
+  koleksionet e progresit të atij zakoni).
+- `HabitCells.tsx` — `HabitName` (nëntitulli për `koleksion`/`numer` vjen nga
   `habit.unit_label`), `StreakBadge` (flame kur ≥ 3), `RateBar`
   ("{mbajtur} / {gjithsej} ditë" + mini-shirit).
 - `DurationMark.tsx` — input minuta (blur/Enter).
+- `CountMark.tsx` — input numër + etiketë njësie (blur/Enter), për zakone `numer`.
 - `HabitSheet.tsx` — fletë shto/edito në `Sheet`; përdoret nga `HabitManager` te Cilësimet.
 - `ArchivedHabits.tsx` — seksion i palosur me ri-aktivizim / fshirje; përdoret nga
   `HabitManager` te Cilësimet.
