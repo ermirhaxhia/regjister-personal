@@ -1131,3 +1131,61 @@ export function deleteCollectionEntry(
 ): Promise<void> {
   return apiDelete(`/collections/${collectionId}/entries/${entryId}`);
 }
+
+export interface SleepNightPoint {
+  night_date: string;
+  bedtime_hour: number;
+  waketime_hour: number;
+  duration_minutes: number;
+  debt_hours_night: number;
+  cumulative_debt_hours: number;
+}
+
+export interface SleepInsightsRead {
+  nights: SleepNightPoint[];
+  bedtime_mean: number | null;
+  bedtime_std: number | null;
+}
+
+export function getSleepInsights(days = 14): Promise<SleepInsightsRead> {
+  return apiGet<SleepInsightsRead>(`/sleep/insights${qs({ days: String(days) })}`);
+}
+
+export interface HeatmapDay {
+  date: string;
+  amount: string;
+}
+
+export interface ExpenseHeatmapRead {
+  days: HeatmapDay[];
+}
+
+export function getExpenseHeatmap(months = 6): Promise<ExpenseHeatmapRead> {
+  return apiGet<ExpenseHeatmapRead>(
+    `/dashboard/expense-heatmap${qs({ months: String(months) })}`,
+  );
+}
+
+export type CorrelationRow =
+  | "energy"
+  | "mood"
+  | "expense_next"
+  | "habit_rate";
+
+export type CorrelationCol = "sleep" | "work_hours" | "expense";
+
+export interface CorrelationCell {
+  row: CorrelationRow;
+  col: CorrelationCol;
+  rho: number;
+  n: number;
+  significant: boolean;
+}
+
+export interface CorrelationsRead {
+  cells: CorrelationCell[];
+}
+
+export function getCorrelations(): Promise<CorrelationsRead> {
+  return apiGet<CorrelationsRead>("/insights/correlations");
+}

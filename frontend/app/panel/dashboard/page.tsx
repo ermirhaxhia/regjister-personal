@@ -1,7 +1,14 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { getDashboard, type DashboardRead } from "@/lib/api";
+import { useCallback, useEffect, useState } from "react";
+import {
+  getDashboard,
+  getSleepInsights,
+  getExpenseHeatmap,
+  type DashboardRead,
+  type SleepInsightsRead,
+  type ExpenseHeatmapRead,
+} from "@/lib/api";
 import { useGenLoad } from "@/lib/useGenLoad";
 import PageHeader from "@/components/common/PageHeader";
 import { LoadingBlock, ErrorState, EmptyState } from "@/components/common/States";
@@ -9,13 +16,39 @@ import DeviationChart from "@/components/dashboard/DeviationChart";
 import CategoryDonut from "@/components/dashboard/CategoryDonut";
 import IncomeExpenseChart from "@/components/dashboard/IncomeExpenseChart";
 import KpiTiles from "@/components/dashboard/KpiTiles";
+import SleepWindowChart from "@/components/dashboard/SleepWindowChart";
+import SleepDebtChart from "@/components/dashboard/SleepDebtChart";
+import ExpenseHeatmap from "@/components/dashboard/ExpenseHeatmap";
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardRead | null>(null);
+  const [sleep, setSleep] = useState<SleepInsightsRead | null>(null);
+  const [heatmap, setHeatmap] = useState<ExpenseHeatmapRead | null>(null);
 
   const fetchDashboard = useCallback(() => getDashboard(), []);
   const applyDashboard = useCallback((d: DashboardRead) => setData(d), []);
   const { status, reload } = useGenLoad(fetchDashboard, applyDashboard);
+
+  useEffect(() => {
+    let cancelled = false;
+    getSleepInsights(14)
+      .then((d) => {
+        if (!cancelled) setSleep(d);
+      })
+      .catch(() => {
+        if (!cancelled) setSleep({ nights: [], bedtime_mean: null, bedtime_std: null });
+      });
+    getExpenseHeatmap(6)
+      .then((d) => {
+        if (!cancelled) setHeatmap(d);
+      })
+      .catch(() => {
+        if (!cancelled) setHeatmap({ days: [] });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const ready = status === "ready" || status === "refreshing";
   const noData =
@@ -85,6 +118,46 @@ export default function DashboardPage() {
             <div className="mt-3">
               <IncomeExpenseChart daily={data.daily} />
             </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="rp-card rounded-[18px] border border-border bg-surface px-4 py-4 sm:px-[22px] sm:py-[18px]">
+              <h2 className="font-display text-sm font-semibold text-text-hi">
+                Dritarja e gjumit
+              </h2>
+              {sleep ? (
+                <div className="mt-3">
+                  <SleepWindowChart data={sleep} />
+                </div>
+              ) : (
+                <LoadingBlock lines={1} className="mt-3" />
+              )}
+            </div>
+            <div className="rp-card rounded-[18px] border border-border bg-surface px-4 py-4 sm:px-[22px] sm:py-[18px]">
+              <h2 className="font-display text-sm font-semibold text-text-hi">
+                Borxhi i gjumit
+              </h2>
+              {sleep ? (
+                <div className="mt-3">
+                  <SleepDebtChart data={sleep} />
+                </div>
+              ) : (
+                <LoadingBlock lines={1} className="mt-3" />
+              )}
+            </div>
+          </div>
+
+          <div className="rp-card rounded-[18px] border border-border bg-surface px-4 py-4 sm:px-[22px] sm:py-[18px]">
+            <h2 className="font-display text-sm font-semibold text-text-hi">
+              Heatmap i shpenzimeve
+            </h2>
+            {heatmap ? (
+              <div className="mt-3">
+                <ExpenseHeatmap data={heatmap} />
+              </div>
+            ) : (
+              <LoadingBlock lines={1} className="mt-3" />
+            )}
           </div>
         </div>
       )}

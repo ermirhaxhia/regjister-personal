@@ -6,6 +6,7 @@ import { useGenLoad } from "@/lib/useGenLoad";
 import PageHeader from "@/components/common/PageHeader";
 import { LoadingBlock, ErrorState, EmptyState } from "@/components/common/States";
 import InsightCard from "@/components/zbulime/InsightCard";
+import CorrelationMatrix from "@/components/zbulime/CorrelationMatrix";
 
 export default function ZbulimePage() {
   const [data, setData] = useState<InsightsRead | null>(null);
@@ -52,6 +53,8 @@ export default function ZbulimePage() {
           ))}
         </div>
       )}
+
+      <CorrelationMatrix />
     </div>
   );
 }

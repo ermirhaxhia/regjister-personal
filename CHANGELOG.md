@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: zbulime] [LLOJI: SHTIM] CorrelationMatrix (frontend/components/zbulime/CorrelationMatrix.tsx, frontend/app/panel/zbulime/page.tsx, frontend/lib/api.ts) — seksion i ri "Korrelacione me vonesë" te Zbulime, matricë vizuale e GET /insights/correlations, me gjendje bosh e qartë kur s'ka ende ≥30 ditë të mbivendosura
+[MODUL: dashboard] [LLOJI: SHTIM] Grafikët e gjumit dhe heatmap i shpenzimeve (frontend/components/dashboard/SleepWindowChart.tsx, SleepDebtChart.tsx, ExpenseHeatmap.tsx, app/panel/dashboard/page.tsx, lib/api.ts) — dritarja e gjumit, borxhi i gjumit, dhe heatmap kalendarik i shpenzimeve te Dashboard-i, duke konsumuar GET /sleep/insights dhe GET /dashboard/expense-heatmap
 [MODUL: insights] [LLOJI: SHTIM] get_correlations (backend/routes/insights.py, backend/core/correlations.py, backend/models/insights.py) — GET /insights/correlations, matricë korrelacionesh Spearman me vonesë 1-ditë (energy/mood/expense_next/habit_rate ~ sleep/work_hours/expense) me korrigjim Benjamini–Hochberg (q=0.1), vetëm qelizat me n≥30 — shton scipy si varësi e re (requirements.txt) për p-value të sakta
 [MODUL: sleep] [LLOJI: SHTIM] get_sleep_insights (backend/routes/sleep.py, backend/models/sleep.py) — endpoint GET /sleep/insights?days=14 për dritaren e gjumit (rregullsi orë-fjetje, mesatare+std) dhe borxhin kumulativ të gjumit kundrejt synimit 8h — pa ndryshim skeme
 [MODUL: dashboard] [LLOJI: SHTIM] get_expense_heatmap (backend/routes/dashboard.py, backend/models/dashboard.py) — endpoint GET /dashboard/expense-heatmap?months=1-12 që kthen shpenzimin ditor për periudhën, çdo ditë pa zbrazëtira, për heatmap kalendarik stil GitHub
