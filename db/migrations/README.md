@@ -15,6 +15,7 @@ Ndryshime shtuese ndaj skemës, të numëruara me rradhë; `schema.sql` në rrë
 - `009-reading.sql` — shton `tracking_type = 'lexim'` te `habits`, `books` + `reading_sessions` për modulin e Leximit.
 - `010-collections.sql` — përgjithëson `books`/`reading_sessions` në `collections`/`collection_entries` (total opsional, lidhur me `habit_id`, `status` 'active'|'paused'|'finished'); `habits.tracking_type` 'lexim' -> 'koleksion' + `unit_label`.
 - `013-mood-log.sql` — Moduli 7 "Humor dhe Energjia": shton `mood_log` (check-in ditor, `log_date` PK, `mood`/`energy` 1-5, `note` opsionale).
+- `014-work-sessions.sql` — Moduli 8 "Orë Pune": shton `work_sessions` (start/end `timestamptz`, `work_date`, `workplace_id` -> `sectors` ON DELETE SET NULL, kohëzgjatje e llogaritur), modeluar sipas `sleep_log`.
 
 ## Lidhet me
 - `schema.sql` (rrënjë) — burimi i vetëm i së vërtetës për skemën.
@@ -26,4 +27,5 @@ Ndryshime shtuese ndaj skemës, të numëruara me rradhë; `schema.sql` në rrë
 - Moduli 6 — Burime Njerëzore (`sectors`, `colleagues`, `contact_log`).
 - Moduli i Koleksioneve (`collections`, `collection_entries`), lidhur me `habits.tracking_type = 'koleksion'`.
 - Moduli 7 — Humor dhe Energjia (`mood_log`).
+- Moduli 8 — Orë Pune (`work_sessions`), lidhur me `sectors` (vendi i punës).
 - Cilësime globale (`app_settings`).

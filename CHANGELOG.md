@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: db] [LLOJI: SHTIM] work_sessions (db/migrations/014-work-sessions.sql, schema.sql) — tabelë e re për seancat e punës (fillim/mbarim, vend pune lidhur me sectors, kohëzgjatje e llogaritur nga DB) — mbështet modulin e ri "Orë Pune"
 [MODUL: dashboard] [LLOJI: SHTIM] KpiTiles (frontend/components/dashboard/KpiTiles.tsx, frontend/app/panel/dashboard/page.tsx, frontend/lib/api.ts) — shtoi tri pllaka KPI në krye të Dashboard-it: Norma e kursimit (me krahasim pikë-përqindje ndaj muajit paraardhës), Runway, Plotësia e regjistrimit
 [MODUL: dashboard] [LLOJI: SHTIM] get_dashboard (backend/routes/dashboard.py, backend/models/dashboard.py) — shtoi 3 KPI: norma e kursimit mujore (income_allocations bucket personale), runway (balancë/shpenzim mesatar 30-ditor), plotësia e regjistrimit (% ditësh me të dhëna në expenses/sleep_log/habit_log/mood_log) — tregues më kuptimplotë financiarë dhe të vetë-monitorimit, pa tabela/kolona të reja
 [MODUL: dita] [LLOJI: SHTIM] DayMoodSection (frontend/components/dita/DayMoodSection.tsx, frontend/lib/api.ts) — shtoi seksionin "Humor dhe Energji" te faqja Dita me check-in 1-5 për humor/energji + shënim opsional, ruajtje e menjëhershme përmes /mood/{d} — mbyll ditën me check-in emocional pa u varur nga /day/{d}
