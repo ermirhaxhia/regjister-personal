@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-25
+[MODUL: dashboard] [LLOJI: SHTIM] get_dashboard (backend/routes/dashboard.py, backend/models/dashboard.py) — shtoi 3 KPI: norma e kursimit mujore (income_allocations bucket personale), runway (balancë/shpenzim mesatar 30-ditor), plotësia e regjistrimit (% ditësh me të dhëna në expenses/sleep_log/habit_log/mood_log) — tregues më kuptimplotë financiarë dhe të vetë-monitorimit, pa tabela/kolona të reja
 [MODUL: dita] [LLOJI: SHTIM] DayMoodSection (frontend/components/dita/DayMoodSection.tsx, frontend/lib/api.ts) — shtoi seksionin "Humor dhe Energji" te faqja Dita me check-in 1-5 për humor/energji + shënim opsional, ruajtje e menjëhershme përmes /mood/{d} — mbyll ditën me check-in emocional pa u varur nga /day/{d}
 [MODUL: mood] [LLOJI: SHTIM] router /mood + integrim insights (backend/routes/mood.py, backend/models/mood.py, backend/core/insights.py, backend/routes/insights.py, backend/main.py) — endpoint-e CRUD për check-in ditor humor/energji (PUT upsert, GET, GET listë, DELETE) dhe zbulim i ri "Humori dhe gjumi" (korrelacion mood/energy me gjatësinë e gjumit) — moduli i ri "Humor dhe Energjia"
 [MODUL: db] [LLOJI: SHTIM] mood_log (db/migrations/013-mood-log.sql, schema.sql) — check-in ditor humor/energji (1-5) + shënim opsional, log_date si PK — modul i ri "Humor dhe Energjia"

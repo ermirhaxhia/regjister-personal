@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends
 
 from core.database import get_client
 from core.security import require_auth
-from models.dashboard import CategoryShare, DashboardDay, DashboardRead
+from models.dashboard import CategoryShare, DashboardDay, DashboardRead, SavingsRateMonth
 
 router = APIRouter(
     prefix="/dashboard",
@@ -16,6 +16,14 @@ router = APIRouter(
 
 EXPENSES = "expenses"
 INCOME = "income"
+ALLOCATIONS = "income_allocations"
+SLEEP = "sleep_log"
+HABIT_LOG = "habit_log"
+MOOD = "mood_log"
+SETTINGS = "app_settings"
+OPENING_BALANCE_KEY = "opening_balance"
+
+SAVINGS_RATE_MONTHS = 6
 
 
 def _num(v) -> Decimal:
@@ -25,16 +33,63 @@ def _num(v) -> Decimal:
         return Decimal("0")
 
 
+def _month_key(d: date) -> str:
+    return f"{d.year:04d}-{d.month:02d}"
+
+
+def _prev_month_start(d: date) -> date:
+    if d.month == 1:
+        return date(d.year - 1, 12, 1)
+    return date(d.year, d.month - 1, 1)
+
+
 @router.get("", response_model=DashboardRead)
 def get_dashboard():
     client = get_client()
     expenses = (
         client.table(EXPENSES).select("amount, category, entry_date").execute().data
     )
-    incomes = client.table(INCOME).select("amount, received_on").execute().data
+    incomes = client.table(INCOME).select("id, amount, received_on").execute().data
+    personale_allocs = (
+        client.table(ALLOCATIONS)
+        .select("amount, income_id")
+        .eq("bucket", "personale")
+        .execute()
+        .data
+    )
+    opening_balance_row = (
+        client.table(SETTINGS).select("value").eq("key", OPENING_BALANCE_KEY).execute().data
+    )
+    opening_balance = _num(opening_balance_row[0]["value"]) if opening_balance_row else Decimal("0")
 
     today = date.today()
     month_start = today.replace(day=1)
+    d30_start = today - timedelta(days=29)
+
+    sleep_dates = (
+        client.table(SLEEP)
+        .select("night_date")
+        .gte("night_date", d30_start.isoformat())
+        .lte("night_date", today.isoformat())
+        .execute()
+        .data
+    )
+    habit_dates = (
+        client.table(HABIT_LOG)
+        .select("entry_date")
+        .gte("entry_date", d30_start.isoformat())
+        .lte("entry_date", today.isoformat())
+        .execute()
+        .data
+    )
+    mood_dates = (
+        client.table(MOOD)
+        .select("log_date")
+        .gte("log_date", d30_start.isoformat())
+        .lte("log_date", today.isoformat())
+        .execute()
+        .data
+    )
 
     expense_by_date: dict[date, Decimal] = defaultdict(lambda: Decimal("0"))
     income_by_date: dict[date, Decimal] = defaultdict(lambda: Decimal("0"))
@@ -76,8 +131,53 @@ def get_dashboard():
         reverse=True,
     )
 
+    income_received = {i["id"]: date.fromisoformat(i["received_on"]) for i in incomes}
+    personal_income_by_month: dict[str, Decimal] = defaultdict(lambda: Decimal("0"))
+    for a in personale_allocs:
+        rd = income_received.get(a["income_id"])
+        if rd is None:
+            continue
+        personal_income_by_month[_month_key(rd)] += _num(a["amount"])
+
+    expense_by_month: dict[str, Decimal] = defaultdict(lambda: Decimal("0"))
+    for d, amt in expense_by_date.items():
+        expense_by_month[_month_key(d)] += amt
+
+    months: list[str] = []
+    cursor = today.replace(day=1)
+    for _ in range(SAVINGS_RATE_MONTHS):
+        months.append(_month_key(cursor))
+        cursor = _prev_month_start(cursor)
+    months.reverse()
+
+    savings_rate = []
+    for mk in months:
+        inc = personal_income_by_month.get(mk, Decimal("0"))
+        exp = expense_by_month.get(mk, Decimal("0"))
+        rate = int(round((1 - exp / inc) * 100)) if inc else None
+        savings_rate.append(SavingsRateMonth(month=mk, rate_pct=rate))
+
+    total_personale = sum((_num(a["amount"]) for a in personale_allocs), Decimal("0"))
+    total_expense_all = sum(expense_by_date.values(), Decimal("0"))
+    balance_total = opening_balance + total_personale - total_expense_all
+    runway_days = (
+        int(round(balance_total / expense_mean_30d)) if expense_mean_30d > 0 else None
+    )
+
+    sleep_day_set = {date.fromisoformat(r["night_date"]) for r in sleep_dates}
+    habit_day_set = {date.fromisoformat(r["entry_date"]) for r in habit_dates}
+    mood_day_set = {date.fromisoformat(r["log_date"]) for r in mood_dates}
+    days_with_record = set(expense_by_date) | sleep_day_set | habit_day_set | mood_day_set
+    days_covered = sum(
+        1 for i in range(30) if (d30_start + timedelta(days=i)) in days_with_record
+    )
+    data_completeness_pct = int(round(days_covered / 30 * 100))
+
     return DashboardRead(
         daily=daily,
         expense_mean_30d=expense_mean_30d,
         categories_month=categories_month,
+        savings_rate=savings_rate,
+        runway_days=runway_days,
+        data_completeness_pct=data_completeness_pct,
     )
