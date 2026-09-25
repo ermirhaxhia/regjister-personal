@@ -151,6 +151,51 @@ def payday_window(expense_rows: list[dict], income_rows: list[dict], today: date
     }
 
 
+def mood_sleep(mood_rows: list[dict], sleep_rows: list[dict], today: date) -> dict | None:
+    """Humori dhe energjia sipas gjatësisë së gjumit të natës paraardhëse (nën/mbi 6h)."""
+    dur: dict[date, float] = defaultdict(float)
+    for r in sleep_rows:
+        dur[_date(r["night_date"])] += _num(r["duration_minutes"])
+
+    short_mood: list[float] = []
+    long_mood: list[float] = []
+    short_energy: list[float] = []
+    long_energy: list[float] = []
+    for r in mood_rows:
+        log_date = _date(r["log_date"])
+        night = log_date - timedelta(days=1)
+        minutes = dur.get(night)
+        if minutes is None:
+            continue
+        if minutes < _SHORT_SLEEP_MIN:
+            short_mood.append(_num(r["mood"]))
+            short_energy.append(_num(r["energy"]))
+        else:
+            long_mood.append(_num(r["mood"]))
+            long_energy.append(_num(r["energy"]))
+
+    if len(short_mood) < 4 or len(long_mood) < 4:
+        return None
+
+    a_mood = sum(short_mood) / len(short_mood)
+    b_mood = sum(long_mood) / len(long_mood)
+    a_energy = sum(short_energy) / len(short_energy)
+    b_energy = sum(long_energy) / len(long_energy)
+    points = len(short_mood) + len(long_mood)
+    return {
+        "id": "mood_sleep",
+        "kind": "mood_sleep",
+        "title": "Humori dhe gjumi",
+        "detail": (
+            f"Pas netëve nën 6h humori mesatar është {round(a_mood, 1)}/5 dhe energjia "
+            f"{round(a_energy, 1)}/5; pas netëve mbi 6h {round(b_mood, 1)}/5 "
+            f"dhe {round(b_energy, 1)}/5."
+        ),
+        "confidence": _conf(points, 12, 20),
+        "data_points": points,
+    }
+
+
 def fitness_habits(
     fitness_rows: list[dict], habit_log_rows: list[dict], habits: list[dict], today: date
 ) -> dict | None:

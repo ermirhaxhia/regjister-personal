@@ -3,7 +3,13 @@ from datetime import date
 from fastapi import APIRouter, Depends
 
 from core.database import get_client
-from core.insights import fitness_habits, payday_window, sleep_spend, weekday_spend
+from core.insights import (
+    fitness_habits,
+    mood_sleep,
+    payday_window,
+    sleep_spend,
+    weekday_spend,
+)
 from core.security import require_auth
 from models.insights import Insight, InsightsRead
 
@@ -19,6 +25,7 @@ HABIT_LOG = "habit_log"
 HABITS = "habits"
 FITNESS = "fitness_entries"
 INCOME = "income"
+MOOD = "mood_log"
 
 
 @router.get("", response_model=InsightsRead)
@@ -37,12 +44,14 @@ def get_insights() -> InsightsRead:
     habits = client.table(HABITS).select("id, is_active").execute().data
     fitness_rows = client.table(FITNESS).select("entry_date").execute().data
     incomes = client.table(INCOME).select("received_on").execute().data
+    mood_rows = client.table(MOOD).select("log_date, mood, energy").execute().data
 
     candidates = [
         sleep_spend(sleep_rows, expenses, today),
         weekday_spend(expenses, today),
         payday_window(expenses, incomes, today),
         fitness_habits(fitness_rows, habit_log_rows, habits, today),
+        mood_sleep(mood_rows, sleep_rows, today),
     ]
     insights = [
         Insight(**c) for c in candidates if c is not None and c["confidence"] != "low"
