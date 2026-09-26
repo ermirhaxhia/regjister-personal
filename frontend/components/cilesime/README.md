@@ -30,7 +30,14 @@
   ardhurave (prop `bare`). Konsumon `GET/POST/PATCH/DELETE /income-sources`.
 - `SleepGoalForm.tsx` — formë e vogël, sinjal "orë gjumi" (1–16, hap 0.5), ruan si
   minuta. Konsumon `GET/PUT /settings/sleep-goal`.
+- `SchoolScheduleManager.tsx` — menaxhon orarin fiks javor: listë seancash grupuar
+  sipas ditës së javës (0=Hënë..6=Diel), të renditura kronologjikisht brenda ditës,
+  me shto / modifiko (inline `SchoolSessionForm`) / fshi (`Confirm`). Konsumon
+  `GET/POST/PATCH/DELETE /school/sessions`.
+- `SchoolSessionForm.tsx` — formë e përbashkët shto/edito për një seancë: lëndë,
+  lloj (input me `datalist` sugjerimesh), profesor/sallë opsionale, select ditë
+  jave, dy `input type="time"`, toggle `is_active`.
 
 **Lidhet me:** `components/common/*`, `components/hr/WorkplaceManager` (te Sheet),
 `components/zakone/HabitSheet` + `ArchivedHabits` (te HabitManager), `lib/api`,
-`lib/fitnessUnits`, `lib/useGenLoad`.
+`lib/fitnessUnits`, `lib/useGenLoad`, `lib/weekday`.

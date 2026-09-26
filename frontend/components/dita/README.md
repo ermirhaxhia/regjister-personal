@@ -23,6 +23,10 @@ direkt API-të ekzistuese të secilit modul (asnjë koncept i ri "dita e konfirm
 - `DayWorkSection.tsx` — seancat e punës të datës; `/day/{d}` nuk i përfshin, ndaj
   ngarkon vetë me `listWorkSessions(date, date)` dhe rifreskon lokalisht pas
   shtim/redaktim/fshirje, duke ripërdorur `WorkSessionSheet` nga `components/ore-pune`.
+- `DaySchoolSection.tsx` — seancat e orarit fiks të datës me shënimin "Shkova" /
+  "S'shkova"; `/day/{d}` nuk i përfshin, ndaj ripërdor `DayScheduleList` nga
+  `components/shkolla` që ngarkon vetë `GET /school/day/{d}` dhe thërret
+  `PUT /school/attendance/{session_id}/{date}` menjëherë pas klikimit.
 
 **Kufizim i njohur:** `DayNote` nga `/day/{d}` s'ka `colleague_id`, ndaj shënimet
 ekzistuese të një dite shfaqen vetëm për lexim (edit/delete kërkon shtim të asaj
@@ -32,4 +36,5 @@ fushe në backend — shih raportin).
 `components/common/*`, `components/zakone/TodayControl`,
 `components/shpenzime/ExpenseSheet`, `components/te-ardhura/IncomeSheet`,
 `components/gjumi/SleepSheet`, `components/aktivitet/EntryModal`,
-`components/ore-pune/WorkSessionSheet`, `components/icons`.
+`components/ore-pune/WorkSessionSheet`, `components/shkolla/DayScheduleList`,
+`components/icons`.

@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## 2026-09-26
+[MODUL: shkolla] [LLOJI: SHTIM] Faqja Shkolla, menaxhimi i orarit, integrim te Dita (frontend/app/panel/shkolla, frontend/components/shkolla/, frontend/components/cilesime/SchoolScheduleManager.tsx, frontend/components/dita/DaySchoolSection.tsx) — pamje javore e orarit, prezencë ditore "Shkova"/"S'shkova" për seancë të veçantë, përqindje prezence, dhe menaxhim orari nga Cilësimet
 [MODUL: school] [LLOJI: SHTIM] router school (backend/routes/school.py, backend/models/school.py) — CRUD për orarin fiks javor (class_sessions), upsert/delete prezence ditore (class_attendance), pamje ditore GET /school/day/{d} dhe përmbledhje GET /school/attendance/summary
 [MODUL: db] [LLOJI: SHTIM] Moduli 10 — Shkolla (db/migrations/017-class-attendance.sql, schema.sql) — shton class_sessions (orar javor fiks) dhe class_attendance (prezencë ditore për seancë të veçantë, jo lëndë-ditë) — regjistrim prezence me granularitet për seancë, sipas kërkesës
 

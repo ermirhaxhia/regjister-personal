@@ -9,7 +9,9 @@
   (fallback `X-PIN`) + `Content-Type`, hedhin `ApiError(status, message)` në jo-2xx; te
   `401` pastrojnë sesionin dhe ridrejtojnë te `/`. Tipe + funksione: `getSummary`,
   `listExpenses/createExpense/updateExpense/deleteExpense`, `listIncome/createIncome/…`,
-  `listSleep/createSleep/…`. URL nga `NEXT_PUBLIC_API_URL`. Sekretet nuk logohen, jo `localStorage`.
+  `listSleep/createSleep/…`, `listClassSessions/createClassSession/…`,
+  `getDaySchedule`, `upsertAttendance/deleteAttendance`, `getAttendanceSummary`
+  (`/school/*`). URL nga `NEXT_PUBLIC_API_URL`. Sekretet nuk logohen, jo `localStorage`.
 - `money.ts` — `formatALL` (247.600 L), `formatALLShort` (12k L), `formatSigned`.
 - `fitnessUnits.ts` — vokabulari i njësive të aktivitetit: `UNIT_ORDER`, `UNIT_SHORT`
   (etiketa të shkurtra: hapa, km, min, kg…), `formatUnitValue` (de-DE, 2 dhjetore),
@@ -22,6 +24,10 @@
   rikompilim dev), 1 riprovim ~500ms para `status="error"`, injoron `isAbortError`.
   Kthen `{ status, reload, refresh }`; `status` përfshin `"refreshing"` (rifreskim i
   butë, tabela mbetet e dukshme).
+- `weekday.ts` — konventa e ditës së javës për modulin Shkolla: `WEEKDAY_LABELS`/
+  `WEEKDAY_SHORT` (0=Hënë..6=Diel, siç kthen Python `.weekday()`), `weekdayFromISO`
+  (konverton nga `Date.getDay()` JS te konventa 0-6 e projektit), `timeShort`
+  ("HH:MM:SS" → "HH:MM"), `groupByWeekday` (grupim + renditje kronologjike).
 
 **Lidhet me:** të gjithë komponentët; `Authorization: Bearer` merr token-in nga
 `getStoredToken()`, me fallback `X-PIN` nga `getStoredPin()`.

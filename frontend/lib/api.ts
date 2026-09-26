@@ -1265,3 +1265,123 @@ export function upsertWeeklyReview(
 export function deleteWeeklyReview(weekStart: string): Promise<void> {
   return apiDelete(`/weekly-review/${weekStart}`);
 }
+
+export interface ClassSession {
+  id: string;
+  subject_name: string;
+  session_type: string | null;
+  professor: string | null;
+  room: string | null;
+  weekday: number;
+  start_time: string;
+  end_time: string;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ClassSessionInput {
+  subject_name: string;
+  session_type?: string | null;
+  professor?: string | null;
+  room?: string | null;
+  weekday: number;
+  start_time: string;
+  end_time: string;
+  is_active?: boolean;
+}
+
+export type ClassSessionPatch = Partial<ClassSessionInput>;
+
+export interface DaySchedule {
+  session_id: string;
+  subject_name: string;
+  session_type: string | null;
+  professor: string | null;
+  room: string | null;
+  start_time: string;
+  end_time: string;
+  attendance_id: string | null;
+  attended: boolean | null;
+  note: string | null;
+}
+
+export interface AttendanceInput {
+  attended: boolean;
+  note?: string | null;
+}
+
+export interface ClassAttendance {
+  id: string;
+  session_id: string;
+  class_date: string;
+  attended: boolean;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AttendanceSummary {
+  session_id?: string;
+  subject_name?: string;
+  total: number;
+  attended: number;
+  rate_pct: number;
+}
+
+export function listClassSessions(active?: boolean): Promise<ClassSession[]> {
+  return apiGet<ClassSession[]>(
+    `/school/sessions${qs({ active: active == null ? undefined : String(active) })}`,
+  );
+}
+
+export function createClassSession(
+  body: ClassSessionInput,
+): Promise<ClassSession> {
+  return apiPost<ClassSession>("/school/sessions", body);
+}
+
+export function getClassSession(id: string): Promise<ClassSession> {
+  return apiGet<ClassSession>(`/school/sessions/${id}`);
+}
+
+export function updateClassSession(
+  id: string,
+  patch: ClassSessionPatch,
+): Promise<ClassSession> {
+  return apiPatch<ClassSession>(`/school/sessions/${id}`, patch);
+}
+
+export function deleteClassSession(id: string): Promise<void> {
+  return apiDelete(`/school/sessions/${id}`);
+}
+
+export function getDaySchedule(date: string): Promise<DaySchedule[]> {
+  return apiGet<DaySchedule[]>(`/school/day/${date}`);
+}
+
+export function upsertAttendance(
+  sessionId: string,
+  classDate: string,
+  body: AttendanceInput,
+): Promise<ClassAttendance> {
+  return apiPut<ClassAttendance>(
+    `/school/attendance/${sessionId}/${classDate}`,
+    body,
+  );
+}
+
+export function deleteAttendance(
+  sessionId: string,
+  classDate: string,
+): Promise<void> {
+  return apiDelete(`/school/attendance/${sessionId}/${classDate}`);
+}
+
+export function getAttendanceSummary(params?: {
+  session_id?: string;
+  date_from?: string;
+  date_to?: string;
+}): Promise<AttendanceSummary | AttendanceSummary[]> {
+  return apiGet(`/school/attendance/summary${qs(params)}`);
+}

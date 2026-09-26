@@ -11,6 +11,7 @@ import {
   IconHabits,
   IconActivity,
   IconUsers,
+  IconBook,
 } from "@/components/icons";
 import ModuleCard from "@/components/cilesime/ModuleCard";
 import PinChangeCard from "@/components/cilesime/PinChangeCard";
@@ -19,6 +20,7 @@ import HabitManager from "@/components/cilesime/HabitManager";
 import ExpenseCategoryManager from "@/components/cilesime/ExpenseCategoryManager";
 import IncomeSourceManager from "@/components/cilesime/IncomeSourceManager";
 import SleepGoalForm from "@/components/cilesime/SleepGoalForm";
+import SchoolScheduleManager from "@/components/cilesime/SchoolScheduleManager";
 import WorkplaceManager from "@/components/hr/WorkplaceManager";
 
 type SheetKind =
@@ -28,6 +30,7 @@ type SheetKind =
   | "expenses"
   | "income"
   | "sleep"
+  | "school"
   | "soon";
 
 interface ModuleDef {
@@ -88,6 +91,14 @@ const MODULES: ModuleDef[] = [
     kind: "habits",
     active: true,
   },
+  {
+    key: "school",
+    name: "Shkolla",
+    description: "Orari javor i seancave",
+    icon: IconBook,
+    kind: "school",
+    active: true,
+  },
 ];
 
 const SHEET_TITLE: Record<SheetKind, string> = {
@@ -97,6 +108,7 @@ const SHEET_TITLE: Record<SheetKind, string> = {
   expenses: "Shpenzime",
   income: "Të ardhura",
   sleep: "Gjumi",
+  school: "Orari i Shkollës",
   soon: "Së shpejti",
 };
 
@@ -138,6 +150,7 @@ export default function SettingsPage() {
         {sheet === "expenses" && <ExpenseCategoryManager bare />}
         {sheet === "income" && <IncomeSourceManager bare />}
         {sheet === "sleep" && <SleepGoalForm bare />}
+        {sheet === "school" && <SchoolScheduleManager />}
         {sheet === "soon" && (
           <p className="text-sm text-text-mid">
             Së shpejti — do t&apos;i shtojmë bashkë.

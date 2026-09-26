@@ -14,6 +14,7 @@ import {
   IconSliders,
   IconLogout,
   IconWeekReview,
+  IconBook,
 } from "@/components/icons";
 
 export interface NavItem {
@@ -39,6 +40,7 @@ export const MODULES: NavItem[] = [
   { href: "/panel/zakone", label: "Zakone", icon: IconHabits, countKey: "habits" },
   { href: "/panel/aktivitet", label: "Aktivitet", icon: IconActivity, countKey: "fitness" },
   { href: "/panel/ore-pune", label: "Orë Pune", icon: IconBriefcase },
+  { href: "/panel/shkolla", label: "Shkolla", icon: IconBook },
   { href: "/panel/burime-njerezore", label: "Burime Njerëzore", icon: IconUsers, countKey: "hr" },
   { href: "/panel/rishikimi-javor", label: "Rishikimi Javor", icon: IconWeekReview },
 ];
