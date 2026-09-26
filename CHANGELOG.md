@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2026-09-26
+[MODUL: db] [LLOJI: SHTIM] Moduli 10 — Shkolla (db/migrations/017-class-attendance.sql, schema.sql) — shton class_sessions (orar javor fiks) dhe class_attendance (prezencë ditore për seancë të veçantë, jo lëndë-ditë) — regjistrim prezence me granularitet për seancë, sipas kërkesës
+
 ## 2026-09-25
 [MODUL: zakone] [LLOJI: SHTIM] Lloji i zakonit "numër" (frontend/lib/api.ts, components/zakone/CountMark.tsx, TodayControl.tsx, HabitsTable.tsx, HabitTableRow.tsx, HabitMobileCard.tsx, components/cilesime/HabitManager.tsx, components/zakone/HabitSheet.tsx, components/dita/DayHabitsSection.tsx) — UI e re për zakone numerike (p.sh. kafe, gota uji) me kontroll CountMark dhe fushë unit_label — mbulon tipin e ri "numer" të backend-it
 [MODUL: burime-njerezore] [LLOJI: SHTIM] ColdContactsSection (frontend/components/burime-njerezore/ColdContactsSection.tsx, app/panel/burime-njerezore/page.tsx) — seksion i ri "Kontakte të ftohura" te faqja Burime Njerëzore, kolegët renditur sipas ditëve që nga shënimi i fundit, plotësisht client-side (pa ndryshim backend)

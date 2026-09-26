@@ -437,6 +437,54 @@ create trigger weekly_review_set_updated_at
 
 
 -- ============================================================================
+-- MODULI 10 — SHKOLLA (class_sessions / class_attendance)
+-- Prezenca në orar mësimor. class_sessions është orari fiks javor (recurring),
+-- ndërtuar/ndryshuar vetë nga përdoruesi te Cilësimet kur ndryshon semestri.
+-- class_attendance regjistron çdo ditë nëse u shkua apo jo në secilën seancë të
+-- planifikuar. Granulariteti është PËR SEANCË TË VEÇANTË, jo për lëndë-ditë: një
+-- lëndë që zë 2 orë radhazi futet si 2 rreshta të veçantë te class_sessions
+-- nëse përdoruesi e do kështu, sepse ndonjëherë shkon vetëm në njërën orë.
+-- ============================================================================
+create table class_sessions (
+    id            uuid primary key default gen_random_uuid(),
+    subject_name  text not null,
+    session_type  text,
+    professor     text,
+    room          text,
+    weekday       smallint not null check (weekday between 0 and 6),  -- 0=E Hënë ... 6=E Diel
+    start_time    time not null,
+    end_time      time not null,
+    is_active     boolean not null default true,
+    created_at    timestamptz not null default now(),
+    updated_at    timestamptz not null default now(),
+    constraint class_sessions_end_after_start check (end_time > start_time)
+);
+
+create index class_sessions_weekday_idx on class_sessions (weekday) where is_active;
+
+create trigger class_sessions_set_updated_at
+    before update on class_sessions
+    for each row execute function moddatetime(updated_at);
+
+create table class_attendance (
+    id           uuid primary key default gen_random_uuid(),
+    session_id   uuid not null references class_sessions (id) on delete cascade,
+    class_date   date not null,
+    attended     boolean not null,
+    note         text,
+    created_at   timestamptz not null default now(),
+    updated_at   timestamptz not null default now(),
+    unique (session_id, class_date)
+);
+
+create index class_attendance_class_date_idx on class_attendance (class_date desc);
+
+create trigger class_attendance_set_updated_at
+    before update on class_attendance
+    for each row execute function moddatetime(updated_at);
+
+
+-- ============================================================================
 -- CILËSIME GLOBALE (app_settings)
 -- Çelës/vlerë për cilësime të vogla të gjithë aplikacionit, jo të lidhura me
 -- një modul të vetëm (p.sh. synimi ditor i gjumit). `value` jsonb që të mbajë
