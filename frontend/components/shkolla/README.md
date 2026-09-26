@@ -4,8 +4,14 @@
 e ditës me shënimin e prezencës për seancë, dhe përqindjet e prezencës.
 
 **Përmban:**
-- `WeekScheduleGrid.tsx` — 7 kolona (Hënë..Diel), secila me blloqet e seancave
-  aktive të asaj dite, renditur kronologjikisht. Konsumon `GET /school/sessions`.
+- `WeekScheduleGrid.tsx` — tabelë orari tip "Excel": kolona vetëm për ditët me
+  seancë aktive, rreshta për çdo orë (intervali llogaritet nga min/max e
+  `start_time`/`end_time`), blloqet e lëndëve pozicionohen me `top%`/`height%`
+  brenda kolonës sipas minutave reale. Konsumon `GET /school/sessions`.
+- `ScheduleBlock.tsx` — një bllok lënde brenda kolonës (emër, lloj, orar,
+  sallë/profesor nëse ka vend).
+- `scheduleColors.ts` — `colorForSubject()` (hash i emrit → indeks në
+  `SUBJECT_PALETTE`, e njëjta paletë si `CategoryDonut`) dhe `timeToMinutes()`.
 - `DayScheduleList.tsx` — lista e seancave të planifikuara për një datë specifike
   (`GET /school/day/{d}`), me `AttendanceToggle` për secilën; klikimi thërret
   menjëherë `PUT /school/attendance/{session_id}/{date}`.
