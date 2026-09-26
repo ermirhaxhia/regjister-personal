@@ -18,6 +18,7 @@ from routes import (
     income_sources,
     insights,
     mood,
+    school,
     settings as settings_route,
     sleep,
     summary,
@@ -53,6 +54,7 @@ app.include_router(income.router)
 app.include_router(income_sources.router)
 app.include_router(insights.router)
 app.include_router(mood.router)
+app.include_router(school.router)
 app.include_router(settings_route.router)
 app.include_router(sleep.router)
 app.include_router(summary.router)
